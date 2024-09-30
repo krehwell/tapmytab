@@ -1,26 +1,26 @@
 {
     "manifest_version": 3,
-    "name": "CRXJS React Vite Example",
+    "name": "tapmytab",
     "version": "1.0.0",
-    "action": { "default_popup": "index.html" },
-    "content_scripts": [
-        {
-            "js": ["src/content.tsx"],
-            "matches": ["https://www.google.com/*"]
+    "action": {
+        "default_icon": {
+            "16": "favicon-16x16.png",
+            "32": "favicon-32x32.png",
+            "192": "android-chrome-192x192.png"
         }
-    ],
-    "permissions": ["storage"],
+    },
+    "icons": {
+        "16": "favicon-16x16.png",
+        "32": "favicon-32x32.png",
+        "192": "android-chrome-192x192.png",
+        "512": "android-chrome-512x512.png"
+    },
+    "permissions": ["storage", "tabs"],
     "chrome_url_overrides": {
         "newtab": "index.html"
     },
     "background": {
         "service_worker": "src/background.ts",
         "type": "module"
-    },
-    "web_accessible_resources": [
-        {
-            "resources": ["pages/iframe.html"],
-            "matches": ["https://*.google.com/*"]
-        }
-    ]
+    }
 }
