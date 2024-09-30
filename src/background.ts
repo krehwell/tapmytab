@@ -1,5 +1,5 @@
-console.log("Background script loaded");
+console.log('Background script loaded')
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log("Extension installed");
-});
+    console.log('Extension installed')
+})
