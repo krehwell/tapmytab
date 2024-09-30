@@ -1,3 +1,9 @@
+@import './silicon.min.css';
+
+/* @tailwind base; */
+/* @tailwind components; */
+@tailwind utilities;
+
 #crx-root {
     z-index: 999;
     margin: auto;

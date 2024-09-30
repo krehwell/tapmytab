@@ -1,23 +1,6 @@
-import logo from './logo.svg'
-import './App.css'
-
-function App({ isExtension }: { isExtension: boolean }) {
+export const TemplateContent = () => {
     return (
-        <div className="App">
-            {isExtension && (
-                <img
-                    src={chrome.runtime.getURL(logo)}
-                    className="App-logo"
-                    alt="logo"
-                />
-            )}
-            {!isExtension && (
-                <div>
-                    <i>
-                        <u>Not an extension</u>
-                    </i>
-                </div>
-            )}
+        <>
             <header>
                 <nav>
                     <a href="#styles">Styles</a>
@@ -514,8 +497,6 @@ function App({ isExtension }: { isExtension: boolean }) {
                     </nav>
                 </section>
             </footer>
-        </div>
+        </>
     )
 }
-
-export default App
