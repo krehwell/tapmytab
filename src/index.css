@@ -5,6 +5,6 @@
 @tailwind utilities;
 
 #crx-root {
-    z-index: 999;
-    margin: auto;
+    /* z-index: 999; */
+    /* margin: auto; */
 }

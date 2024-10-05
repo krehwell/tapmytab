@@ -88,7 +88,7 @@ html {
 body {
     min-width: var(--small-width);
     width: min-content;
-    margin: auto;
+    /* margin: auto; */
 }
 h1 {
     font-size: 3em;
@@ -618,17 +618,17 @@ aside {
 aside p {
     margin: 0;
 }
-.flex {
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-}
-.flex.column {
-    flex-direction: column;
-}
-.flex.wrap {
-    flex-wrap: wrap;
-}
+/* .flex { */
+/*     justify-content: center; */
+/*     align-items: center; */
+/*     flex-direction: row; */
+/* } */
+/* .flex.column { */
+/*     flex-direction: column; */
+/* } */
+/* .flex.wrap { */
+/*     flex-wrap: wrap; */
+/* } */
 .card {
     border: var(--border-width) solid var(--color-dark-grey);
     padding: 1em;

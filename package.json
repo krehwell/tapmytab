@@ -8,8 +8,10 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "clsx": "^2.1.1",
         "react": "^18.0.0",
-        "react-dom": "^18.0.0"
+        "react-dom": "^18.0.0",
+        "tailwind-merge": "^2.5.3"
     },
     "devDependencies": {
         "@crxjs/vite-plugin": "^1.0.14",
