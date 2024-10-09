@@ -1,8 +1,15 @@
-@import './silicon.min.css';
-
-/* @tailwind base; */
-/* @tailwind components; */
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
+
+html {
+    box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
 
 #crx-root {
     /* z-index: 999; */

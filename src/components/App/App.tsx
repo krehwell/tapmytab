@@ -1,10 +1,33 @@
 import { cn } from '../../utils/cn'
-import { Flex, FlexColumn, FlexColumnAlignJustifyCenter } from '../Flex'
+import {
+    Flex,
+    FlexColumn,
+    FlexColumnAlignJustifyCenter,
+    FlexRowAlignCenter,
+} from '../Flex'
 import { DndContext } from '@dnd-kit/core'
 import { useDroppable } from '@dnd-kit/core'
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { useState } from 'react'
+
+const TEMPLATE = `
+<h1 id="sample-markdown">Sample Markdown</h1>
+<p>This is some basic, sample markdown.</p>
+<h2 id="second-heading">Second Heading</h2>
+<ul>
+<li>Unordered lists, and:<ol>
+<li>One</li>
+<li>Two</li>
+<li>Three</li>
+</ol>
+</li>
+<li>More</li>
+</ul>
+<blockquote>
+<p>Blockquote</p>
+</blockquote>
+`
 
 const Board = ({
     title,
@@ -28,10 +51,36 @@ const Board = ({
     return (
         <FlexColumn
             ref={setNodeRef}
-            className={cn('card gap-6', className)}
-            style={{ width: '20rem' }}
+            style={{
+                width: '18.75rem',
+                padding: '0.75rem',
+                alignItems: 'center',
+                gap: '1.5rem',
+                borderRight: '6px solid #313436',
+                overflowY: 'scroll',
+                overflowX: 'hidden',
+            }}
         >
-            <h1 className="notice">{title}</h1>
+            <FlexRowAlignCenter style={{ width: '100%', color: '#F8F9FA' }}>
+                <h1
+                    style={{
+                        fontFamily: '"Rumiko Clear Demo"',
+                        fontSize: '1.9375rem',
+                        fontWeight: '700',
+                    }}
+                >
+                    {title}
+                </h1>
+                <span
+                    style={{
+                        marginLeft: 'auto',
+                        fontWeight: 'bold',
+                        fontSize: '2rem',
+                    }}
+                >
+                    +
+                </span>
+            </FlexRowAlignCenter>
             {children}
         </FlexColumn>
     )
@@ -58,14 +107,59 @@ const Card = ({
         <FlexColumn
             className="relative"
             ref={setNodeRef}
-            style={style}
+            style={{
+                padding: '0.5rem',
+                gap: '0.625rem',
+                borderRadius: '0.75rem',
+                background: '#343A40',
+                width: '100%',
+                ...style,
+            }}
             {...listeners}
             {...attributes}
         >
-            <textarea className={cn('resize-y', className)} value={content} />
-            <button style={{ position: 'absolute', top: 0, right: 0 }}>
-                open
-            </button>
+            <h2
+                style={{
+                    color: '#F8F9FA',
+                    fontFamily: '"Rumiko Clear Demo"',
+                    fontSize: '1.25rem',
+                    fontWeight: '700',
+                }}
+            >
+                title
+            </h2>
+            <p
+                style={{
+                    color: 'rgba(248, 249, 250, 0.80)',
+                    fontFamily: '"Rumiko Clear Demo"',
+                    fontSize: '0.8125rem',
+                }}
+            >
+                desc
+            </p>
+            <span
+                style={{
+                    width: '2.6875rem',
+                    height: '0.625rem',
+                    backgroundColor: '#FFAEAD',
+                    borderRadius: '0.25rem',
+                }}
+            />
+            <FlexColumn
+                dangerouslySetInnerHTML={{ __html: content }}
+                style={{
+                    padding: '1rem 0.25rem',
+                    color: '#F8F9FA',
+                    borderRadius: '0.5rem',
+                    background: '#2C3034',
+                    /* SF Pro Display/13px: Regular */
+                    fontFamily: '"Rumiko Clear Demo"',
+                    fontSize: '0.8125rem',
+                    fontStyle: 'normal',
+                    fontWeight: '400',
+                    lineHeight: 'normal',
+                }}
+            />
         </FlexColumn>
     )
 }
@@ -79,6 +173,35 @@ const AddCard = ({ onClick }: { onClick: () => void }) => {
         >
             +
         </FlexColumnAlignJustifyCenter>
+    )
+}
+
+const Navbar = () => {
+    return (
+        <FlexRowAlignCenter
+            as="nav"
+            style={{
+                padding: '0.75rem 33.75rem 0.6875rem 1.5rem',
+                alignItems: 'flex-start',
+                gap: '23.25rem',
+                backgroundColor: 'rgba(47, 51, 54, 1)',
+                height: '3.5rem',
+                width: '100%',
+            }}
+        >
+            <span
+                style={{
+                    color: '#5F6061',
+                    fontFamily: '"Rumiko Sans Demo"',
+                    fontSize: '1.5rem',
+                    fontWeight: '700',
+                    height: 'fit-content',
+                    margin: 'auto 0',
+                }}
+            >
+                Tap my Tab
+            </span>
+        </FlexRowAlignCenter>
     )
 }
 
@@ -105,70 +228,76 @@ export const App = ({ isExtension }: { isExtension: boolean }) => {
     ])
 
     return (
-        <Flex className="gap-3 p-2" style={{ height: 'calc(100vh - 1rem)' }}>
-            <DndContext
-                onDragEnd={({ active, over }) => {
-                    const draggedCard = active.data.current as {
-                        id: string
-                        content: string
-                    }
-                    const overBoard = over?.data.current as {
-                        id: string
-                        title: string
-                    }
+        <>
+            <Navbar />
 
-                    setBoards((boards) => {
-                        const oldBoardIndex = boards.findIndex((board) =>
-                            board.cards.some(
-                                (card) => card.id === draggedCard.id
-                            )
-                        )
-                        const newBoardIndex = boards.findIndex(
-                            (board) => board.id === overBoard.id
-                        )
-                        
-                        if (oldBoardIndex === newBoardIndex) {
-                            return boards
-                        }
-
-                        const newBoards = [...boards]
-
-                        const [removedCard] = newBoards[
-                            oldBoardIndex
-                        ].cards.splice(
-                            newBoards[oldBoardIndex].cards.findIndex(
-                                (card) => card.id === draggedCard.id
-                            ),
-                            1
-                        )
-
-                        newBoards[newBoardIndex].cards.push(removedCard)
-
-                        return newBoards
-                    })
+            <Flex
+                style={{
+                    height: 'calc(100vh - 3.5rem)',
+                    backgroundColor: 'rgba(43, 47, 50, 1)',
                 }}
             >
-                {boards.map((board) => (
-                    <Board
-                        key={board.id}
-                        title={board.title}
-                        id={board.id}
-                        className="border-2 border-solid rounded"
-                    >
-                        <AddCard
-                            onClick={() => alert(`${board.id}: Add new card`)}
-                        />
-                        {board.cards.map((card) => (
-                            <Card
-                                key={card.id}
-                                id={card.id}
-                                className="border-2 border-solid rounded"
-                                content={card.content}
-                            />
-                        ))}
-                    </Board>
-                ))}
-            </DndContext>
-        </Flex>
+                <DndContext
+                    onDragEnd={({ active, over }) => {
+                        const draggedCard = active.data.current as {
+                            id: string
+                            content: string
+                        }
+                        const overBoard = over?.data.current as {
+                            id: string
+                            title: string
+                        }
+
+                        setBoards((boards) => {
+                            const oldBoardIndex = boards.findIndex((board) =>
+                                board.cards.some(
+                                    (card) => card.id === draggedCard.id
+                                )
+                            )
+                            const newBoardIndex = boards.findIndex(
+                                (board) => board.id === overBoard.id
+                            )
+
+                            if (oldBoardIndex === newBoardIndex) {
+                                return boards
+                            }
+
+                            const newBoards = [...boards]
+
+                            const [removedCard] = newBoards[
+                                oldBoardIndex
+                            ].cards.splice(
+                                newBoards[oldBoardIndex].cards.findIndex(
+                                    (card) => card.id === draggedCard.id
+                                ),
+                                1
+                            )
+
+                            newBoards[newBoardIndex].cards.push(removedCard)
+
+                            return newBoards
+                        })
+                    }}
+                >
+                    {boards.map((board) => (
+                        <Board
+                            key={board.id}
+                            title={board.title}
+                            id={board.id}
+                            className="border-2 border-solid rounded"
+                        >
+                            {board.cards.map((card) => (
+                                <Card
+                                    key={card.id}
+                                    id={card.id}
+                                    className="border-2 border-solid rounded"
+                                    content={TEMPLATE || card.content}
+                                />
+                            ))}
+                        </Board>
+                    ))}
+                </DndContext>
+            </Flex>
+        </>
     )
 }
