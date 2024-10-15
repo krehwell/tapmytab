@@ -1,9 +1,19 @@
-import { DndContext, DragOverlay, useDraggable, useDroppable } from '@dnd-kit/core'
+import { DndContext, DragEndEvent, DragOverEvent, DragOverlay, useDraggable, useDroppable } from '@dnd-kit/core'
 import { useState } from 'react'
 import { TBoard, TCard } from '../types'
 import { Card } from './Card'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
-export const CanvasDndContext = ({ children }: { children: React.ReactNode }) => {
+export const CanvasDndContext = ({
+    children,
+    onDragEnd,
+    onDragOver,
+}: {
+    children: React.ReactNode
+    onDragEnd: (e: DragEndEvent) => void
+    onDragOver: (e: DragOverEvent) => void
+}) => {
     const [currDraggedItem, setCurrDraggedItem] = useState<TCard | null>(null)
 
     return (
@@ -12,34 +22,32 @@ export const CanvasDndContext = ({ children }: { children: React.ReactNode }) =>
                 const draggedItem = event.active.data.current?.item
                 setCurrDraggedItem(draggedItem)
             }}
-            onDragEnd={async (event) => {
-                setCurrDraggedItem(null)
-            }}
+            onDragEnd={onDragEnd}
+            onDragOver={onDragOver}
         >
             {children}
 
             {/* PLACEHOLDER PREVIEW-CARD DURING DRAGGING A CARD */}
-            <DragOverlay dropAnimation={null}>
-                {(() => {
-                    if (!currDraggedItem) return null
+            {/* <DragOverlay dropAnimation={null}> */}
+            {/*     {(() => { */}
+            {/*         if (!currDraggedItem) return null */}
 
-                    return <Card id={currDraggedItem.id} content={currDraggedItem.content} />
-                })()}
-            </DragOverlay>
+            {/*         return <Card card={currDraggedItem} /> */}
+            {/*     })()} */}
+            {/* </DragOverlay> */}
         </DndContext>
     )
 }
 
 type DroppableBoardHandlerProps = {
-    id: string
-    item?: TBoard
+    item: TBoard
     children: ({ isOver }: { isOver: boolean }) => React.ReactNode
     style?: React.CSSProperties
 }
-export const DroppableBoardHandler = ({ id, item, children, style }: DroppableBoardHandlerProps) => {
-    const { isOver: _isOver, setNodeRef, active } = useDroppable({ id, data: { item } })
+export const DroppableBoardHandler = ({ item, children, style }: DroppableBoardHandlerProps) => {
+    const { isOver: _isOver, setNodeRef, active } = useDroppable({ id: item?.id, data: { item } })
 
-    const isOver = active?.id !== id && _isOver
+    const isOver = active?.id !== item?.id && _isOver
 
     return (
         <div ref={setNodeRef} style={style}>
@@ -49,20 +57,24 @@ export const DroppableBoardHandler = ({ id, item, children, style }: DroppableBo
 }
 
 type DraggableCardHandlerProps = {
-    id: string
     item: TCard
     children: React.ReactNode
 }
-export const DraggableCardHandler = ({ id, item, children }: DraggableCardHandlerProps) => {
-    const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-        id,
+export const DraggableCardHandler = ({ item, children }: DraggableCardHandlerProps) => {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id: item.id,
         data: { item },
     })
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    }
 
     return (
         <div
             ref={setNodeRef}
-            style={{ ...(isDragging && { opacity: 0.5 }), userSelect: 'none', width: '100%' }}
+            style={{ ...(isDragging && { opacity: 0.5 }), userSelect: 'none', width: '100%', ...style }}
             {...listeners}
             {...attributes}
         >
