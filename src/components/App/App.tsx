@@ -112,7 +112,7 @@ export const App = () => {
     return (
         <React.Fragment>
             <Navbar />
-            <Flex style={{ height: 'calc(100vh - 56px)', backgroundColor: '#313436', overflowX: 'auto' }}>
+            <Flex style={{ height: 'calc(100vh - 56px)', backgroundColor: '#2B2F32', overflowX: 'auto' }}>
                 <CanvasDndContext onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
                     {Object.keys(boards).map((key, i) => {
                         const boardTitle = key

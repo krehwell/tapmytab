@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { SortableCard } from './Card'
+import { Card } from './Card'
 import { TBoard } from '../types'
 import { FlexColumn, FlexColumnAlignJustifyCenter, FlexRowAlignCenter } from './Flex'
 import ContentEditable from 'react-contenteditable'
@@ -43,7 +43,7 @@ export const Board = ({
                 style={{ justifyContent: 'space-between', marginBottom: '24px', padding: '12px 12px 0' }}
             >
                 <ContentEditable
-                    style={{ fontSize: '31px', fontWeight: '700', opacity: isPlaceholder ? 0.4 : 1 }}
+                    style={{ fontSize: 31, fontWeight: '700', opacity: isPlaceholder ? 0.4 : 1 }}
                     onFocus={() => {
                         if (isPlaceholder) {
                             setTitle('')
@@ -94,7 +94,7 @@ export const Board = ({
                     style={{ gap: '12px', maxHeight: '100%', padding: '12px', overflowY: 'auto', overflowX: 'hidden' }}
                 >
                     {cards.map((card) => {
-                        return <SortableCard key={card.id} card={card} />
+                        return <Card key={card.id} card={card} />
                     })}
                 </FlexColumn>
             </SortableContext>

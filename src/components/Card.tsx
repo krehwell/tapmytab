@@ -34,7 +34,9 @@ export const Card = ({ card, disabled, style }: { card: TCard; style?: React.CSS
     return (
         <FlexColumn
             ref={setNodeRef}
+            className="hover:outline-dashed hover:outline-1 hover:outline-slate-300"
             style={{
+                boxSizing: 'border-box',
                 transform: CSS.Transform.toString(transform),
                 transition,
                 padding: 8,

@@ -11,7 +11,7 @@ import {
     useSensors,
 } from '@dnd-kit/core'
 import { useState } from 'react'
-import { SortableCard } from './Card'
+import { Card } from './Card'
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { TCard } from '../types'
 
@@ -54,7 +54,7 @@ export const CanvasDndContext = ({
             {/* PLACEHOLDER PREVIEW-CARD DURING DRAGGING A CARD */}
             {currDraggedCard && (
                 <DragOverlay>
-                    <SortableCard card={currDraggedCard} disabled />
+                    <Card card={currDraggedCard} disabled />
                 </DragOverlay>
             )}
         </DndContext>
