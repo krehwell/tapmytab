@@ -36,12 +36,17 @@ body {
 /* Optional: customize the appearance of all scrollbars */
 *::-webkit-scrollbar {
     width: 5px;
+    height: 8px;
     margin-right: -5px;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: transparent;
     border-radius: 5px;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 /********** FONT: Rumiko Clear **********/

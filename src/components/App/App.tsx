@@ -3,7 +3,7 @@ import { DragOverEvent, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { Board } from '../Board'
 import { CanvasDndContext } from '../CanvasDndContext'
-import { Flex, FlexColumn } from '../Flex'
+import { Flex } from '../Flex'
 import { TCard, TLabel } from '../../types'
 import { Navbar } from '../Navbar'
 
@@ -28,16 +28,18 @@ export const App = () => {
             { id: 'card-1', content: 'content card - 1', title: 'card - 1', desc: 'desc card 1', label: TLabel.Red },
             { id: 'card-2', content: 'content card - 2', title: 'card - 2', desc: 'desc card 2', label: TLabel.Blue },
             { id: 'card-3', content: 'content card - 3', title: 'card - 3', desc: 'desc card 3' },
-        ] as TCard[],
+        ],
         'To-dos': [
             { id: 'card-4', content: 'content card - 4', title: 'card - 4', desc: 'desc card 4', label: TLabel.Yellow },
             { id: 'card-5', content: 'content card - 5', title: 'card - 5', desc: 'desc card 5' },
-        ] as TCard[],
+        ],
         Done: [
             { id: 'card-6', content: 'content card - 7', title: 'card - 6', desc: 'desc card 6' },
             { id: 'card-7', content: 'content card - 8', title: 'card - 7', desc: 'desc card 7', label: TLabel.Green },
         ],
     })
+
+    console.log(boards)
 
     const handleDragOver = (event: DragOverEvent) => {
         const { active, over, draggingRect } = event
@@ -89,7 +91,7 @@ export const App = () => {
         const { id } = active
         const { id: overId } = over
 
-        const activeBoard = findBoard(id, boards)
+        const activeBoard = findBoard(id as string, boards)
         const overBoard = findBoard(overId, boards)
 
         if (!activeBoard || !overBoard || activeBoard !== overBoard) {
@@ -110,15 +112,23 @@ export const App = () => {
     return (
         <React.Fragment>
             <Navbar />
-            <Flex style={{ height: 'calc(100vh - 56px)', backgroundColor: '#313436' }}>
-                <CanvasDndContext onDragStart={() => {}} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
-                    {Object.keys(boards).map((key) => {
+            <Flex style={{ height: 'calc(100vh - 56px)', backgroundColor: '#313436', overflowX: 'auto' }}>
+                <CanvasDndContext onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
+                    {Object.keys(boards).map((key, i) => {
                         const boardTitle = key
                         const cards = boards[key]
-                        return <Board key={key} board={{ id: key, title: boardTitle, cards }} />
+                        return <Board key={key + i} board={{ id: key, title: boardTitle, cards }} />
                     })}
-                    <Board board={{ id: 'new-board', cards: [] }} />
                 </CanvasDndContext>
+                <Board
+                    board={{ id: null, cards: [] }}
+                    onNewCreated={({ id }) => {
+                        setBoards((prev) => {
+                            const newBoard = { ...prev, [id]: [] }
+                            return newBoard
+                        })
+                    }}
+                />
             </Flex>
         </React.Fragment>
     )

@@ -22,7 +22,7 @@ export const CanvasDndContext = ({
     onDragEnd,
 }: {
     children: React.ReactNode
-    onDragStart: (e: DragStartEvent) => void
+    onDragStart?: (e: DragStartEvent) => void
     onDragOver: (e: DragOverEvent) => void
     onDragEnd: (e: DragEndEvent) => void
 }) => {
@@ -41,7 +41,7 @@ export const CanvasDndContext = ({
             collisionDetection={closestCorners}
             onDragStart={(e) => {
                 setCurrDraggedCard(e.active.data.current as TCard)
-                onDragStart(e)
+                onDragStart?.(e)
             }}
             onDragOver={onDragOver}
             onDragEnd={(e) => {

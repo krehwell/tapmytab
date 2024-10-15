@@ -17,21 +17,14 @@ const Label = ({ label }: { label?: TLabel }) => {
                 borderRadius: '4px',
                 marginBottom: '4px',
             }}
+            title="label priority"
         >
             &nbsp;
         </span>
     )
 }
 
-export const SortableCard = ({
-    card,
-    disabled,
-    style,
-}: {
-    card: TCard
-    style?: React.CSSProperties
-    disabled?: boolean
-}) => {
+export const Card = ({ card, disabled, style }: { card: TCard; style?: React.CSSProperties; disabled?: boolean }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: card.id,
         data: card,
