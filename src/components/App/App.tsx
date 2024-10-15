@@ -24,20 +24,19 @@ const findBoard = (id: string, boards: Record<string, TCard[]>) => {
 
 export const App = () => {
     const [boards, setBoards] = useState<Record<string, TCard[]>>({
-        root: [
+        Latest: [
             { id: 'card-1', content: 'content card - 1', title: 'card - 1', desc: 'desc card 1', label: TLabel.Red },
             { id: 'card-2', content: 'content card - 2', title: 'card - 2', desc: 'desc card 2', label: TLabel.Blue },
             { id: 'card-3', content: 'content card - 3', title: 'card - 3', desc: 'desc card 3' },
         ] as TCard[],
-        container1: [
+        'To-dos': [
             { id: 'card-4', content: 'content card - 4', title: 'card - 4', desc: 'desc card 4', label: TLabel.Yellow },
             { id: 'card-5', content: 'content card - 5', title: 'card - 5', desc: 'desc card 5' },
         ] as TCard[],
-        container2: [
+        Done: [
             { id: 'card-6', content: 'content card - 7', title: 'card - 6', desc: 'desc card 6' },
             { id: 'card-7', content: 'content card - 8', title: 'card - 7', desc: 'desc card 7', label: TLabel.Green },
         ],
-        container3: [] as TCard[],
     })
 
     const handleDragOver = (event: DragOverEvent) => {
@@ -118,6 +117,7 @@ export const App = () => {
                         const cards = boards[key]
                         return <Board key={key} board={{ id: key, title: boardTitle, cards }} />
                     })}
+                    <Board board={{ id: 'new-board', cards: [] }} />
                 </CanvasDndContext>
             </Flex>
         </React.Fragment>
