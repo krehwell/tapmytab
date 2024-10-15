@@ -1,30 +1,40 @@
 import { FlexRowAlignCenter } from './Flex'
 
+const SocMedInput = () => {
+    return (
+        <FlexRowAlignCenter
+            style={{ padding: '0px 4px', backgroundColor: '#2B2F32', borderRadius: '12px', color: '#ffffff' }}
+        >
+            <button style={{ width: '68px', height: '40px' }}>yt</button>
+            <input
+                style={{
+                    fontSize: '13px',
+                    width: '200px',
+                    height: '40px',
+                    backgroundColor: 'transparent',
+                    color: '#ffffff',
+                }}
+                defaultValue="Results from youtube.com"
+            />
+        </FlexRowAlignCenter>
+    )
+}
+
 export const Navbar = () => {
     return (
         <FlexRowAlignCenter
             as="nav"
             style={{
-                padding: '0.75rem 33.75rem 0.6875rem 1.5rem',
-                alignItems: 'flex-start',
-                gap: '23.25rem',
-                backgroundColor: 'rgba(47, 51, 54, 1)',
-                height: '3.5rem',
-                width: '100%',
+                height: 'var(--navbar-height)',
+                padding: '0px 32px',
+                justifyContent: 'space-between',
+                backgroundColor: '#2F3336',
             }}
         >
-            <span
-                style={{
-                    color: '#5F6061',
-                    fontFamily: '"Rumiko Sans Demo"',
-                    fontSize: '1.5rem',
-                    fontWeight: '700',
-                    height: 'fit-content',
-                    margin: 'auto 0',
-                }}
-            >
+            <span style={{ color: '#5F6061', fontFamily: 'Rumiko Sans', fontSize: '24px', fontWeight: '600' }}>
                 Tap my Tab
             </span>
+            <SocMedInput />
         </FlexRowAlignCenter>
     )
 }

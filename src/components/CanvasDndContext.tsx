@@ -4,6 +4,7 @@ import {
     DragEndEvent,
     DragOverEvent,
     DragOverlay,
+    DragStartEvent,
     KeyboardSensor,
     PointerSensor,
     useSensor,
@@ -12,6 +13,7 @@ import {
 import { useState } from 'react'
 import { SortableCard } from './Card'
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
+import { TCard } from '../types'
 
 export const CanvasDndContext = ({
     children,
@@ -20,12 +22,11 @@ export const CanvasDndContext = ({
     onDragEnd,
 }: {
     children: React.ReactNode
-    onDragStart: (e: DragEndEvent) => void
+    onDragStart: (e: DragStartEvent) => void
     onDragOver: (e: DragOverEvent) => void
     onDragEnd: (e: DragEndEvent) => void
 }) => {
-    // TODO: should be TCard
-    const [currDraggedItem, setCurrDraggedItem] = useState<string | null>(null)
+    const [currDraggedCard, setCurrDraggedCard] = useState<TCard | null>(null)
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -38,26 +39,22 @@ export const CanvasDndContext = ({
         <DndContext
             sensors={sensors}
             collisionDetection={closestCorners}
-            onDragEnd={(e) => {
-                onDragEnd(e)
-                setCurrDraggedItem(null)
+            onDragStart={(e) => {
+                setCurrDraggedCard(e.active.data.current as TCard)
+                onDragStart(e)
             }}
             onDragOver={onDragOver}
-            onDragStart={(e) => {
-                // TODO: should pass TCard from active.data
-                setCurrDraggedItem(e.active.id)
-                onDragStart(e)
+            onDragEnd={(e) => {
+                onDragEnd(e)
+                setCurrDraggedCard(null)
             }}
         >
             {children}
 
             {/* PLACEHOLDER PREVIEW-CARD DURING DRAGGING A CARD */}
-            {currDraggedItem && (
+            {currDraggedCard && (
                 <DragOverlay>
-                    <SortableCard
-                        card={{ id: currDraggedItem, content: 'content', title: 'title', desc: 'desc' }}
-                        disabled
-                    />
+                    <SortableCard card={currDraggedCard} disabled />
                 </DragOverlay>
             )}
         </DndContext>

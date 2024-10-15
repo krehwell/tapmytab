@@ -12,8 +12,9 @@ export type TBoard = {
     title?: string
 }
 
-export type TLabel = {
-    id: string
-    title: string
-    color: string
+export enum TLabel {
+    Red = 'red',
+    Green = 'green',
+    Blue = 'blue',
+    Yellow = 'yellow',
 }

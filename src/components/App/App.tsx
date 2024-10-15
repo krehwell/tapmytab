@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { DragOverEvent, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { Board } from '../Board'
 import { CanvasDndContext } from '../CanvasDndContext'
-import { Flex } from '../Flex'
-import { TCard } from '../../types'
+import { Flex, FlexColumn } from '../Flex'
+import { TCard, TLabel } from '../../types'
+import { Navbar } from '../Navbar'
 
 // find board id by passing boardId or cardId
-function findBoard(id: string, boards: Record<string, TCard[]>) {
+const findBoard = (id: string, boards: Record<string, TCard[]>) => {
     if (id in boards) {
         return id
     }
@@ -17,39 +18,29 @@ function findBoard(id: string, boards: Record<string, TCard[]>) {
             return key
         }
     }
+
+    throw new Error('Board not found')
 }
 
 export const App = () => {
     const [boards, setBoards] = useState<Record<string, TCard[]>>({
         root: [
-            { id: 'card-1', content: 'content card - 1', title: 'card - 1', desc: 'desc card 1' },
-            { id: 'card-2', content: 'content card - 2', title: 'card - 2', desc: 'desc card 2' },
+            { id: 'card-1', content: 'content card - 1', title: 'card - 1', desc: 'desc card 1', label: TLabel.Red },
+            { id: 'card-2', content: 'content card - 2', title: 'card - 2', desc: 'desc card 2', label: TLabel.Blue },
             { id: 'card-3', content: 'content card - 3', title: 'card - 3', desc: 'desc card 3' },
         ] as TCard[],
         container1: [
-            { id: 'card-4', content: 'content card - 4', title: 'card - 4', desc: 'desc card 4' },
+            { id: 'card-4', content: 'content card - 4', title: 'card - 4', desc: 'desc card 4', label: TLabel.Yellow },
             { id: 'card-5', content: 'content card - 5', title: 'card - 5', desc: 'desc card 5' },
         ] as TCard[],
         container2: [
             { id: 'card-6', content: 'content card - 7', title: 'card - 6', desc: 'desc card 6' },
-            { id: 'card-7', content: 'content card - 8', title: 'card - 7', desc: 'desc card 7' },
+            { id: 'card-7', content: 'content card - 8', title: 'card - 7', desc: 'desc card 7', label: TLabel.Green },
         ],
         container3: [] as TCard[],
     })
 
-    return (
-        <Flex>
-            <CanvasDndContext onDragStart={() => {}} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
-                {Object.keys(boards).map((key) => {
-                    const boardTitle = key
-                    const cards = boards[key]
-                    return <Board key={key} board={{ id: key, title: boardTitle, cards }} />
-                })}
-            </CanvasDndContext>
-        </Flex>
-    )
-
-    function handleDragOver(event: DragOverEvent) {
+    const handleDragOver = (event: DragOverEvent) => {
         const { active, over, draggingRect } = event
         const { id } = active
         const { id: overId } = over
@@ -94,7 +85,7 @@ export const App = () => {
         })
     }
 
-    function handleDragEnd(event: DragEndEvent) {
+    const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event
         const { id } = active
         const { id: overId } = over
@@ -116,4 +107,19 @@ export const App = () => {
             }))
         }
     }
+
+    return (
+        <React.Fragment>
+            <Navbar />
+            <Flex style={{ height: 'calc(100vh - 56px)', backgroundColor: '#313436' }}>
+                <CanvasDndContext onDragStart={() => {}} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
+                    {Object.keys(boards).map((key) => {
+                        const boardTitle = key
+                        const cards = boards[key]
+                        return <Board key={key} board={{ id: key, title: boardTitle, cards }} />
+                    })}
+                </CanvasDndContext>
+            </Flex>
+        </React.Fragment>
+    )
 }

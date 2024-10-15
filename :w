@@ -1,0 +1,19 @@
+import { FlexRowAlignCenter } from './Flex'
+
+export const Navbar = () => {
+    return (
+        <FlexRowAlignCenter as="nav" style={{ height: 56, padding: '0px 32px', justifyContent: 'space-between' }}>
+            <span
+                style={{
+                    color: '#5F6061',
+                    fontFamily: 'Rumiko Sans',
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    margin: 'auto 0',
+                }}
+            >
+                Tap my Tab
+            </span>
+        </FlexRowAlignCenter>
+    )
+}
