@@ -6,6 +6,7 @@ import { CanvasDndContext } from '../CanvasDndContext'
 import { Flex } from '../Flex'
 import { TCard, TLabel } from '../../types'
 import { Navbar } from '../Navbar'
+import _ from 'lodash'
 
 // find board id by passing boardId or cardId
 const findBoard = (id: string, boards: Record<string, TCard[]>) => {
@@ -38,8 +39,6 @@ export const App = () => {
             { id: 'card-7', content: 'content card - 8', title: 'card - 7', desc: 'desc card 7', label: TLabel.Green },
         ],
     })
-
-    console.log(boards)
 
     const handleDragOver = (event: DragOverEvent) => {
         const { active, over, draggingRect } = event
@@ -117,11 +116,24 @@ export const App = () => {
                     {Object.keys(boards).map((key, i) => {
                         const boardTitle = key
                         const cards = boards[key]
-                        return <Board key={key + i} board={{ id: key, title: boardTitle, cards }} />
+                        return (
+                            <Board
+                                key={key + i}
+                                index={i}
+                                board={{ id: key, title: boardTitle, cards }}
+                                onNewCreated={({ id, index }) => {
+                                    const newBoard = [id, []] as [string, TCard[]]
+                                    const newBoards = Object.entries(boards)
+                                    newBoards.splice(index, 0, newBoard)
+                                    setBoards(Object.fromEntries(newBoards))
+                                }}
+                            />
+                        )
                     })}
                 </CanvasDndContext>
                 <Board
                     board={{ id: null, cards: [] }}
+                    index={Object.keys(boards).length}
                     onNewCreated={({ id }) => {
                         setBoards((prev) => {
                             const newBoard = { ...prev, [id]: [] }

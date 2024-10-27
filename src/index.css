@@ -14,8 +14,15 @@
 }
 
 html {
+    /* 62.5% of 16px = 10px */
+    font-size: 62.5%;
     box-sizing: border-box;
 }
+
+body {
+    font-size: 1.6rem;
+}
+
 *,
 *:before,
 *:after {

@@ -10,12 +10,14 @@ const EMPTY_TITLE = 'add title...'
 
 export const Board = ({
     board: { cards, id, title: initialTitle },
+    index,
     style,
     onNewCreated,
 }: {
     board: Omit<TBoard, 'id'> & { id: string | null }
+    index: number
     style?: React.CSSProperties
-    onNewCreated?: ({ id }: { id: string }) => void
+    onNewCreated?: (props: { id: string; index: number }) => void
 }) => {
     const [title, setTitle] = useState<string>(initialTitle || EMPTY_TITLE)
     const [hasEdited, setHasEdited] = useState<boolean>(initialTitle ? true : false)
@@ -64,7 +66,7 @@ export const Board = ({
                         if (newTitle) {
                             setTitle(newTitle)
                             if (onNewCreated && !id) {
-                                onNewCreated({ id: newTitle })
+                                onNewCreated({ id: newTitle, index: index + 1 })
                                 resetBoard()
                             }
                         } else {
@@ -76,6 +78,9 @@ export const Board = ({
                 />
                 <FlexColumnAlignJustifyCenter
                     as="button"
+                    onClick={() => {
+                        onNewCreated?.({ id: 'new board' + index, index: index + 1 })
+                    }}
                     style={{
                         height: '20px',
                         width: '20px',
@@ -88,6 +93,7 @@ export const Board = ({
                 </FlexColumnAlignJustifyCenter>
             </FlexRowAlignCenter>
 
+            {/* CARD LIST */}
             <SortableContext id={id as string} items={cards} strategy={verticalListSortingStrategy}>
                 <FlexColumn
                     ref={setNodeRef}

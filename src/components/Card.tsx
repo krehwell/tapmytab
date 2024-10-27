@@ -4,6 +4,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { TCard, TLabel } from '../types'
 import { FlexColumn } from './Flex'
 import { getLabelFromColor } from '../utils/getColorFromLabel'
+import { Editor } from './Editor'
 
 const Label = ({ label }: { label?: TLabel }) => {
     if (!label) return null
@@ -45,21 +46,19 @@ export const Card = ({ card, disabled, style }: { card: TCard; style?: React.CSS
                 ...(isDragging ? { opacity: 0.7 } : {}),
                 ...style,
             }}
-            {...attributes}
-            {...listeners}
         >
-            <FlexColumn style={{ padding: '8px 4px', marginBottom: '4px' }}>
+            <FlexColumn style={{ padding: '8px 4px', marginBottom: '4px' }} {...attributes} {...listeners}>
                 <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px' }}>{card.title}</h2>
                 <p style={{ fontSize: '13px', color: 'rgba(248, 249, 250, 0.80)', marginBottom: '4px' }}>{card.desc}</p>
                 <Label label={card.label} />
             </FlexColumn>
-            <FlexColumn
-                dangerouslySetInnerHTML={{ __html: card.content }}
+            <Editor
+                content={card.content}
                 style={{
-                    padding: '16px 8px',
                     backgroundColor: '#2C3034',
-                    borderRadius: '8px',
-                    fontSize: '13px',
+                    borderRadius: '0.8rem',
+                    minHeight: '15.8rem',
+                    padding: '1.6rem 0.8rem',
                 }}
             />
         </FlexColumn>

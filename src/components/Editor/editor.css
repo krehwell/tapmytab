@@ -1,0 +1,176 @@
+.tiptap :first-child {
+    margin-top: 0;
+}
+
+.tiptap {
+    /* Basic editor styles */
+    outline: none;
+    min-height: 100px;
+}
+
+/* Typography */
+.tiptap p {
+    margin: 1.2rem 0;
+}
+
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+    line-height: 1.1;
+    font-weight: 600;
+}
+
+.tiptap h1 {
+    font-size: 2.4rem;
+    margin: 2rem 0 1.2rem;
+}
+
+.tiptap h2 {
+    font-size: 2rem;
+    margin: 1.8rem 0 1rem;
+}
+
+.tiptap h3 {
+    font-size: 1.8rem;
+    margin: 1.6rem 0 0.8rem;
+}
+
+/* Lists - StarterKit */
+.tiptap ul,
+.tiptap ol {
+    padding: 0 1.8rem;
+    margin: 1.2rem 0;
+}
+
+.tiptap ol {
+    list-style-type: decimal;
+}
+
+.tiptap ul {
+    list-style-type: disc;
+}
+
+.tiptap li {
+    margin: 0.5rem 0;
+}
+
+.tiptap li p {
+    margin: 0.2rem 0;
+}
+
+/* Nested lists */
+.tiptap ul ul,
+.tiptap ol ol,
+.tiptap ul ol,
+.tiptap ol ul {
+    margin: 0.2rem 0;
+}
+
+/* Links - from Link extension */
+.tiptap a {
+    color: #2563eb;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.tiptap a:hover {
+    color: #1d4ed8;
+}
+
+/* Blockquotes - StarterKit */
+.tiptap blockquote {
+    border-left: 3px solid #e5e7eb;
+    padding-left: 1.6rem;
+    margin: 2rem 0;
+}
+
+/* Code blocks - StarterKit */
+.tiptap pre {
+    background: #f3f4f6;
+    border-radius: 0.4rem;
+    padding: 1.2rem;
+    margin: 1.2rem 0;
+    overflow-x: auto;
+}
+
+.tiptap code {
+    background: #f3f4f6;
+    border-radius: 0.4rem;
+    padding: 0.2rem 0.4rem;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+/* Horizontal rule - StarterKit */
+.tiptap hr {
+    border: none;
+    border-top: 2px solid #e5e7eb;
+    margin: 2rem 0;
+}
+
+/* Text alignment - StarterKit */
+.tiptap .is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #9ca3af;
+    pointer-events: none;
+    height: 0;
+}
+
+/* Text color - from Color extension */
+.tiptap .has-text-color {
+    /* Colors will be applied inline via style attribute */
+}
+
+/* Mark - StarterKit */
+.tiptap mark {
+    background-color: #fef08a;
+    border-radius: 0.2rem;
+    padding: 0 0.2rem;
+}
+
+/* Bold - StarterKit */
+.tiptap strong {
+    font-weight: 600;
+}
+
+/* Italic - StarterKit */
+.tiptap em {
+    font-style: italic;
+}
+
+/* Strike - StarterKit */
+.tiptap s {
+    text-decoration: line-through;
+}
+
+/* List item specific styles for color - since you configured Color for ListItem */
+.tiptap li[style*='color'] {
+    /* Color will be applied inline via style attribute */
+    list-style-color: currentColor;
+}
+
+/* Selection styles */
+.tiptap ::selection {
+    background: #4ECDC4;
+}
+
+/* Focus styles */
+.tiptap:focus {
+    outline: none;
+}
+
+/* Optional: Adding a subtle border when focused */
+.tiptap-wrapper {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.4rem;
+    padding: 1.6rem;
+}
+
+.tiptap-wrapper:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}

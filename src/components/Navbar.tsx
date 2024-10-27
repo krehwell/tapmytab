@@ -34,7 +34,7 @@ export const Navbar = () => {
             <span style={{ color: '#5F6061', fontFamily: 'Rumiko Sans', fontSize: '24px', fontWeight: '600' }}>
                 Tap my Tab
             </span>
-            <SocMedInput />
+            {/* <SocMedInput /> */}
         </FlexRowAlignCenter>
     )
 }
