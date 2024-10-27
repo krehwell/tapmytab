@@ -104,6 +104,8 @@ export const Board = ({
                         marginTop: '-12px',
                         overflowY: 'auto',
                         overflowX: 'hidden',
+                        // less cards make it hard to trigger moving. this way we make the droppable section bigger when there's only-1/no-cards in it
+                        height: cards.length <= 1 ? '100%' : 'fit-content',
                     }}
                 >
                     {cards.map((card) => {
