@@ -79,7 +79,7 @@ export const Board = ({
                     style={{
                         height: '20px',
                         width: '20px',
-                        fontSize: '24px',
+                        fontSize: '32px',
                         color: '#54575A',
                         display: isPlaceholder ? 'none' : 'flex',
                     }}
@@ -91,7 +91,14 @@ export const Board = ({
             <SortableContext id={id as string} items={cards} strategy={verticalListSortingStrategy}>
                 <FlexColumn
                     ref={setNodeRef}
-                    style={{ gap: '12px', maxHeight: '100%', padding: '12px', overflowY: 'auto', overflowX: 'hidden' }}
+                    style={{
+                        gap: '12px',
+                        maxHeight: '100%',
+                        padding: '12px',
+                        marginTop: '-12px',
+                        overflowY: 'auto',
+                        overflowX: 'hidden',
+                    }}
                 >
                     {cards.map((card) => {
                         return <Card key={card.id} card={card} />
