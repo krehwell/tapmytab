@@ -2,10 +2,11 @@ import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import Link from '@tiptap/extension-link'
 import TextStyle from '@tiptap/extension-text-style'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { Editor as EditorType, EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import './editor.css'
 import { useRef } from 'react'
+import { create } from 'zustand'
 
 const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -21,6 +22,14 @@ const extensions = [
     }),
 ]
 
+export const useEditorStore = create<{
+    editor: EditorType | null
+    setEditor: (editor: EditorType) => void
+}>((set) => ({
+    editor: null,
+    setEditor: (editor: EditorType) => set({ editor }),
+}))
+
 export const Editor = ({ content, style }: { content: string; style: React.CSSProperties }) => {
     const ref = useRef<HTMLDivElement>(null)
 
@@ -29,6 +38,12 @@ export const Editor = ({ content, style }: { content: string; style: React.CSSPr
         extensions,
         content,
     })
+
+    const setEditor = useEditorStore((s) => s.setEditor)
+    const globalEditor = useEditorStore((s) => s.editor)
+    if (!globalEditor && editor) {
+        setEditor(editor)
+    }
 
     return (
         <EditorContent

@@ -5,8 +5,10 @@ import { tc } from '../utils/themeColors'
 import Box from '@mui/material/Box'
 import { TCard } from '../types'
 import { Label } from './Card'
-import { Editor } from './Editor'
+import { Editor, useEditorStore } from './Editor'
 import { Button } from './Button'
+import { ArrowUUpLeft, ArrowUUpRight, Code, Link, List, TextBolder, TextItalic } from 'phosphor-react'
+import { Editor as EditorType } from '@tiptap/react'
 
 export const useCardPopupStore = create<{
     isOpen: boolean
@@ -19,6 +21,39 @@ export const useCardPopupStore = create<{
     openPopup: ({ card }) => set({ isOpen: true, card }),
     card: null,
 }))
+
+const ToolbarBtn = ({ Icon }: { Icon: React.ElementType }) => {
+    return (
+        <Button radius="2.8rem">
+            <Icon size={16} />
+        </Button>
+    )
+}
+
+const Toolbar = () => {
+    const editor = useEditorStore((s) => s.editor)
+    console.log(editor)
+
+    return (
+        <FlexRowAlignCenter
+            style={{
+                backgroundColor: '#24272A',
+                borderRadius: '0rem 0rem 0.8rem 0.8rem',
+                gap: '0.8rem',
+                padding: '0.4rem 0.8rem',
+                height: '3.6rem',
+            }}
+        >
+            <ToolbarBtn Icon={ArrowUUpLeft} />
+            <ToolbarBtn Icon={ArrowUUpRight} />
+            <ToolbarBtn Icon={List} />
+            <ToolbarBtn Icon={TextBolder} />
+            <ToolbarBtn Icon={TextItalic} />
+            <ToolbarBtn Icon={Code} />
+            <ToolbarBtn Icon={Link} />
+        </FlexRowAlignCenter>
+    )
+}
 
 export const CardPopup = () => {
     const isOpen = useCardPopupStore((s) => s.isOpen)
@@ -59,13 +94,14 @@ export const CardPopup = () => {
                 style={{
                     overflow: 'hidden auto',
                     backgroundColor: '#2C3034',
-                    borderRadius: '0.8rem',
+                    borderRadius: '0.8rem 0.8rem 0rem 0rem',
                     minHeight: '21.2rem',
                     maxHeight: '30rem',
                     fontSize: '1.3rem',
                     padding: '1.6rem 0.8rem',
                 }}
             />
+            <Toolbar />
             <div style={{ marginBottom: '2rem' }} />
 
             <FlexRowAlignCenter style={{ gap: '1.2rem', marginLeft: 'auto' }}>
