@@ -4,6 +4,7 @@ import { WithOptionsMenu } from '../WithOptionsMenu'
 import {
     ArrowUUpLeft,
     ArrowUUpRight,
+    BracketsCurly,
     Code,
     Link,
     List,
@@ -23,6 +24,7 @@ export const useTextmenuStates = (editor: Editor) => {
         isBold: editor.isActive('bold'),
         isItalic: editor.isActive('italic'),
         isCode: editor.isActive('code'),
+        isCodeBlock: editor.isActive('codeBlock'),
         isAlignLeft: editor.isActive({ textAlign: 'left' }),
         isAlignCenter: editor.isActive({ textAlign: 'center' }),
         isAlignRight: editor.isActive({ textAlign: 'right' }),
@@ -47,7 +49,8 @@ const ToolbarBtn = ({
 }
 
 export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
-    const { isBold, isItalic, isCode, isAlignLeft, isAlignCenter, isAlignRight } = useTextmenuStates(editor)
+    const { isBold, isItalic, isCode, isCodeBlock, isAlignLeft, isAlignCenter, isAlignRight } =
+        useTextmenuStates(editor)
 
     return (
         <FlexRowAlignCenter
@@ -122,6 +125,13 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 Icon={Code}
                 onClick={() => {
                     editor.chain().focus().toggleCode().run()
+                }}
+            />
+            <ToolbarBtn
+                isActive={isCodeBlock}
+                Icon={BracketsCurly}
+                onClick={() => {
+                    editor.chain().focus().toggleCodeBlock().run()
                 }}
             />
             <ToolbarBtn
