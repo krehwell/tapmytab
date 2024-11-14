@@ -16,15 +16,39 @@ import {
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { tc } from '../../utils/themeColors'
 
-const ToolbarBtn = ({ Icon, onClick }: { Icon: React.ElementType; onClick?: (e) => void }) => {
+import { Editor } from '@tiptap/react'
+
+export const useTextmenuStates = (editor: Editor) => {
+    return {
+        isBold: editor.isActive('bold'),
+        isItalic: editor.isActive('italic'),
+        isCode: editor.isActive('code'),
+        isAlignLeft: editor.isActive({ textAlign: 'left' }),
+        isAlignCenter: editor.isActive({ textAlign: 'center' }),
+        isAlignRight: editor.isActive({ textAlign: 'right' }),
+        isAlignJustify: editor.isActive({ textAlign: 'justify' }),
+    }
+}
+
+const ToolbarBtn = ({
+    Icon,
+    onClick,
+    isActive,
+}: {
+    Icon: React.ElementType
+    onClick?: (e) => void
+    isActive?: boolean
+}) => {
     return (
-        <Button radius="2.8rem" onClick={onClick}>
+        <Button radius="2.8rem" onClick={onClick} sx={{ backgroundColor: isActive ? tc.bgSecondary : 'transparent' }}>
             <Icon size={16} />
         </Button>
     )
 }
 
 export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
+    const { isBold, isItalic, isCode, isAlignLeft, isAlignCenter, isAlignRight } = useTextmenuStates(editor)
+
     return (
         <FlexRowAlignCenter
             style={{
@@ -35,26 +59,77 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 height: '3.6rem',
             }}
         >
-            <ToolbarBtn Icon={ArrowUUpLeft} />
-            <ToolbarBtn Icon={ArrowUUpRight} />
+            <ToolbarBtn Icon={ArrowUUpLeft} onClick={() => editor.chain().undo().run()} />
+            <ToolbarBtn Icon={ArrowUUpRight} onClick={() => editor.chain().redo().run()} />
             <WithOptionsMenu
-                menuItemProps={{
-                    sx: {
-                        backgroundColor: tc.bgSecondary,
-                    },
-                }}
+                menuItemProps={{ sx: { backgroundColor: tc.bgSecondary } }}
                 options={[
-                    { label: 'Left', node: <ToolbarBtn Icon={TextAlignLeft} /> },
-                    { label: 'center', node: <ToolbarBtn Icon={TextAlignCenter} /> },
-                    { label: 'Right', node: <ToolbarBtn Icon={TextAlignRight} /> },
+                    {
+                        label: 'Left',
+                        node: (
+                            <ToolbarBtn
+                                isActive={isAlignLeft}
+                                Icon={TextAlignLeft}
+                                onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                            />
+                        ),
+                    },
+                    {
+                        label: 'center',
+                        node: (
+                            <ToolbarBtn
+                                isActive={isAlignCenter}
+                                Icon={TextAlignCenter}
+                                onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                            />
+                        ),
+                    },
+                    {
+                        label: 'Right',
+                        node: (
+                            <ToolbarBtn
+                                isActive={isAlignRight}
+                                Icon={TextAlignRight}
+                                onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                            />
+                        ),
+                    },
                 ]}
             >
-                {({ openMenu }) => <ToolbarBtn Icon={List} onClick={openMenu} />}
+                {({ openMenu }) => (
+                    <ToolbarBtn
+                        Icon={isAlignCenter ? TextAlignCenter : isAlignRight ? TextAlignRight : TextAlignLeft}
+                        onClick={openMenu}
+                    />
+                )}
             </WithOptionsMenu>
-            <ToolbarBtn Icon={TextBolder} />
-            <ToolbarBtn Icon={TextItalic} />
-            <ToolbarBtn Icon={Code} />
-            <ToolbarBtn Icon={Link} />
+            <ToolbarBtn
+                isActive={isBold}
+                Icon={TextBolder}
+                onClick={() => {
+                    editor.chain().focus().toggleBold().run()
+                }}
+            />
+            <ToolbarBtn
+                isActive={isItalic}
+                Icon={TextItalic}
+                onClick={() => {
+                    editor.chain().focus().toggleItalic().run()
+                }}
+            />
+            <ToolbarBtn
+                isActive={isCode}
+                Icon={Code}
+                onClick={() => {
+                    editor.chain().focus().toggleCode().run()
+                }}
+            />
+            <ToolbarBtn
+                Icon={Link}
+                onClick={() => {
+                    alert('TODO: linkify me')
+                }}
+            />
         </FlexRowAlignCenter>
     )
 }

@@ -82,14 +82,14 @@
 
 /* Blockquotes - StarterKit */
 .tiptap blockquote {
-    border-left: 3px solid #e5e7eb;
+    border-left: 3px solid var(--color-bg-primary);
     padding-left: 1.6rem;
     margin: 2rem 0;
 }
 
 /* Code blocks - StarterKit */
 .tiptap pre {
-    background: #f3f4f6;
+    background: var(--color-bg-primary);
     border-radius: 0.4rem;
     padding: 1.2rem;
     margin: 1.2rem 0;
@@ -97,7 +97,7 @@
 }
 
 .tiptap code {
-    background: #f3f4f6;
+    background: var(--color-bg-primary);
     border-radius: 0.4rem;
     padding: 0.2rem 0.4rem;
     font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
@@ -107,7 +107,7 @@
 /* Horizontal rule - StarterKit */
 .tiptap hr {
     border: none;
-    border-top: 2px solid #e5e7eb;
+    border-top: 2px solid var(--color-bg-primary);
     margin: 2rem 0;
 }
 
