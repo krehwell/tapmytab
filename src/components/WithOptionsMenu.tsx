@@ -83,7 +83,7 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                     },
                 }}
                 PaperProps={{
-                    sx: { overflow: 'hidden', padding: 0, borderRadius: '0.8rem', ...menuProps?.sx },
+                    sx: { overflow: 'hidden', borderRadius: '0.8rem', ...menuProps?.sx },
                     ...menuProps?.PaperProps,
                 }}
             >
@@ -111,6 +111,7 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                                 backgroundColor: tc.textActiveSecondary,
                                 color: tc.tokenGrey,
                                 fontFamily: 'Rumiko Sans',
+                                paddingInline: "1.2rem",
                                 fontSize: '1rem',
                                 margin: 0,
                                 zIndex: 9999,

@@ -53,7 +53,7 @@ const BoardOptions = () => {
             onClick: () => {},
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
-                    <Copy size={12} color="#4C5257" /> Duplicate
+                    <Copy size={12} color="#4C5257" /> Duplicate Board
                 </FlexRowAlignCenter>
             ),
         },
