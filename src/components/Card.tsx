@@ -4,11 +4,12 @@ import { CSS } from '@dnd-kit/utilities'
 import { TCard, TLabel } from '../types'
 import { FlexColumn, FlexRowAlignCenter } from './Flex'
 import { getColorFromLabel } from '../utils/getColorFromLabel'
-import { Editor } from './Editor'
+import { Editor, useEditorInstance } from './Editor'
 import { tc } from '../utils/themeColors'
 import { useCardPopupStore } from './CardPopup'
 import { Button } from './Button'
 import { ArrowsOutSimple } from 'phosphor-react'
+import type { Editor as TiptapEditor } from '@tiptap/react'
 
 export const Label = ({ label, style }: { label?: TLabel; style?: React.CSSProperties }) => {
     if (!label) return null
@@ -47,6 +48,7 @@ export const Card = ({
         disabled,
     })
 
+    const { editor } = useEditorInstance({ content: card.content }) as { editor: TiptapEditor }
     const openPopup = useCardPopupStore((s) => s.openPopup)
 
     return (
@@ -65,7 +67,7 @@ export const Card = ({
         >
             {/* CARD HEADER */}
             <FlexColumn
-                onClick={() => openPopup({ card })}
+                onClick={() => openPopup({ card, editor })}
                 style={{
                     padding: '0 0.4rem',
                     paddingBottom: '1.2rem',
@@ -77,7 +79,7 @@ export const Card = ({
             >
                 <FlexRowAlignCenter>
                     <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>{card.title}</h2>
-                    <Button radius="3rem" sx={{ marginLeft: 'auto' }} onClickCapture={() => openPopup({ card })}>
+                    <Button radius="3rem" sx={{ marginLeft: 'auto' }} onClick={() => openPopup({ card, editor })}>
                         <ArrowsOutSimple size={18} />
                     </Button>
                 </FlexRowAlignCenter>
@@ -86,7 +88,7 @@ export const Card = ({
             </FlexColumn>
 
             <Editor
-                content={card.content}
+                editor={editor as TiptapEditor}
                 style={{
                     overflow: 'hidden auto',
                     backgroundColor: '#2C3034',

@@ -57,8 +57,8 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                 open={!!anchorEl}
                 onClose={handleClose}
                 anchorEl={anchorEl}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'center' }}
                 transitionDuration={0}
                 {...menuProps}
                 sx={{

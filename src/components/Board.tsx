@@ -40,17 +40,17 @@ const BoardNameInput = ({
 const BoardOptions = () => {
     const options: WithMenuOption[] = [
         {
-            label: 'Add Board',
-            onClick: () => {},
+            label: 'Add Card',
+            onClick: () => alert('Add new card'),
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
-                    <Plus size={12} color="#4C5257" /> Add Board
+                    <Plus size={12} color="#4C5257" /> Add Card
                 </FlexRowAlignCenter>
             ),
         },
         {
             label: 'Duplicate Board',
-            onClick: () => {},
+            onClick: () => alert('Duplicate a board to besides'),
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
                     <Copy size={12} color="#4C5257" /> Duplicate Board
@@ -59,7 +59,7 @@ const BoardOptions = () => {
         },
         {
             label: 'Delete Board',
-            onClick: () => {},
+            onClick: () => alert('Delete this board'),
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
                     <Trash size={12} color="#4C5257" /> Delete Board
@@ -73,7 +73,7 @@ const BoardOptions = () => {
             {({ openMenu }) => {
                 return (
                     <Button radius="2.8rem" style={{ backgroundColor: tc.bgPrimary }} onClick={openMenu}>
-                        <DotsThree size={24} />
+                        <DotsThree size={22} weight="bold" />
                     </Button>
                 )
             }}
