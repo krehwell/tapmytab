@@ -24,7 +24,6 @@ export const Label = ({ label, style }: { label?: TLabel; style?: React.CSSPrope
                 borderRadius: '4px',
                 ...style,
             }}
-            title="label priority"
         >
             <div style={{ height: '1rem', borderRadius: '0.4rem', backgroundColor: getColorFromLabel({ label }) }} />
         </span>
@@ -50,6 +49,7 @@ export const Card = ({
 
     const { editor } = useEditorInstance({ content: card.content }) as { editor: TiptapEditor }
     const openPopup = useCardPopupStore((s) => s.openPopup)
+    const setEditor = useCardPopupStore((s) => s.setEditor)
 
     return (
         <FlexColumn
@@ -67,7 +67,10 @@ export const Card = ({
         >
             {/* CARD HEADER */}
             <FlexColumn
-                onClick={() => openPopup({ card, editor })}
+                onClick={() => {
+                    openPopup({ card })
+                    setEditor(editor)
+                }}
                 style={{
                     padding: '0 0.4rem',
                     paddingBottom: '1.2rem',
@@ -79,7 +82,7 @@ export const Card = ({
             >
                 <FlexRowAlignCenter>
                     <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>{card.title}</h2>
-                    <Button radius="3rem" sx={{ marginLeft: 'auto' }} onClick={() => openPopup({ card, editor })}>
+                    <Button radius="3rem" sx={{ marginLeft: 'auto' }}>
                         <ArrowsOutSimple size={18} />
                     </Button>
                 </FlexRowAlignCenter>

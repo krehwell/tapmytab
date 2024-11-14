@@ -1,29 +1,31 @@
 import { create } from 'zustand'
 import Dialog from '@mui/material/Dialog'
-import { Flex, FlexColumn, FlexRowAlignCenter } from './Flex'
+import { FlexColumn, FlexRowAlignCenter } from './Flex'
 import { tc } from '../utils/themeColors'
 import Box from '@mui/material/Box'
 import { TCard } from '../types'
 import { Label } from './Card'
-import { Editor } from './Editor'
+import { Editor, useEditorInstance } from './Editor'
 import { Button } from './Button'
 import { Toolbar } from './Editor/Toolbar'
 import { Editor as TiptapEditor } from '@tiptap/react'
-import { DotsThree, DotsThreeCircle, X } from 'phosphor-react'
+import { DotsThree, X } from 'phosphor-react'
 import { WithOptionsMenu } from './WithOptionsMenu'
 
 export const useCardPopupStore = create<{
     isOpen: boolean
     closePopup: () => void
-    openPopup: ({ card, editor }: { card: TCard; editor: TiptapEditor }) => void
+    openPopup: ({ card }: { card: TCard }) => void
     card: TCard | null
     editor: TiptapEditor | null
+    setEditor: (editor: TiptapEditor) => void
 }>((set) => ({
     isOpen: false,
-    closePopup: () => set({ isOpen: false }),
-    openPopup: ({ card, editor }) => set({ isOpen: true, card, editor }),
+    closePopup: () => set({ isOpen: false, card: null }),
+    openPopup: ({ card }) => set({ isOpen: true, card }),
     card: null,
     editor: null,
+    setEditor: (editor) => set({ editor }),
 }))
 
 const CardPopupHeader = () => {
@@ -51,10 +53,33 @@ const CardPopupHeader = () => {
     )
 }
 
+const CardPopupEditor = () => {
+    const card = useCardPopupStore((s) => s.card)
+    const { editor } = useEditorInstance({ content: card?.content || '' })
+    if (!editor) return null
+
+    return (
+        <>
+            <Editor
+                editor={editor}
+                style={{
+                    overflow: 'hidden auto',
+                    backgroundColor: '#2C3034',
+                    borderRadius: '0.8rem 0.8rem 0rem 0rem',
+                    minHeight: '21.2rem',
+                    maxHeight: '30rem',
+                    fontSize: '1.3rem',
+                    padding: '1.6rem 0.8rem',
+                }}
+            />
+            <Toolbar editor={editor} />
+        </>
+    )
+}
+
 export const CardPopup = () => {
     const isOpen = useCardPopupStore((s) => s.isOpen)
     const closePopup = useCardPopupStore((s) => s.closePopup)
-    const editor = useCardPopupStore((s) => s.editor)
 
     return (
         <Dialog
@@ -82,21 +107,7 @@ export const CardPopup = () => {
         >
             <CardPopupHeader />
 
-            {editor && (
-                <Editor
-                    editor={editor}
-                    style={{
-                        overflow: 'hidden auto',
-                        backgroundColor: '#2C3034',
-                        borderRadius: '0.8rem 0.8rem 0rem 0rem',
-                        minHeight: '21.2rem',
-                        maxHeight: '30rem',
-                        fontSize: '1.3rem',
-                        padding: '1.6rem 0.8rem',
-                    }}
-                />
-            )}
-            {editor && <Toolbar editor={editor} />}
+            <CardPopupEditor key={String(isOpen)} />
             <div style={{ marginBottom: '2rem' }} />
 
             <FlexRowAlignCenter style={{ gap: '1.2rem', marginLeft: 'auto' }}>
