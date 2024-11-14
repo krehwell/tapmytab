@@ -41,7 +41,7 @@ export const App = () => {
         ],
     })
 
-    const handleDragOver = (event: DragOverEvent) => {
+    const handleCardSwitchBoard = (event: DragOverEvent) => {
         const { active, over, draggingRect } = event
         const { id } = active
         const { id: overId } = over
@@ -86,7 +86,7 @@ export const App = () => {
         })
     }
 
-    const handleDragEnd = (event: DragEndEvent) => {
+    const handleCardSwapPos = (event: DragEndEvent) => {
         const { active, over } = event
         const { id } = active
         const { id: overId } = over
@@ -120,7 +120,7 @@ export const App = () => {
                     overflowX: 'auto',
                 }}
             >
-                <CanvasDndContext onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
+                <CanvasDndContext onDragOver={handleCardSwitchBoard} onDragEnd={handleCardSwapPos}>
                     {Object.keys(boards).map((key, i) => {
                         const boardTitle = key
                         const cards = boards[key]
