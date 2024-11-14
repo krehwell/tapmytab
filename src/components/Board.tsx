@@ -110,6 +110,7 @@ export const Board = ({
                 width: '30rem',
                 padding: '1.2rem',
                 paddingLeft: index === 0 ? '0px' : '1.2rem',
+                paddingBottom: 0,
                 flexShrink: 0,
                 ...style,
             }}
