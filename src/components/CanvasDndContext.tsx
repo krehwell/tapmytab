@@ -5,14 +5,12 @@ import {
     DragOverEvent,
     DragOverlay,
     DragStartEvent,
-    KeyboardSensor,
     PointerSensor,
     useSensor,
     useSensors,
 } from '@dnd-kit/core'
 import { useState } from 'react'
 import { Card } from './Card'
-import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { TCard } from '../types'
 
 export const CanvasDndContext = ({
@@ -29,9 +27,10 @@ export const CanvasDndContext = ({
     const [currDraggedCard, setCurrDraggedCard] = useState<TCard | null>(null)
 
     const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 8,
+            },
         })
     )
 
@@ -54,7 +53,7 @@ export const CanvasDndContext = ({
             {/* PLACEHOLDER PREVIEW-CARD DURING DRAGGING A CARD */}
             {currDraggedCard && (
                 <DragOverlay>
-                    <Card card={currDraggedCard} disabled />
+                    <Card card={currDraggedCard} disabled isPreview />
                 </DragOverlay>
             )}
         </DndContext>

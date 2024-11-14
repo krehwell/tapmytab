@@ -2,12 +2,15 @@ import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { TCard, TLabel } from '../types'
-import { FlexColumn } from './Flex'
+import { FlexColumn, FlexRowAlignCenter } from './Flex'
 import { getColorFromLabel } from '../utils/getColorFromLabel'
 import { Editor } from './Editor'
 import { tc } from '../utils/themeColors'
+import { useCardPopupStore } from './CardPopup'
+import { Button } from './Button'
+import { ArrowsOutSimple } from 'phosphor-react'
 
-const Label = ({ label }: { label?: TLabel }) => {
+export const Label = ({ label, style }: { label?: TLabel; style?: React.CSSProperties }) => {
     if (!label) return null
 
     return (
@@ -18,6 +21,7 @@ const Label = ({ label }: { label?: TLabel }) => {
                 padding: '0.4rem',
                 backgroundColor: tc.tokenGrey,
                 borderRadius: '4px',
+                ...style,
             }}
             title="label priority"
         >
@@ -26,12 +30,24 @@ const Label = ({ label }: { label?: TLabel }) => {
     )
 }
 
-export const Card = ({ card, disabled, style }: { card: TCard; style?: React.CSSProperties; disabled?: boolean }) => {
+export const Card = ({
+    card,
+    disabled,
+    style,
+    isPreview,
+}: {
+    card: TCard
+    style?: React.CSSProperties
+    disabled?: boolean
+    isPreview?: boolean
+}) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: card.id,
         data: card,
         disabled,
     })
+
+    const openPopup = useCardPopupStore((s) => s.openPopup)
 
     return (
         <FlexColumn
@@ -49,11 +65,22 @@ export const Card = ({ card, disabled, style }: { card: TCard; style?: React.CSS
         >
             {/* CARD HEADER */}
             <FlexColumn
-                style={{ padding: '0 0.4rem', marginBottom: '1.2rem', gap: '0.4rem', cursor: 'default' }}
+                onClick={() => openPopup({ card })}
+                style={{
+                    padding: '0 0.4rem',
+                    paddingBottom: '1.2rem',
+                    gap: '0.4rem',
+                    cursor: isPreview ? 'grabbing' : 'default',
+                }}
                 {...attributes}
                 {...listeners}
             >
-                <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>{card.title}</h2>
+                <FlexRowAlignCenter>
+                    <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>{card.title}</h2>
+                    <Button radius="3rem" sx={{ marginLeft: 'auto' }} onClickCapture={() => openPopup({ card })}>
+                        <ArrowsOutSimple size={18} />
+                    </Button>
+                </FlexRowAlignCenter>
                 <p style={{ fontSize: '1.3rem', color: tc.textActiveSecondary }}>{card.desc}</p>
                 <Label label={card.label} />
             </FlexColumn>
@@ -61,6 +88,7 @@ export const Card = ({ card, disabled, style }: { card: TCard; style?: React.CSS
             <Editor
                 content={card.content}
                 style={{
+                    overflow: 'hidden auto',
                     backgroundColor: '#2C3034',
                     borderRadius: '0.8rem',
                     minHeight: '15.8rem',

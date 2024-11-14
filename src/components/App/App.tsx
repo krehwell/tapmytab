@@ -7,6 +7,7 @@ import { Flex } from '../Flex'
 import { TCard, TLabel } from '../../types'
 import { Navbar } from '../Navbar'
 import { tc } from '../../utils/themeColors'
+import { CardPopup } from '../CardPopup'
 
 // find board id by passing boardId or cardId
 const findBoard = (id: string, boards: Record<string, TCard[]>) => {
@@ -149,6 +150,7 @@ export const App = () => {
                     }}
                 />
             </Flex>
+            <CardPopup />
         </React.Fragment>
     )
 }

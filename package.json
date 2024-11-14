@@ -13,6 +13,7 @@
         "@dnd-kit/sortable": "^8.0.0",
         "@emotion/react": "^11.13.3",
         "@emotion/styled": "^11.13.0",
+        "@mui/base": "^5.0.0-beta.61",
         "@mui/material": "^6.1.7",
         "@tiptap/extension-color": "^2.9.1",
         "@tiptap/extension-link": "^2.9.1",
@@ -26,7 +27,8 @@
         "react": "^18.0.0",
         "react-contenteditable": "^3.3.7",
         "react-dom": "^18.0.0",
-        "tailwind-merge": "^2.5.3"
+        "tailwind-merge": "^2.5.3",
+        "zustand": "^5.0.1"
     },
     "devDependencies": {
         "@crxjs/vite-plugin": "^1.0.14",

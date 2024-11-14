@@ -120,11 +120,6 @@
     height: 0;
 }
 
-/* Text color - from Color extension */
-.tiptap .has-text-color {
-    /* Colors will be applied inline via style attribute */
-}
-
 /* Mark - StarterKit */
 .tiptap mark {
     background-color: #fef08a;
@@ -147,15 +142,9 @@
     text-decoration: line-through;
 }
 
-/* List item specific styles for color - since you configured Color for ListItem */
-.tiptap li[style*='color'] {
-    /* Color will be applied inline via style attribute */
-    list-style-color: currentColor;
-}
-
 /* Selection styles */
 .tiptap ::selection {
-    background: #4ECDC4;
+    background: rgba(202, 255, 191, 0.6);
 }
 
 /* Focus styles */

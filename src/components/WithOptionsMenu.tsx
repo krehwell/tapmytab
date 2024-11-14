@@ -1,15 +1,11 @@
 import Menu, { MenuProps } from '@mui/material/Menu'
 import MenuItem, { MenuItemProps } from '@mui/material/MenuItem'
 import React from 'react'
-import { SxProps } from '@mui/material/styles'
 import { tc } from '../utils/themeColors'
-import { IconProps } from 'phosphor-react'
-import { FlexRowAlignCenter } from './Flex'
 
 export type WithMenuOption =
     | null
     | ({
-          Icon?: React.ElementType<IconProps>
           label: string
           node?: React.ReactNode
           hide?: boolean
@@ -111,7 +107,7 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                                 backgroundColor: tc.textActiveSecondary,
                                 color: tc.tokenGrey,
                                 fontFamily: 'Rumiko Sans',
-                                paddingInline: "1.2rem",
+                                paddingInline: '1.2rem',
                                 fontSize: '1rem',
                                 margin: 0,
                                 zIndex: 9999,

@@ -70,7 +70,7 @@ const BoardOptions = () => {
 
     return (
         <WithOptionsMenu options={options}>
-            {({ openMenu, closeMenu }) => {
+            {({ openMenu }) => {
                 return (
                     <Button radius="2.8rem" style={{ backgroundColor: tc.bgPrimary }} onClick={openMenu}>
                         <DotsThree size={24} />
@@ -120,7 +120,6 @@ export const Board = ({
                     disabled={false}
                     onChange={(e) => {
                         if (!hasEdited) setHasEdited(true)
-                        console.log(e.target.value)
                         setTitle(e.target.value)
                     }}
                     onKeyDown={(e) => {
