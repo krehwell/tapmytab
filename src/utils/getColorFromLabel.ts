@@ -1,6 +1,6 @@
 import { TLabel } from '../types'
 
-export const getLabelFromColor = ({ label }: { label: TLabel }) => {
+export const getColorFromLabel = ({ label }: { label: TLabel }) => {
     switch (label) {
         case TLabel.Red:
             return '#FFAEAD'

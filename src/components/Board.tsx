@@ -5,6 +5,8 @@ import { Card } from './Card'
 import { TBoard } from '../types'
 import { FlexColumn, FlexColumnAlignJustifyCenter, FlexRowAlignCenter } from './Flex'
 import ContentEditable from 'react-contenteditable'
+import { Button } from './Button'
+import { tc } from '../utils/themeColors'
 
 const EMPTY_TITLE = 'add title...'
 
@@ -34,18 +36,16 @@ export const Board = ({
     return (
         <FlexColumn
             style={{
-                width: 300,
-                backgroundColor: '#2B2F32',
-                borderRight: '6px solid #313436',
+                width: '30rem',
+                padding: '1.2rem',
+                paddingLeft: index === 0 ? '0px' : '1.2rem',
                 flexShrink: 0,
                 ...style,
             }}
         >
-            <FlexRowAlignCenter
-                style={{ justifyContent: 'space-between', marginBottom: '24px', padding: '12px 12px 0' }}
-            >
+            <FlexRowAlignCenter style={{ justifyContent: 'space-between', marginBottom: '2.4rem' }}>
                 <ContentEditable
-                    style={{ fontSize: 31, fontWeight: '700', opacity: isPlaceholder ? 0.4 : 1 }}
+                    style={{ fontSize: 31, fontWeight: '700', opacity: isPlaceholder ? 0.4 : 1, flex: 1 }}
                     onFocus={() => {
                         if (isPlaceholder) {
                             setTitle('')
@@ -76,21 +76,14 @@ export const Board = ({
                     }}
                     html={title}
                 />
-                <FlexColumnAlignJustifyCenter
-                    as="button"
-                    onClick={() => {
-                        onNewCreated?.({ id: 'new board' + index, index: index + 1 })
-                    }}
+                <Button
+                    radius="2.8rem"
                     style={{
-                        height: '20px',
-                        width: '20px',
-                        fontSize: '32px',
-                        color: '#54575A',
-                        display: isPlaceholder ? 'none' : 'flex',
+                        backgroundColor: tc.bgPrimary,
                     }}
                 >
-                    +
-                </FlexColumnAlignJustifyCenter>
+                    ...
+                </Button>
             </FlexRowAlignCenter>
 
             {/* CARD LIST */}
@@ -98,10 +91,8 @@ export const Board = ({
                 <FlexColumn
                     ref={setNodeRef}
                     style={{
-                        gap: '12px',
+                        gap: '1.2rem',
                         maxHeight: '100%',
-                        padding: '12px',
-                        marginTop: '-12px',
                         overflowY: 'auto',
                         overflowX: 'hidden',
                         // less cards make it hard to trigger moving. this way we make the droppable section bigger when there's only-1/no-cards in it

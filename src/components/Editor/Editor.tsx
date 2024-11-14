@@ -35,6 +35,7 @@ export const Editor = ({ content, style }: { content: string; style: React.CSSPr
             ref={ref}
             editor={editor}
             style={{ cursor: 'text', ...style }}
+            placeholder="Start typing..."
             onClick={() => {
                 const currEditor = ref.current?.lastChild?.editor
                 if (!currEditor?.isFocused) {

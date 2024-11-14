@@ -6,7 +6,7 @@ import { CanvasDndContext } from '../CanvasDndContext'
 import { Flex } from '../Flex'
 import { TCard, TLabel } from '../../types'
 import { Navbar } from '../Navbar'
-import _ from 'lodash'
+import { tc } from '../../utils/themeColors'
 
 // find board id by passing boardId or cardId
 const findBoard = (id: string, boards: Record<string, TCard[]>) => {
@@ -111,7 +111,14 @@ export const App = () => {
     return (
         <React.Fragment>
             <Navbar />
-            <Flex style={{ height: 'calc(100vh - 56px)', backgroundColor: '#2B2F32', overflowX: 'auto' }}>
+            <Flex
+                style={{
+                    height: 'calc(100vh - var(--navbar-height))',
+                    padding: '0 3.2rem',
+                    backgroundColor: tc.bgSecondary,
+                    overflowX: 'auto',
+                }}
+            >
                 <CanvasDndContext onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
                     {Object.keys(boards).map((key, i) => {
                         const boardTitle = key

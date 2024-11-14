@@ -26,12 +26,12 @@ export const Navbar = () => {
             as="nav"
             style={{
                 height: 'var(--navbar-height)',
-                padding: '0px 32px',
+                padding: '0px 3.2rem',
                 justifyContent: 'space-between',
                 backgroundColor: '#2F3336',
             }}
         >
-            <span style={{ color: '#5F6061', fontFamily: 'Rumiko Sans', fontSize: '24px', fontWeight: '600' }}>
+            <span style={{ color: '#5F6061', fontFamily: 'Rumiko Sans', fontSize: '2.4rem', fontWeight: '600' }}>
                 Tap my Tab
             </span>
             {/* <SocMedInput /> */}

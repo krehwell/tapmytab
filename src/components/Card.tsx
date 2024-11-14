@@ -3,8 +3,9 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { TCard, TLabel } from '../types'
 import { FlexColumn } from './Flex'
-import { getLabelFromColor } from '../utils/getColorFromLabel'
+import { getColorFromLabel } from '../utils/getColorFromLabel'
 import { Editor } from './Editor'
+import { tc } from '../utils/themeColors'
 
 const Label = ({ label }: { label?: TLabel }) => {
     if (!label) return null
@@ -12,15 +13,15 @@ const Label = ({ label }: { label?: TLabel }) => {
     return (
         <span
             style={{
-                width: '43px',
-                height: '10px',
-                backgroundColor: getLabelFromColor({ label }),
+                width: '5.1rem',
+                height: '1.8rem',
+                padding: '0.4rem',
+                backgroundColor: tc.tokenGrey,
                 borderRadius: '4px',
-                marginBottom: '4px',
             }}
             title="label priority"
         >
-            &nbsp;
+            <div style={{ height: '1rem', borderRadius: '0.4rem', backgroundColor: getColorFromLabel({ label }) }} />
         </span>
     )
 }
@@ -35,29 +36,36 @@ export const Card = ({ card, disabled, style }: { card: TCard; style?: React.CSS
     return (
         <FlexColumn
             ref={setNodeRef}
-            className="hover:outline-dashed hover:outline-1 hover:outline-slate-300"
             style={{
                 boxSizing: 'border-box',
                 transform: CSS.Transform.toString(transform),
                 transition,
-                padding: 8,
-                backgroundColor: '#343A40',
+                padding: '1.6rem 0.8rem',
+                backgroundColor: tc.bgPrimary,
                 borderRadius: '12px',
                 ...(isDragging ? { opacity: 0.7 } : {}),
                 ...style,
             }}
         >
-            <FlexColumn style={{ padding: '8px 4px', marginBottom: '4px' }} {...attributes} {...listeners}>
-                <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px' }}>{card.title}</h2>
-                <p style={{ fontSize: '13px', color: 'rgba(248, 249, 250, 0.80)', marginBottom: '4px' }}>{card.desc}</p>
+            {/* CARD HEADER */}
+            <FlexColumn
+                style={{ padding: '0 0.4rem', marginBottom: '1.2rem', gap: '0.4rem' }}
+                {...attributes}
+                {...listeners}
+            >
+                <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>{card.title}</h2>
+                <p style={{ fontSize: '1.3rem', color: tc.textActiveSecondary }}>{card.desc}</p>
                 <Label label={card.label} />
             </FlexColumn>
+
             <Editor
                 content={card.content}
                 style={{
                     backgroundColor: '#2C3034',
                     borderRadius: '0.8rem',
                     minHeight: '15.8rem',
+                    maxHeight: '21.7rem',
+                    fontSize: '1.3rem',
                     padding: '1.6rem 0.8rem',
                 }}
             />
