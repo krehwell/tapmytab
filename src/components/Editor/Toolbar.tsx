@@ -7,7 +7,6 @@ import {
     BracketsCurly,
     Code,
     Link,
-    List,
     TextAlignCenter,
     TextAlignLeft,
     TextAlignRight,

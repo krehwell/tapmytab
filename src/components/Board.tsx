@@ -10,8 +10,6 @@ import { Copy, DotsThree, Plus, Trash } from 'phosphor-react'
 import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
 import { WithMenuOption, WithOptionsMenu, WithOptionsMenuProps } from './WithOptionsMenu'
 
-const EMPTY_TITLE = 'add title...'
-
 const BoardNameInput = ({
     disabled,
     style,
@@ -22,7 +20,7 @@ const BoardNameInput = ({
     return (
         <TextareaAutosize
             maxRows={2}
-            placeholder={EMPTY_TITLE}
+            placeholder={'Add title...'}
             style={{
                 fontSize: 31,
                 fontWeight: '700',

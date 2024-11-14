@@ -11,6 +11,7 @@ import { Toolbar } from './Editor/Toolbar'
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { DotsThree, X } from 'phosphor-react'
 import { WithOptionsMenu } from './WithOptionsMenu'
+import TextareaAutosize from '@mui/material/TextareaAutosize'
 
 export const useCardPopupStore = create<{
     isOpen: boolean
@@ -32,7 +33,19 @@ const CardPopupHeader = () => {
     return (
         <>
             <FlexRowAlignCenter style={{ marginBottom: '0.8rem' }}>
-                <h2 style={{ fontSize: '3.1rem', fontWeight: 'bold', marginRight: 'auto' }}>{card?.title}</h2>
+                <TextareaAutosize
+                    maxRows={1}
+                    maxLength={60}
+                    defaultValue={card?.title}
+                    placeholder={'Add Title...'}
+                    style={{
+                        backgroundColor: 'transparent',
+                        flex: 1,
+                        resize: 'none',
+                        fontSize: '3.1rem',
+                        fontWeight: 'bold',
+                    }}
+                />
                 <WithOptionsMenu options={[{ label: 'Delete Card', onClick: () => alert('TODO: Delete card') }]}>
                     {({ openMenu }) => (
                         <Button radius="3.2rem" onClick={openMenu}>
@@ -44,7 +57,17 @@ const CardPopupHeader = () => {
                     <X size={22} />
                 </Button>
             </FlexRowAlignCenter>
-            <p style={{ fontSize: '1.6rem', color: 'rgba(248, 249, 250, 0.80)' }}>{card?.desc}</p>
+            <TextareaAutosize
+                maxRows={1}
+                maxLength={60}
+                placeholder={'Add description...'}
+                style={{
+                    backgroundColor: 'transparent',
+                    resize: 'none',
+                    fontSize: '1.6rem',
+                    color: 'rgba(248, 249, 250, 0.80)',
+                }}
+            />
             <Label label={card?.label} style={{ marginTop: '0.8rem' }} />
             <div style={{ marginBottom: '2rem' }} />
         </>
