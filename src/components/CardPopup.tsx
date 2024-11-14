@@ -18,14 +18,12 @@ export const useCardPopupStore = create<{
     openPopup: ({ card }: { card: TCard }) => void
     card: TCard | null
     editor: TiptapEditor | null
-    setEditor: (editor: TiptapEditor) => void
 }>((set) => ({
     isOpen: false,
     closePopup: () => set({ isOpen: false, card: null }),
     openPopup: ({ card }) => set({ isOpen: true, card }),
     card: null,
     editor: null,
-    setEditor: (editor) => set({ editor }),
 }))
 
 const CardPopupHeader = () => {
@@ -77,17 +75,30 @@ const CardPopupEditor = () => {
     )
 }
 
+const CardPopupActions = () => {
+    const closePopup = useCardPopupStore((s) => s.closePopup)
+
+    return (
+        <FlexRowAlignCenter style={{ gap: '1.2rem', marginLeft: 'auto' }}>
+            <Button onClick={closePopup} style={{ width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}>
+                Cancel
+            </Button>
+            <Button
+                onClick={() => alert('TODO: save')}
+                sx={{ backgroundColor: '#4C5257', width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}
+            >
+                Save
+            </Button>
+        </FlexRowAlignCenter>
+    )
+}
+
 export const CardPopup = () => {
     const isOpen = useCardPopupStore((s) => s.isOpen)
-    const closePopup = useCardPopupStore((s) => s.closePopup)
 
     return (
         <Dialog
             open={isOpen}
-            onClose={(_e, reason) => {
-                if (reason === 'backdropClick') return
-                closePopup()
-            }}
             transitionDuration={0}
             PaperComponent={({ children, style, ...props }) => (
                 <Box
@@ -106,21 +117,9 @@ export const CardPopup = () => {
             )}
         >
             <CardPopupHeader />
-
             <CardPopupEditor key={String(isOpen)} />
             <div style={{ marginBottom: '2rem' }} />
-
-            <FlexRowAlignCenter style={{ gap: '1.2rem', marginLeft: 'auto' }}>
-                <Button onClick={closePopup} style={{ width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}>
-                    Cancel
-                </Button>
-                <Button
-                    onClick={() => alert('TODO: save')}
-                    sx={{ backgroundColor: '#4C5257', width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}
-                >
-                    Save
-                </Button>
-            </FlexRowAlignCenter>
+            <CardPopupActions />
         </Dialog>
     )
 }

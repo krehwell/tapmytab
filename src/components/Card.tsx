@@ -49,7 +49,6 @@ export const Card = ({
 
     const { editor } = useEditorInstance({ content: card.content }) as { editor: TiptapEditor }
     const openPopup = useCardPopupStore((s) => s.openPopup)
-    const setEditor = useCardPopupStore((s) => s.setEditor)
 
     return (
         <FlexColumn
@@ -67,10 +66,7 @@ export const Card = ({
         >
             {/* CARD HEADER */}
             <FlexColumn
-                onClick={() => {
-                    openPopup({ card })
-                    setEditor(editor)
-                }}
+                onClick={() => openPopup({ card })}
                 style={{
                     padding: '0 0.4rem',
                     paddingBottom: '1.2rem',
