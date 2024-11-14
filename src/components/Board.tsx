@@ -3,12 +3,83 @@ import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { Card } from './Card'
 import { TBoard } from '../types'
-import { FlexColumn, FlexColumnAlignJustifyCenter, FlexRowAlignCenter } from './Flex'
-import ContentEditable from 'react-contenteditable'
+import { FlexColumn, FlexRowAlignCenter } from './Flex'
 import { Button } from './Button'
 import { tc } from '../utils/themeColors'
+import { Copy, DotsThree, Plus, Trash } from 'phosphor-react'
+import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
+import { WithMenuOption, WithOptionsMenu, WithOptionsMenuProps } from './WithOptionsMenu'
 
 const EMPTY_TITLE = 'add title...'
+
+const BoardNameInput = ({
+    disabled,
+    style,
+    ...props
+}: TextareaAutosizeProps & {
+    disabled?: boolean
+}) => {
+    return (
+        <TextareaAutosize
+            maxRows={2}
+            placeholder={EMPTY_TITLE}
+            style={{
+                fontSize: 31,
+                fontWeight: '700',
+                opacity: disabled ? 0.4 : 1,
+                flex: 1,
+                backgroundColor: 'transparent',
+                resize: 'none',
+                ...style,
+            }}
+            {...props}
+        />
+    )
+}
+
+const BoardOptions = () => {
+    const options: WithMenuOption[] = [
+        {
+            label: 'Add Board',
+            onClick: () => {},
+            node: (
+                <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
+                    <Plus size={12} color="#4C5257" /> Add Board
+                </FlexRowAlignCenter>
+            ),
+        },
+        {
+            label: 'Duplicate Board',
+            onClick: () => {},
+            node: (
+                <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
+                    <Copy size={12} color="#4C5257" /> Duplicate
+                </FlexRowAlignCenter>
+            ),
+        },
+        {
+            label: 'Delete Board',
+            onClick: () => {},
+            node: (
+                <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
+                    <Trash size={12} color="#4C5257" /> Delete Board
+                </FlexRowAlignCenter>
+            ),
+        },
+    ]
+
+    return (
+        <WithOptionsMenu options={options}>
+            {({ openMenu, closeMenu }) => {
+                return (
+                    <Button radius="2.8rem" style={{ backgroundColor: tc.bgPrimary }} onClick={openMenu}>
+                        <DotsThree size={24} />
+                    </Button>
+                )
+            }}
+        </WithOptionsMenu>
+    )
+}
 
 export const Board = ({
     board: { cards, id, title: initialTitle },
@@ -21,7 +92,7 @@ export const Board = ({
     style?: React.CSSProperties
     onNewCreated?: (props: { id: string; index: number }) => void
 }) => {
-    const [title, setTitle] = useState<string>(initialTitle || EMPTY_TITLE)
+    const [title, setTitle] = useState<string>(initialTitle || '')
     const [hasEdited, setHasEdited] = useState<boolean>(initialTitle ? true : false)
     const isEmpty = cards.length === 0
     const isPlaceholder = isEmpty && !hasEdited
@@ -29,7 +100,7 @@ export const Board = ({
     const { setNodeRef } = useDroppable({ id: id as string, disabled: isPlaceholder })
 
     const resetBoard = () => {
-        setTitle(EMPTY_TITLE)
+        setTitle('')
         setHasEdited(false)
     }
 
@@ -44,24 +115,21 @@ export const Board = ({
             }}
         >
             <FlexRowAlignCenter style={{ justifyContent: 'space-between', marginBottom: '2.4rem' }}>
-                <ContentEditable
-                    style={{ fontSize: 31, fontWeight: '700', opacity: isPlaceholder ? 0.4 : 1, flex: 1 }}
-                    onFocus={() => {
-                        if (isPlaceholder) {
-                            setTitle('')
-                        }
+                <BoardNameInput
+                    value={title}
+                    disabled={false}
+                    onChange={(e) => {
+                        if (!hasEdited) setHasEdited(true)
+                        console.log(e.target.value)
+                        setTitle(e.target.value)
                     }}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                             e.currentTarget.blur()
                         }
                     }}
-                    onChange={(e) => {
-                        if (!hasEdited) setHasEdited(true)
-                        setTitle(e.target.value || '')
-                    }}
                     onBlur={(e) => {
-                        const newTitle = e.target.innerText
+                        const newTitle = e.target.value
                         // new board created
                         if (newTitle) {
                             setTitle(newTitle)
@@ -71,19 +139,10 @@ export const Board = ({
                             }
                         } else {
                             setHasEdited(false)
-                            setTitle(EMPTY_TITLE)
                         }
                     }}
-                    html={title}
                 />
-                <Button
-                    radius="2.8rem"
-                    style={{
-                        backgroundColor: tc.bgPrimary,
-                    }}
-                >
-                    ...
-                </Button>
+                <BoardOptions />
             </FlexRowAlignCenter>
 
             {/* CARD LIST */}

@@ -49,7 +49,7 @@ export const Card = ({ card, disabled, style }: { card: TCard; style?: React.CSS
         >
             {/* CARD HEADER */}
             <FlexColumn
-                style={{ padding: '0 0.4rem', marginBottom: '1.2rem', gap: '0.4rem' }}
+                style={{ padding: '0 0.4rem', marginBottom: '1.2rem', gap: '0.4rem', cursor: 'default' }}
                 {...attributes}
                 {...listeners}
             >
