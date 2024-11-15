@@ -64,11 +64,7 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                 sx={{
                     // opinionated styles since we don't want shadow by default
                     '& .MuiPaper-root': { boxShadow: 'none' },
-                    '& .MuiMenu-paper': {
-                        backgroundColor: 'var(--color-neutral-white)',
-                    },
                     '& .MuiList-padding': { paddingTop: 0, paddingBottom: 0 },
-                    ...menuProps?.sx,
                 }}
                 BackdropProps={{
                     ...menuProps?.BackdropProps,
@@ -79,7 +75,12 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                     },
                 }}
                 PaperProps={{
-                    sx: { overflow: 'hidden', borderRadius: '0.8rem', ...menuProps?.sx },
+                    sx: {
+                        overflow: 'hidden',
+                        borderRadius: '0.8rem',
+                        backgroundColor: 'transparent',
+                        ...menuProps?.sx,
+                    },
                     ...menuProps?.PaperProps,
                 }}
             >

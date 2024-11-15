@@ -9,6 +9,7 @@ import { tc } from '../utils/themeColors'
 import { Copy, DotsThree, Plus, Trash } from 'phosphor-react'
 import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
 import { WithMenuOption, WithOptionsMenu } from './WithOptionsMenu'
+import { createSortableCheat } from '../utils/dndIdManager'
 
 const BoardNameInput = ({
     disabled,
@@ -80,7 +81,7 @@ const BoardOptions = () => {
 }
 
 export const Board = ({
-    board: { cards, id, title: initialTitle },
+    board,
     index,
     style,
     onNewCreated,
@@ -90,6 +91,7 @@ export const Board = ({
     style?: React.CSSProperties
     onNewCreated?: (props: { id: string; index: number }) => void
 }) => {
+    const { cards, id, title: initialTitle } = board
     const [title, setTitle] = useState<string>(initialTitle || '')
     const [hasEdited, setHasEdited] = useState<boolean>(initialTitle ? true : false)
     const isEmpty = cards.length === 0
@@ -156,8 +158,13 @@ export const Board = ({
                         height: cards.length <= 1 ? '100%' : 'fit-content',
                     }}
                 >
-                    {cards.map((card) => {
-                        return <Card key={card.id} card={card} />
+                    {cards.map((card, i) => {
+                        const boardId = board.id as string
+                        const boardIdx = index
+                        const cardId = card.id
+                        const cardIdx = i
+                        const sortableCheat = createSortableCheat({ boardId, cardId, boardIdx, cardIdx })
+                        return <Card key={cardId} sortableCheat={sortableCheat} card={card} />
                     })}
                 </FlexColumn>
             </SortableContext>

@@ -1,37 +1,38 @@
 import { TBoard, TCard } from '../types'
 import { create } from 'zustand'
-import { arraySwap } from '@dnd-kit/sortable'
 import { arrayMove } from '@dnd-kit/sortable'
 
-type BoardBank = {
-    [id: string]: TCard[]
-}
+type BoardBank = Array<TBoard>
 
 type BoardStore = {
     boards: BoardBank | null
     populateBoards: (boards: BoardBank) => void
-    deleteBoard: (id: string) => void
-    swapCardPosById: (aId: string, bId: string) => void
-    // moveCardBoard: (aId: string, bId: string) => void
+    deleteBoard: ({ id }: { id: string }) => void
+    swapCardPos: (props: { boardIdx: number; currIdx: number; newIdx: number }) => void
+    swapCardSwitchBoard: (props: {
+        boardIdx: number
+        cardIdx: number
+        destBoardIdx: number
+        destCardIdx: number
+    }) => void
 }
 
-export const useBoardStore = create<BoardStore>((set) => ({
+export const useBoardStore = create<BoardStore>((set, get) => ({
     boards: null,
     populateBoards: (boards) => set({ boards }),
-    deleteBoard: (id) => {
-        set((state) => {
-            delete state.boards?.[id]
-            return { boards: state.boards }
-        })
-    },
-    swapCardPosById: (aId, bId) => {
-        set((state) => {
-            const boards = state.boards as BoardBank
-            const a = state.boards?.[aId] as TCard[]
-            const b = state.boards?.[bId] as TCard[]
+    deleteBoard: ({ id }) => {},
+    swapCardPos: ({ boardIdx, currIdx, newIdx }) => {
+        const newBoards = get().boards as BoardBank
+        const newBoard = newBoards[boardIdx] as TBoard
+        let newCards = newBoard.cards as TCard[]
+        newCards = arrayMove(newCards, currIdx, newIdx)
 
-            return {
-            }
-        })
+        newBoard.cards = newCards
+        newBoards[boardIdx] = newBoard
+
+        set({ boards: newBoards })
+    },
+    swapCardSwitchBoard: ({ boardIdx, cardIdx, destBoardIdx, destCardIdx }) => {
+        //
     },
 }))

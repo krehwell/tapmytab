@@ -39,7 +39,7 @@ export const CanvasDndContext = ({
             sensors={sensors}
             collisionDetection={closestCorners}
             onDragStart={(e) => {
-                setCurrDraggedCard(e.active.data.current as TCard)
+                setCurrDraggedCard(e.active.data.current?.card as TCard)
                 onDragStart?.(e)
             }}
             onDragOver={onDragOver}
@@ -53,7 +53,7 @@ export const CanvasDndContext = ({
             {/* PLACEHOLDER PREVIEW-CARD DURING DRAGGING A CARD */}
             {currDraggedCard && (
                 <DragOverlay>
-                    <Card card={currDraggedCard} disabled isPreview />
+                    <Card card={currDraggedCard} disabled sortableCheat="" />
                 </DragOverlay>
             )}
         </DndContext>
