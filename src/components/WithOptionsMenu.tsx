@@ -119,7 +119,10 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                                 ...optionStyle,
                             }}
                             key={String(option.label) + i}
-                            onClick={option?.onClick}
+                            onClick={(e) => {
+                                option?.onClick?.(e)
+                                handleClose()
+                            }}
                         >
                             {option?.node || option?.label}
                         </MenuItem>
