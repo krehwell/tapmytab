@@ -89,8 +89,6 @@ const CardPopupEditor = () => {
                     borderRadius: '0.8rem 0.8rem 0rem 0rem',
                     minHeight: '21.2rem',
                     maxHeight: '30rem',
-                    fontSize: '1.3rem',
-                    padding: '1.6rem 0.8rem',
                 }}
             />
             <Toolbar editor={editor} />

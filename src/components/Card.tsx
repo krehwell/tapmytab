@@ -94,8 +94,6 @@ export const Card = ({
                     borderRadius: '0.8rem',
                     minHeight: '15.8rem',
                     maxHeight: '21.7rem',
-                    fontSize: '1.3rem',
-                    padding: '1.6rem 0.8rem',
                 }}
             />
         </FlexColumn>

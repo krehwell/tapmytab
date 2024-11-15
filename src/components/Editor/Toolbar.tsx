@@ -7,6 +7,9 @@ import {
     BracketsCurly,
     Code,
     Link,
+    ListBullets,
+    ListDashes,
+    ListNumbers,
     TextAlignCenter,
     TextAlignLeft,
     TextAlignRight,
@@ -28,6 +31,9 @@ export const useTextmenuStates = (editor: Editor) => {
         isAlignCenter: editor.isActive({ textAlign: 'center' }),
         isAlignRight: editor.isActive({ textAlign: 'right' }),
         isAlignJustify: editor.isActive({ textAlign: 'justify' }),
+        isOrderedList: editor.isActive('orderedList'),
+        isBulletList: editor.isActive('bulletList'),
+        isTaskList: editor.isActive('taskList'),
     }
 }
 
@@ -48,8 +54,7 @@ const ToolbarBtn = ({
 }
 
 export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
-    const { isBold, isItalic, isCode, isCodeBlock, isAlignLeft, isAlignCenter, isAlignRight } =
-        useTextmenuStates(editor)
+    const { isBold, isItalic, isCode, isCodeBlock } = useTextmenuStates(editor)
 
     return (
         <FlexRowAlignCenter
@@ -63,48 +68,8 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
         >
             <ToolbarBtn Icon={ArrowUUpLeft} onClick={() => editor.chain().undo().run()} />
             <ToolbarBtn Icon={ArrowUUpRight} onClick={() => editor.chain().redo().run()} />
-            <WithOptionsMenu
-                menuItemProps={{ sx: { backgroundColor: tc.bgSecondary } }}
-                options={[
-                    {
-                        label: 'Left',
-                        node: (
-                            <ToolbarBtn
-                                isActive={isAlignLeft}
-                                Icon={TextAlignLeft}
-                                onClick={() => editor.chain().focus().setTextAlign('left').run()}
-                            />
-                        ),
-                    },
-                    {
-                        label: 'center',
-                        node: (
-                            <ToolbarBtn
-                                isActive={isAlignCenter}
-                                Icon={TextAlignCenter}
-                                onClick={() => editor.chain().focus().setTextAlign('center').run()}
-                            />
-                        ),
-                    },
-                    {
-                        label: 'Right',
-                        node: (
-                            <ToolbarBtn
-                                isActive={isAlignRight}
-                                Icon={TextAlignRight}
-                                onClick={() => editor.chain().focus().setTextAlign('right').run()}
-                            />
-                        ),
-                    },
-                ]}
-            >
-                {({ openMenu }) => (
-                    <ToolbarBtn
-                        Icon={isAlignCenter ? TextAlignCenter : isAlignRight ? TextAlignRight : TextAlignLeft}
-                        onClick={openMenu}
-                    />
-                )}
-            </WithOptionsMenu>
+            <ToolbarTextAlignOptions editor={editor} />
+            <ToolbarListOptions editor={editor} />
             <ToolbarBtn
                 isActive={isBold}
                 Icon={TextBolder}
@@ -140,5 +105,103 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 }}
             />
         </FlexRowAlignCenter>
+    )
+}
+
+const ToolbarTextAlignOptions = ({ editor }: { editor: TiptapEditor }) => {
+    const { isAlignLeft, isAlignCenter, isAlignRight } = useTextmenuStates(editor)
+
+    return (
+        <WithOptionsMenu
+            menuItemProps={{ sx: { backgroundColor: tc.bgSecondary } }}
+            options={[
+                {
+                    label: 'Left',
+                    node: (
+                        <ToolbarBtn
+                            isActive={isAlignLeft}
+                            Icon={TextAlignLeft}
+                            onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                        />
+                    ),
+                },
+                {
+                    label: 'center',
+                    node: (
+                        <ToolbarBtn
+                            isActive={isAlignCenter}
+                            Icon={TextAlignCenter}
+                            onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                        />
+                    ),
+                },
+                {
+                    label: 'Right',
+                    node: (
+                        <ToolbarBtn
+                            isActive={isAlignRight}
+                            Icon={TextAlignRight}
+                            onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                        />
+                    ),
+                },
+            ]}
+        >
+            {({ openMenu }) => (
+                <ToolbarBtn
+                    Icon={isAlignCenter ? TextAlignCenter : isAlignRight ? TextAlignRight : TextAlignLeft}
+                    onClick={openMenu}
+                />
+            )}
+        </WithOptionsMenu>
+    )
+}
+
+const ToolbarListOptions = ({ editor }: { editor: TiptapEditor }) => {
+    const { isOrderedList, isBulletList, isTaskList } = useTextmenuStates(editor)
+
+    return (
+        <WithOptionsMenu
+            menuItemProps={{ sx: { backgroundColor: tc.bgSecondary } }}
+            options={[
+                {
+                    label: 'Ordered List',
+                    node: (
+                        <ToolbarBtn
+                            isActive={isOrderedList}
+                            Icon={ListNumbers}
+                            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                        />
+                    ),
+                },
+                {
+                    label: 'Bullet List',
+                    node: (
+                        <ToolbarBtn
+                            isActive={isBulletList}
+                            Icon={ListBullets}
+                            onClick={() => editor.chain().focus().toggleBulletList().run()}
+                        />
+                    ),
+                },
+                {
+                    label: 'Task List',
+                    node: (
+                        <ToolbarBtn
+                            isActive={isTaskList}
+                            Icon={ListDashes}
+                            onClick={() => editor.chain().focus().toggleTaskList().run()}
+                        />
+                    ),
+                },
+            ]}
+        >
+            {({ openMenu }) => (
+                <ToolbarBtn
+                    Icon={isOrderedList ? ListNumbers : isBulletList ? ListBullets : ListDashes}
+                    onClick={openMenu}
+                />
+            )}
+        </WithOptionsMenu>
     )
 }

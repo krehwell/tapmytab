@@ -8,7 +8,7 @@ import { Button } from './Button'
 import { tc } from '../utils/themeColors'
 import { Copy, DotsThree, Plus, Trash } from 'phosphor-react'
 import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
-import { WithMenuOption, WithOptionsMenu, WithOptionsMenuProps } from './WithOptionsMenu'
+import { WithMenuOption, WithOptionsMenu } from './WithOptionsMenu'
 
 const BoardNameInput = ({
     disabled,

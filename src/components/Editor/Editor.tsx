@@ -4,6 +4,8 @@ import Link from '@tiptap/extension-link'
 import TextStyle from '@tiptap/extension-text-style'
 import { Editor as TiptapEditor, EditorContent, useEditor } from '@tiptap/react'
 import TextAlign from '@tiptap/extension-text-align'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
 
 import StarterKit from '@tiptap/starter-kit'
 import './editor.css'
@@ -12,6 +14,8 @@ import { useRef } from 'react'
 const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     TextStyle.configure({ types: [ListItem.name] }),
+    TaskList,
+    TaskItem.configure({ nested: true }),
     TextAlign.configure({
         types: ['heading', 'paragraph'],
     }),
@@ -38,7 +42,7 @@ export const Editor = ({ editor, style }: { editor: TiptapEditor; style: React.C
         <EditorContent
             ref={ref}
             editor={editor}
-            style={{ cursor: 'text', ...style }}
+            style={{ cursor: 'text', fontSize: '1.3rem', lineHeight: '1', padding: '1.6rem 0.8rem', ...style }}
             placeholder="Start typing..."
             onClick={() => {
                 const currEditor = ref.current?.lastChild?.editor
