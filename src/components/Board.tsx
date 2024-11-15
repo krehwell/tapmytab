@@ -140,7 +140,7 @@ export const Board = ({
                         }
                     }}
                 />
-                <BoardOptions />
+                {!isPlaceholder && <BoardOptions />}
             </FlexRowAlignCenter>
 
             {/* CARD LIST */}
