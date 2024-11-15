@@ -117,33 +117,18 @@ const ToolbarTextAlignOptions = ({ editor }: { editor: TiptapEditor }) => {
             options={[
                 {
                     label: 'Left',
-                    node: (
-                        <ToolbarBtn
-                            isActive={isAlignLeft}
-                            Icon={TextAlignLeft}
-                            onClick={() => editor.chain().focus().setTextAlign('left').run()}
-                        />
-                    ),
+                    node: <ToolbarBtn isActive={isAlignLeft} Icon={TextAlignLeft} />,
+                    onClick: () => editor.chain().focus().setTextAlign('left').run(),
                 },
                 {
                     label: 'center',
-                    node: (
-                        <ToolbarBtn
-                            isActive={isAlignCenter}
-                            Icon={TextAlignCenter}
-                            onClick={() => editor.chain().focus().setTextAlign('center').run()}
-                        />
-                    ),
+                    node: <ToolbarBtn isActive={isAlignCenter} Icon={TextAlignCenter} />,
+                    onClick: () => editor.chain().focus().setTextAlign('center').run(),
                 },
                 {
                     label: 'Right',
-                    node: (
-                        <ToolbarBtn
-                            isActive={isAlignRight}
-                            Icon={TextAlignRight}
-                            onClick={() => editor.chain().focus().setTextAlign('right').run()}
-                        />
-                    ),
+                    node: <ToolbarBtn isActive={isAlignRight} Icon={TextAlignRight} />,
+                    onClick: () => editor.chain().focus().setTextAlign('right').run(),
                 },
             ]}
         >
@@ -166,33 +151,18 @@ const ToolbarListOptions = ({ editor }: { editor: TiptapEditor }) => {
             options={[
                 {
                     label: 'Ordered List',
-                    node: (
-                        <ToolbarBtn
-                            isActive={isOrderedList}
-                            Icon={ListNumbers}
-                            onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                        />
-                    ),
+                    node: <ToolbarBtn isActive={isOrderedList} Icon={ListNumbers} />,
+                    onClick: () => editor.chain().focus().toggleOrderedList().run(),
                 },
                 {
                     label: 'Bullet List',
-                    node: (
-                        <ToolbarBtn
-                            isActive={isBulletList}
-                            Icon={ListBullets}
-                            onClick={() => editor.chain().focus().toggleBulletList().run()}
-                        />
-                    ),
+                    node: <ToolbarBtn isActive={isBulletList} Icon={ListBullets} />,
+                    onClick: () => editor.chain().focus().toggleBulletList().run(),
                 },
                 {
                     label: 'Task List',
-                    node: (
-                        <ToolbarBtn
-                            isActive={isTaskList}
-                            Icon={ListDashes}
-                            onClick={() => editor.chain().focus().toggleTaskList().run()}
-                        />
-                    ),
+                    node: <ToolbarBtn isActive={isTaskList} Icon={ListDashes} />,
+                    onClick: () => editor.chain().focus().toggleTaskList().run(),
                 },
             ]}
         >
