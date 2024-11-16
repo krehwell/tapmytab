@@ -7,71 +7,76 @@ import { Navbar } from '../Navbar'
 import { tc } from '../../utils/themeColors'
 import { CardPopup } from '../CardPopup'
 import { useBoardStore } from '../../stores/useBoardStore'
-import { BOARD1, BOARD2 } from '../../utils/templates'
 import { parseSortableCheat } from '../../utils/dndIdManager'
+
+// useBoardStore.subscribe((store) => {
+//     const b0 = store.boards[0]
+//     const b1 = store.boards[1]
+//     console.table(b0.cards)
+//     console.table(b1.cards)
+// })
 
 export const App = () => {
     const boards = useBoardStore((s) => s.boards)
-    const populateBoards = useBoardStore((s) => s.populateBoards)
     const swapCardPos = useBoardStore((s) => s.swapCardPos)
     const swapCardSwitchBoard = useBoardStore((s) => s.swapCardSwitchBoard)
 
-    if (!boards) {
-        populateBoards([BOARD1, BOARD2])
-    }
+    const handleCardSwitchBoard = useCallback((event: DragOverEvent) => {
+        const { active, over, draggingRect } = event
 
-    // const [boards, setBoards] = useState<Record<string, TCard[]>>({
-    //     Latest: [
-    //         { id: 'card-1', content: 'content card - 1', title: 'card - 1', desc: 'desc card 1', label: TLabel.Red },
-    //         { id: 'card-2', content: 'content card - 2', title: 'card - 2', desc: 'desc card 2', label: TLabel.Blue },
-    //         { id: 'card-3', content: 'content card - 3', title: 'card - 3', desc: 'desc card 3' },
-    //     ],
-    //     'To-dos': [
-    //         { id: 'card-4', content: 'content card - 4', title: 'card - 4', desc: 'desc card 4', label: TLabel.Yellow },
-    //         { id: 'card-5', content: 'content card - 5', title: 'card - 5', desc: 'desc card 5' },
-    //     ],
-    //     Done: [
-    //         { id: 'card-6', content: 'content card - 7', title: 'card - 6', desc: 'desc card 6' },
-    //         { id: 'card-7', content: 'content card - 8', title: 'card - 7', desc: 'desc card 7', label: TLabel.Green },
-    //     ],
-    // })
+        if (!active || !over) return
 
-    const handleCardSwitchBoard = (event: DragOverEvent) => {
-        // const { active, over, draggingRect } = event
-        // const { id } = active
-        // const { id: overId } = over
-        // const activeBoard = findBoard(id, boards)
-        // const overBoard = findBoard(overId, boards)
-        // if (!activeBoard || !overBoard || activeBoard === overBoard) {
-        //     return
-        // }
-        // setBoards((prev) => {
-        //     const activeCards = prev[activeBoard]
-        //     const overCards = prev[overBoard]
-        //     const activeIndex = activeCards.findIndex((item) => item.id === id)
-        //     const overIndex = overCards.findIndex((item) => item.id === overId)
-        //     let newIndex
-        //     if (Object.keys(prev).includes(overId)) {
-        //         newIndex = overCards.length + 1
-        //     } else {
-        //         if (!draggingRect) {
-        //             newIndex = overCards.length + 1
-        //         } else {
-        //             const isBelowLastItem =
-        //                 over &&
-        //                 overIndex === overCards.length - 1 &&
-        //                 draggingRect.offsetTop > over.rect.offsetTop + over.rect.height
-        //             const modifier = isBelowLastItem ? 1 : 0
-        //             newIndex = overIndex >= 0 ? overIndex + modifier : overCards.length + 1
-        //         }
-        //     }
-        //     return {
-        //         ...prev,
-        //         [activeBoard]: activeCards.filter((item) => item.id !== id), // Fix here, use `id`
-        //         [overBoard]: [...overCards.slice(0, newIndex), activeCards[activeIndex], ...overCards.slice(newIndex)],
-        //     }
-        // })
-    }
+        let actBoardIdx = 0,
+            actCardId = '',
+            actCardIdx = 0
+        let ovrBoardIdx = 0,
+            ovrCardIdx = 0
+
+        if (active.data.current) {
+            const { boardIdx, cardId, cardIdx } = parseSortableCheat(active.data.current.sortableCheat)
+            actBoardIdx = boardIdx
+            actCardId = cardId
+            actCardIdx = cardIdx
+        }
+
+        if (over.data.current) {
+            const { boardIdx, cardIdx } = parseSortableCheat(over.data.current.sortableCheat)
+            ovrBoardIdx = boardIdx
+            ovrCardIdx = cardIdx
+        } else {
+            // empty board leaves empty `over.data.current` somehow. detect id manually instead
+            const ovrBoardId = over.id
+            ovrBoardIdx = boards.findIndex((board) => board.id === ovrBoardId)
+        }
+
+        if (actBoardIdx === ovrBoardIdx) return
+
+        const ovrBoard = boards[ovrBoardIdx]
+        const ovrCards = ovrBoard.cards
+
+        let newIdx: number
+        if (ovrCards.findIndex((card) => card.id === actCardId) !== -1) {
+            newIdx = ovrCards.length + 1
+        } else {
+            if (!draggingRect) {
+                newIdx = ovrCards.length + 1
+            } else {
+                const isBelowLastItem =
+                    ovrCardIdx === ovrCards.length - 1 &&
+                    draggingRect.offsetTop > over.rect.offsetTop + over.rect.height
+
+                const modifier = isBelowLastItem ? 1 : 0
+                newIdx = ovrCardIdx >= 0 ? ovrCardIdx + modifier : ovrCards.length + 1
+            }
+        }
+
+        swapCardSwitchBoard({
+            currBoardIdx: actBoardIdx,
+            currIdx: actCardIdx,
+            newBoardIdx: ovrBoardIdx,
+            newIdx: newIdx,
+        })
+    }, [])
 
     const handleCardSwapPos = useCallback((event: DragEndEvent) => {
         const { active, over } = event
@@ -91,10 +96,6 @@ export const App = () => {
 
         swapCardPos({ boardIdx, currIdx: cardIdx, newIdx: destCardIdx })
     }, [])
-
-    if (!boards) {
-        return null
-    }
 
     return (
         <React.Fragment>

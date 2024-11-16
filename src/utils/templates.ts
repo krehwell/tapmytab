@@ -28,25 +28,25 @@ export const TEMPLATE_CONTENT_2 = `
 
 export const CARD1: TCard = {
     id: 'card1',
-    title: 'My Content',
+    title: 'Card 1',
     content: TEMPLATE_CONTENT_1,
 }
 
 export const CARD2: TCard = {
     id: 'card2',
-    title: 'Reminder',
+    title: 'Card 2',
     content: TEMPLATE_CONTENT_1,
 }
 
 export const CARD3: TCard = {
     id: 'card3',
-    title: 'mom reminders',
+    title: 'Card 3',
     content: TEMPLATE_CONTENT_2,
 }
 
 export const CARD4: TCard = {
     id: 'card4',
-    title: 'another list',
+    title: 'Card 4',
     content: TEMPLATE_CONTENT_2,
     label: TLabel.Yellow,
 }

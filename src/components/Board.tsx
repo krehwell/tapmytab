@@ -97,7 +97,7 @@ export const Board = ({
     const isEmpty = cards.length === 0
     const isPlaceholder = isEmpty && !hasEdited
 
-    const { setNodeRef } = useDroppable({ id: id as string, disabled: isPlaceholder })
+    const { setNodeRef } = useDroppable({ id: id as string, disabled: false })
 
     const resetBoard = () => {
         setTitle('')

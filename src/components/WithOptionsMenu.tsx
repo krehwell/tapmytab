@@ -1,6 +1,6 @@
 import Menu, { MenuProps } from '@mui/material/Menu'
 import MenuItem, { MenuItemProps } from '@mui/material/MenuItem'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { tc } from '../utils/themeColors'
 
 export type WithMenuOption =
@@ -40,13 +40,13 @@ export type WithOptionsMenuProps = {
 export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }: WithOptionsMenuProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
-    const openMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const openMenu = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl((prev) => (prev ? null : event.currentTarget))
-    }
+    }, [])
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setAnchorEl(null)
-    }
+    }, [])
 
     return (
         <>
