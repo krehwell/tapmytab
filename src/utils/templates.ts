@@ -171,17 +171,17 @@ export const CARD8: TCard = {
 export const BOARD1: TBoard = {
     id: 'board1',
     cards: [CARD1, CARD2, CARD8],
-    name: 'Latest',
+    name: 'Todo List',
 }
 
 export const BOARD2: TBoard = {
     id: 'board2',
     cards: [CARD3, CARD4, CARD7],
-    name: 'Todo',
+    name: 'In Learning',
 }
 
 export const BOARD3: TBoard = {
     id: 'board3',
     cards: [CARD5, CARD6],
-    name: 'In Progress',
+    name: 'Backlog',
 }
