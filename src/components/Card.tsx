@@ -74,7 +74,7 @@ export const Card = ({
                     backgroundColor: '#2C3034',
                     borderRadius: '0.8rem',
                     minHeight: '15.8rem',
-                    maxHeight: '21.7rem',
+                    maxHeight: '25rem',
                 }}
             />
         </FlexColumn>
