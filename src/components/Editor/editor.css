@@ -2,13 +2,17 @@
     margin-top: 0;
 }
 
+/* Basic editor styles */
 .tiptap {
-    /* Basic editor styles */
     outline: none;
+    line-height: 1.2;
     min-height: 100px;
 }
 
-/* Typography */
+.tiptap *:first-child {
+    margin-top: 0;
+}
+
 .tiptap p {
     margin: 1.2rem 0;
 }
@@ -38,7 +42,6 @@
     margin: 1.6rem 0 0.8rem;
 }
 
-/* Lists - StarterKit */
 .tiptap ul,
 .tiptap ol {
     padding: 0 1.8rem;
@@ -61,12 +64,6 @@
     margin: 0.2rem 0;
 }
 
-/* Basic editor styles */
-.tiptap *:first-child {
-    margin-top: 0;
-}
-
-/* List styles */
 .tiptap ul,
 .tiptap ol {
     padding: 0 1rem;
@@ -119,13 +116,13 @@
 
 /* Links - from Link extension */
 .tiptap a {
-    color: #2563eb;
+    color: #99C8FF;
     text-decoration: underline;
     cursor: pointer;
 }
 
 .tiptap a:hover {
-    color: #1d4ed8;
+    color: #4d9fff;
 }
 
 /* Blockquotes - StarterKit */

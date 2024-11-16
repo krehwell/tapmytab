@@ -1,12 +1,20 @@
+import { Button } from './Button'
 import { TLabel } from '../types'
-import { getColorFromLabel } from '../utils/getColorFromLabel'
+import { getColorFromLabel } from '../utils/label'
 import { tc } from '../utils/themeColors'
 
-export const Label = ({ label, style }: { label?: TLabel; style?: React.CSSProperties }) => {
-    if (!label) return null
-
+export const Label = ({
+    label,
+    style,
+    onClick,
+}: {
+    label?: TLabel
+    style?: React.CSSProperties
+    onClick?: () => void
+}) => {
     return (
-        <span
+        <Button
+            onClick={onClick}
             style={{
                 width: '5.1rem',
                 height: '1.8rem',
@@ -16,7 +24,16 @@ export const Label = ({ label, style }: { label?: TLabel; style?: React.CSSPrope
                 ...style,
             }}
         >
-            <div style={{ height: '1rem', borderRadius: '0.4rem', backgroundColor: getColorFromLabel({ label }) }} />
-        </span>
+            {label && (
+                <div
+                    style={{
+                        height: '1rem',
+                        width: '100%',
+                        borderRadius: '0.4rem',
+                        backgroundColor: getColorFromLabel({ label }),
+                    }}
+                />
+            )}
+        </Button>
     )
 }

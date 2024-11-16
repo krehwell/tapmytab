@@ -64,7 +64,7 @@ export const Card = ({
                     </Button>
                 </FlexRowAlignCenter>
                 <p style={{ fontSize: '1.3rem', color: tc.textActiveSecondary }}>{card.desc}</p>
-                <Label label={card.label} />
+                {card.label && <Label label={card.label} /> }
             </FlexColumn>
 
             <Editor
