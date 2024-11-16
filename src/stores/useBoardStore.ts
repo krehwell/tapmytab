@@ -39,8 +39,13 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
         set({ boards })
     },
     duplicateBoard: ({ idx }) => {
-        const newBoard = get().boards[idx]
         const boards = [...get().boards]
+
+        const newBoard = Object.assign({}, boards[idx])
+        newBoard.id = genUid(8)
+        const newCards = newBoard.cards.map((card) => ({ ...card, id: genUid(8) }))
+        newBoard.cards = newCards
+
         boards.splice(idx + 1, 0, newBoard)
         set({ boards })
     },

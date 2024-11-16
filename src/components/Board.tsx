@@ -104,7 +104,7 @@ const SortableCardList = ({ board, index }: { board: TBoard; index: number }) =>
                 }}
             >
                 {cards.map((card, i) => {
-                    const boardId = board.id as string
+                    const boardId = board.id
                     const boardIdx = index
                     const cardId = card.id
                     const cardIdx = i
