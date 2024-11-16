@@ -9,7 +9,7 @@ export type TCard = {
 export type TBoard = {
     id: string
     cards: TCard[]
-    title?: string
+    name?: string
 }
 
 export enum TLabel {

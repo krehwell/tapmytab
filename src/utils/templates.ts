@@ -54,11 +54,11 @@ export const CARD4: TCard = {
 export const BOARD1: TBoard = {
     id: 'board1',
     cards: [CARD1, CARD2, CARD4],
-    title: 'Latest',
+    name: 'Latest',
 }
 
 export const BOARD2: TBoard = {
     id: 'board2',
     cards: [CARD3],
-    title: 'Todo',
+    name: 'Todo',
 }

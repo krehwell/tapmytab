@@ -19,40 +19,6 @@ import {
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { tc } from '../../utils/themeColors'
 
-import { Editor } from '@tiptap/react'
-
-export const useTextmenuStates = (editor: Editor) => {
-    return {
-        isBold: editor.isActive('bold'),
-        isItalic: editor.isActive('italic'),
-        isCode: editor.isActive('code'),
-        isCodeBlock: editor.isActive('codeBlock'),
-        isAlignLeft: editor.isActive({ textAlign: 'left' }),
-        isAlignCenter: editor.isActive({ textAlign: 'center' }),
-        isAlignRight: editor.isActive({ textAlign: 'right' }),
-        isAlignJustify: editor.isActive({ textAlign: 'justify' }),
-        isOrderedList: editor.isActive('orderedList'),
-        isBulletList: editor.isActive('bulletList'),
-        isTaskList: editor.isActive('taskList'),
-    }
-}
-
-const ToolbarBtn = ({
-    Icon,
-    onClick,
-    isActive,
-}: {
-    Icon: React.ElementType
-    onClick?: (e) => void
-    isActive?: boolean
-}) => {
-    return (
-        <Button radius="2.8rem" onClick={onClick} sx={{ backgroundColor: isActive ? tc.bgSecondary : 'transparent' }}>
-            <Icon size={16} />
-        </Button>
-    )
-}
-
 export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
     const { isBold, isItalic, isCode, isCodeBlock } = useTextmenuStates(editor)
 
@@ -173,5 +139,37 @@ const ToolbarListOptions = ({ editor }: { editor: TiptapEditor }) => {
                 />
             )}
         </WithOptionsMenu>
+    )
+}
+
+const useTextmenuStates = (editor: TiptapEditor) => {
+    return {
+        isBold: editor.isActive('bold'),
+        isItalic: editor.isActive('italic'),
+        isCode: editor.isActive('code'),
+        isCodeBlock: editor.isActive('codeBlock'),
+        isAlignLeft: editor.isActive({ textAlign: 'left' }),
+        isAlignCenter: editor.isActive({ textAlign: 'center' }),
+        isAlignRight: editor.isActive({ textAlign: 'right' }),
+        isAlignJustify: editor.isActive({ textAlign: 'justify' }),
+        isOrderedList: editor.isActive('orderedList'),
+        isBulletList: editor.isActive('bulletList'),
+        isTaskList: editor.isActive('taskList'),
+    }
+}
+
+const ToolbarBtn = ({
+    Icon,
+    onClick,
+    isActive,
+}: {
+    Icon: React.ElementType
+    onClick?: (e) => void
+    isActive?: boolean
+}) => {
+    return (
+        <Button radius="2.8rem" onClick={onClick} sx={{ backgroundColor: isActive ? tc.bgSecondary : 'transparent' }}>
+            <Icon size={16} />
+        </Button>
     )
 }
