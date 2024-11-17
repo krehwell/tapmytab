@@ -10,7 +10,7 @@ export const Label = ({
 }: {
     label?: TLabel
     style?: React.CSSProperties
-    onClick?: () => void
+    onClick?: (e: React.MouseEvent) => void
 }) => {
     return (
         <Button
@@ -21,6 +21,7 @@ export const Label = ({
                 padding: '0.4rem',
                 backgroundColor: tc.tokenGrey,
                 borderRadius: '4px',
+                boxShadow: !onClick ? 'none' : undefined,
                 ...style,
             }}
         >

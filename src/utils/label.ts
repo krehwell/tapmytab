@@ -22,7 +22,7 @@ export const cycleNextLabel = ({ label }: { label?: TLabel }) => {
         case TLabel.Blue:
             return TLabel.Yellow
         case TLabel.Yellow:
-            return null
+            return undefined
         default:
             return TLabel.Red
     }

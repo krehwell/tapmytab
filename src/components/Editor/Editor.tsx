@@ -9,7 +9,7 @@ import TaskList from '@tiptap/extension-task-list'
 
 import StarterKit from '@tiptap/starter-kit'
 import './editor.css'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -30,8 +30,34 @@ const extensions = [
     }),
 ]
 
-export const useEditorInstance = ({ content }: { content: string }) => {
-    const editor = useEditor({ editable: true, extensions, content, shouldRerenderOnTransaction: true }, [])
+export const useEditorInstance = ({
+    content,
+    onChange,
+    shouldRerenderOnTransaction,
+}: {
+    content: string
+    onChange?: (props: { content: string }) => void
+    shouldRerenderOnTransaction?: boolean
+}) => {
+    const editor = useEditor(
+        {
+            editable: true,
+            extensions,
+            content,
+            shouldRerenderOnTransaction,
+            onUpdate: ({ editor }) => onChange?.({ content: editor.getHTML() }),
+        },
+        []
+    )
+
+    useEffect(() => {
+        if (!editor) return
+
+        if (content !== editor.getHTML()) {
+            editor.commands.setContent(content)
+        }
+    }, [content, editor])
+
     return { editor }
 }
 

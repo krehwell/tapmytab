@@ -168,7 +168,12 @@ const ToolbarBtn = ({
     isActive?: boolean
 }) => {
     return (
-        <Button radius="2.8rem" onClick={onClick} sx={{ backgroundColor: isActive ? tc.bgSecondary : 'transparent' }}>
+        <Button
+            radius="2.8rem"
+            onClick={onClick}
+            style={{ boxShadow: !onClick ? 'none' : undefined }}
+            sx={{ backgroundColor: isActive ? tc.bgSecondary : 'transparent' }}
+        >
             <Icon size={16} />
         </Button>
     )

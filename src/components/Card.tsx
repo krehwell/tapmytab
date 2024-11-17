@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { TCard } from '../types'
@@ -18,17 +17,17 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
         disabled,
     })
 
-    const { editor } = useEditorInstance({ content: card.content }) as { editor: TiptapEditor }
+    const { editor } = useEditorInstance({ content: card.content, shouldRerenderOnTransaction: false })
     const openPopup = useCardPopupStore((s) => s.openPopup)
 
     return (
         <FlexColumn
             ref={setNodeRef}
-            style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 }}
+            style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 }}
         >
             {/* CARD HEADER */}
             <FlexColumn
-                onClick={() => openPopup({ card })}
+                onClick={() => openPopup({ card, sortableCheat })}
                 style={{
                     borderRadius: '12px 12px 0 0',
                     padding: '1.6rem 1.2rem',

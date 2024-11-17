@@ -12,24 +12,38 @@ import { Editor as TiptapEditor } from '@tiptap/react'
 import { DotsThree, X } from 'phosphor-react'
 import { WithOptionsMenu } from './WithOptionsMenu'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
+import { cycleNextLabel } from '../utils/label'
+import { updateCard } from '../stores/useCardStore'
 
 export const useCardPopupStore = create<{
     isOpen: boolean
     closePopup: () => void
-    openPopup: ({ card }: { card: TCard }) => void
+    openPopup: (props: { card: TCard; sortableCheat: string }) => void
+    sortableCheat: string | null
     card: TCard | null
+    updateField: (props: { fields: Partial<TCard> }) => void
     editor: TiptapEditor | null
-}>((set) => ({
+}>((set, get) => ({
     isOpen: false,
-    closePopup: () => set({ isOpen: false, card: null }),
-    openPopup: ({ card }) => set({ isOpen: true, card }),
+    sortableCheat: null,
     card: null,
     editor: null,
+    closePopup: () => set({ isOpen: false, card: null }),
+    updateField: ({ fields }) => {
+        const card = Object.assign({}, get().card)
+        for (const key in fields) {
+            card[key] = fields[key]
+        }
+        set({ card })
+    },
+    openPopup: ({ card, sortableCheat }) => set({ isOpen: true, card, sortableCheat }),
 }))
 
 const CardPopupHeader = () => {
     const card = useCardPopupStore((s) => s.card)
     const closePopup = useCardPopupStore((s) => s.closePopup)
+    const updateField = useCardPopupStore((s) => s.updateField)
+
     return (
         <>
             <FlexRowAlignCenter style={{ marginBottom: '0.8rem' }}>
@@ -38,6 +52,7 @@ const CardPopupHeader = () => {
                     maxLength={60}
                     defaultValue={card?.title}
                     placeholder={'Add Title...'}
+                    onChange={(e) => updateField({ fields: { title: e.target.value } })}
                     style={{
                         backgroundColor: 'transparent',
                         flex: 1,
@@ -61,6 +76,7 @@ const CardPopupHeader = () => {
                 maxRows={1}
                 maxLength={60}
                 placeholder={'Add description...'}
+                onChange={(e) => updateField({ fields: { desc: e.target.value } })}
                 style={{
                     backgroundColor: 'transparent',
                     resize: 'none',
@@ -68,7 +84,14 @@ const CardPopupHeader = () => {
                     color: 'rgba(248, 249, 250, 0.80)',
                 }}
             />
-            <Label label={card?.label} style={{ marginTop: '0.8rem' }} />
+            <Label
+                label={card?.label}
+                style={{ marginTop: '0.8rem' }}
+                onClick={(e) => {
+                    e.stopPropagation()
+                    updateField({ fields: { label: cycleNextLabel({ label: card?.label }) } })
+                }}
+            />
             <div style={{ marginBottom: '2rem' }} />
         </>
     )
@@ -76,7 +99,14 @@ const CardPopupHeader = () => {
 
 const CardPopupEditor = () => {
     const card = useCardPopupStore((s) => s.card)
-    const { editor } = useEditorInstance({ content: card?.content || '' })
+    const updateField = useCardPopupStore((s) => s.updateField)
+
+    const { editor } = useEditorInstance({
+        content: card?.content || '',
+        onChange: ({ content }) => updateField({ fields: { content } }),
+        shouldRerenderOnTransaction: true,
+    })
+
     if (!editor) return null
 
     return (
@@ -97,6 +127,8 @@ const CardPopupEditor = () => {
 }
 
 const CardPopupActions = () => {
+    const sortableCheat = useCardPopupStore((s) => s.sortableCheat)
+    const card = useCardPopupStore((s) => s.card)
     const closePopup = useCardPopupStore((s) => s.closePopup)
 
     return (
@@ -105,7 +137,10 @@ const CardPopupActions = () => {
                 Cancel
             </Button>
             <Button
-                onClick={() => alert('TODO: save')}
+                onClick={() => {
+                    updateCard({ sortableCheat: sortableCheat!, fields: card! })
+                    closePopup()
+                }}
                 sx={{ backgroundColor: '#4C5257', width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}
             >
                 Save
