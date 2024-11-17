@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useLayoutEffect } from 'react'
 import { DragOverEvent, DragEndEvent } from '@dnd-kit/core'
 import { Board } from '../Board'
 import { CanvasDndContext } from '../CanvasDndContext'
@@ -8,11 +8,27 @@ import { tc } from '../../utils/themeColors'
 import { CardPopup } from '../CardPopup'
 import { useBoardStore } from '../../stores/useBoardStore'
 import { parseSortableCheat } from '../../utils/dndIdManager'
+import { isInsideChromeExtension, StorageService } from '../../utils/chromeStorage'
+import { BOARD1, BOARD2, BOARD3 } from '../../utils/templates'
+
+const popuplateInitialBoards = async () => {
+    if (isInsideChromeExtension()) {
+        const boards = (await StorageService.loadBoards()) || []
+        useBoardStore.setState({ boards })
+    } else {
+        useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3] })
+    }
+}
 
 export const App = () => {
     const boards = useBoardStore((s) => s.boards)
     const swapCardPos = useBoardStore((s) => s.swapCardPos)
     const swapCardSwitchBoard = useBoardStore((s) => s.swapCardSwitchBoard)
+
+    // if this app is a chrome tab extension. load the boards
+    useLayoutEffect(() => {
+        popuplateInitialBoards()
+    }, [])
 
     const handleCardSwitchBoard = useCallback(
         (event: DragOverEvent) => {

@@ -11,6 +11,16 @@
 :root {
     --navbar-height: 56px;
     color-scheme: dark light;
+    --color-bg-primary: #343a40;
+    --color-bg-secondary: #2c3034;
+    --color-text-active-primary: #f8f9fa;
+    --color-text-active-secondary: #eaecef;
+    --color-text-inactive-primary: #f8f9fa80;
+    --color-text-inactive-secondary: #eaecef80;
+    --color-text-inactive-textbox: #40454b;
+    --color-token-green: #caffbf;
+    --color-token-grey: #4c5257;
+    --color-token-yellow: #ffaead;
 }
 
 html {
@@ -31,21 +41,7 @@ body {
 
 html * {
     font-family: 'Rumiko Clear';
-    color: #f8f9fa;
-}
-
-/********** OUR VARS **********/
-:root {
-    --color-bg-primary: #343a40;
-    --color-bg-secondary: #2c3034;
-    --color-text-active-primary: #f8f9fa;
-    --color-text-active-secondary: #eaecef;
-    --color-text-inactive-primary: #f8f9fa80;
-    --color-text-inactive-secondary: #eaecef80;
-    --color-text-inactive-textbox: #40454b;
-    --color-token-green: #caffbf;
-    --color-token-grey: #4c5257;
-    --color-token-yellow: #ffaead;
+    color: var(--color-text-active-primary);
 }
 
 /********** CUSTOM SCROLLBAR *********/

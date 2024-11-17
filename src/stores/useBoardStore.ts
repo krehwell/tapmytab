@@ -1,14 +1,10 @@
 import { TBoard, TCard } from '../types'
 import { create } from 'zustand'
 import { arrayMove } from '@dnd-kit/sortable'
-import { BOARD1, BOARD2, BOARD3 } from '../utils/templates'
 import genUid from 'light-uid'
 
-type BoardBank = Array<TBoard>
-
 type BoardStore = {
-    boards: BoardBank
-    populateBoards: (boards: BoardBank) => void
+    boards: TBoard[]
     addNewCard: (props: { idx: number }) => void
     addNewBoard: (props: { id: string; name: string; idx: number }) => void
     changeBoardName: (props: { idx: number; name: string }) => void
@@ -19,8 +15,7 @@ type BoardStore = {
 }
 
 export const useBoardStore = create<BoardStore>((set, get) => ({
-    boards: [BOARD1, BOARD2, BOARD3],
-    populateBoards: (boards) => set({ boards }),
+    boards: [],
     addNewCard: ({ idx }) => {
         const newCard: TCard = {
             id: genUid(8),
