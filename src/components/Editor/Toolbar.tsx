@@ -32,11 +32,12 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 height: '3.6rem',
             }}
         >
-            <ToolbarBtn Icon={ArrowUUpLeft} onClick={() => editor.chain().undo().run()} />
-            <ToolbarBtn Icon={ArrowUUpRight} onClick={() => editor.chain().redo().run()} />
+            <ToolbarBtn title="Undo" Icon={ArrowUUpLeft} onClick={() => editor.chain().undo().run()} />
+            <ToolbarBtn title="Redo" Icon={ArrowUUpRight} onClick={() => editor.chain().redo().run()} />
             <ToolbarTextAlignOptions editor={editor} />
             <ToolbarListOptions editor={editor} />
             <ToolbarBtn
+                title="Bold"
                 isActive={isBold}
                 Icon={TextBolder}
                 onClick={() => {
@@ -44,6 +45,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 }}
             />
             <ToolbarBtn
+                title="Italic"
                 isActive={isItalic}
                 Icon={TextItalic}
                 onClick={() => {
@@ -51,6 +53,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 }}
             />
             <ToolbarBtn
+                title="Code"
                 isActive={isCode}
                 Icon={Code}
                 onClick={() => {
@@ -58,6 +61,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 }}
             />
             <ToolbarBtn
+                title="Code Block"
                 isActive={isCodeBlock}
                 Icon={BracketsCurly}
                 onClick={() => {
@@ -65,6 +69,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 }}
             />
             <ToolbarBtn
+                title="Link"
                 Icon={Link}
                 onClick={() => {
                     alert('TODO: linkify me')
@@ -100,6 +105,7 @@ const ToolbarTextAlignOptions = ({ editor }: { editor: TiptapEditor }) => {
         >
             {({ openMenu }) => (
                 <ToolbarBtn
+                    title="Text Alignment"
                     Icon={isAlignCenter ? TextAlignCenter : isAlignRight ? TextAlignRight : TextAlignLeft}
                     onClick={openMenu}
                 />
@@ -134,6 +140,7 @@ const ToolbarListOptions = ({ editor }: { editor: TiptapEditor }) => {
         >
             {({ openMenu }) => (
                 <ToolbarBtn
+                    title="Lists"
                     Icon={isOrderedList ? ListNumbers : isBulletList ? ListBullets : ListDashes}
                     onClick={openMenu}
                 />
@@ -162,17 +169,20 @@ const ToolbarBtn = ({
     Icon,
     onClick,
     isActive,
+    style,
+    ...props
 }: {
     Icon: React.ElementType
     onClick?: (e) => void
     isActive?: boolean
-}) => {
+} & React.ComponentProps<typeof Button>) => {
     return (
         <Button
             radius="2.8rem"
             onClick={onClick}
-            style={{ boxShadow: !onClick ? 'none' : undefined }}
+            style={{ boxShadow: !onClick ? 'none' : undefined, ...style }}
             sx={{ backgroundColor: isActive ? tc.bgSecondary : 'transparent' }}
+            {...props}
         >
             <Icon size={16} />
         </Button>

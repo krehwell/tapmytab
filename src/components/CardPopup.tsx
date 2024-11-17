@@ -13,7 +13,7 @@ import { DotsThree, X } from 'phosphor-react'
 import { WithOptionsMenu } from './WithOptionsMenu'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
 import { cycleNextLabel } from '../utils/label'
-import { updateCard } from '../stores/useCardStore'
+import { deleteCard, updateCard } from '../stores/useCardStore'
 
 export const useCardPopupStore = create<{
     isOpen: boolean
@@ -41,6 +41,7 @@ export const useCardPopupStore = create<{
 
 const CardPopupHeader = () => {
     const card = useCardPopupStore((s) => s.card)
+    const sortableCheat = useCardPopupStore((s) => s.sortableCheat)
     const closePopup = useCardPopupStore((s) => s.closePopup)
     const updateField = useCardPopupStore((s) => s.updateField)
 
@@ -61,7 +62,17 @@ const CardPopupHeader = () => {
                         fontWeight: 'bold',
                     }}
                 />
-                <WithOptionsMenu options={[{ label: 'Delete Card', onClick: () => alert('TODO: Delete card') }]}>
+                <WithOptionsMenu
+                    options={[
+                        {
+                            label: 'Delete Card',
+                            onClick: () => {
+                                deleteCard({ sortableCheat: sortableCheat! })
+                                closePopup()
+                            },
+                        },
+                    ]}
+                >
                     {({ openMenu }) => (
                         <Button radius="3.2rem" onClick={openMenu}>
                             <DotsThree size={22} weight="bold" />
@@ -75,6 +86,7 @@ const CardPopupHeader = () => {
             <TextareaAutosize
                 maxRows={1}
                 maxLength={60}
+                defaultValue={card?.desc}
                 placeholder={'Add description...'}
                 onChange={(e) => updateField({ fields: { desc: e.target.value } })}
                 style={{

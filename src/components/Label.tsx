@@ -22,6 +22,7 @@ export const Label = ({
                 backgroundColor: tc.tokenGrey,
                 borderRadius: '4px',
                 boxShadow: !onClick ? 'none' : undefined,
+                cursor: onClick ? 'pointer' : 'default',
                 ...style,
             }}
         >
