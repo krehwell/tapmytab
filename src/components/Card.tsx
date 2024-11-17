@@ -11,17 +11,7 @@ import { ArrowsOutSimple } from 'phosphor-react'
 import type { Editor as TiptapEditor } from '@tiptap/react'
 import { Label } from './Label'
 
-export const Card = ({
-    card,
-    disabled,
-    style,
-    sortableCheat,
-}: {
-    card: TCard
-    style?: React.CSSProperties
-    disabled?: boolean
-    sortableCheat: string
-}) => {
+export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?: boolean; sortableCheat: string }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: card.id,
         data: { card, sortableCheat },
@@ -34,23 +24,16 @@ export const Card = ({
     return (
         <FlexColumn
             ref={setNodeRef}
-            style={{
-                boxSizing: 'border-box',
-                transform: CSS.Transform.toString(transform),
-                transition,
-                padding: '1.6rem 0.8rem',
-                backgroundColor: tc.bgPrimary,
-                borderRadius: '12px',
-                ...(isDragging ? { opacity: 0.5 } : {}),
-                ...style,
-            }}
+            style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 }}
         >
             {/* CARD HEADER */}
             <FlexColumn
                 onClick={() => openPopup({ card })}
                 style={{
-                    padding: '0 0.4rem',
+                    borderRadius: '12px 12px 0 0',
+                    padding: '1.6rem 1.2rem',
                     paddingBottom: '1.2rem',
+                    backgroundColor: tc.bgPrimary,
                     gap: '0.4rem',
                     cursor: disabled ? 'grabbing' : 'default',
                 }}
@@ -64,19 +47,24 @@ export const Card = ({
                     </Button>
                 </FlexRowAlignCenter>
                 <p style={{ fontSize: '1.3rem', color: tc.textActiveSecondary }}>{card.desc}</p>
-                {card.label && <Label label={card.label} /> }
+                {card.label && <Label label={card.label} />}
             </FlexColumn>
 
-            <Editor
-                editor={editor as TiptapEditor}
-                style={{
-                    overflow: 'hidden auto',
-                    backgroundColor: '#2C3034',
-                    borderRadius: '0.8rem',
-                    minHeight: '15.8rem',
-                    maxHeight: '25rem',
-                }}
-            />
+            {/* CARD CONTENT */}
+            <FlexColumn
+                style={{ padding: '0 0.8rem 1.6rem', backgroundColor: tc.bgPrimary, borderRadius: '0 0 12px 12px' }}
+            >
+                <Editor
+                    editor={editor as TiptapEditor}
+                    style={{
+                        overflow: 'hidden auto',
+                        backgroundColor: '#2C3034',
+                        borderRadius: '0.8rem',
+                        minHeight: '15.8rem',
+                        maxHeight: '25rem',
+                    }}
+                />
+            </FlexColumn>
         </FlexColumn>
     )
 }
