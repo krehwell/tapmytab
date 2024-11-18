@@ -52,7 +52,7 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
                         <ArrowsOutSimple size={18} />
                     </Button>
                 </FlexRowAlignCenter>
-                <p style={{ fontSize: '1.3rem', color: tc.textActiveSecondary }}>{card.desc}</p>
+                <p style={{ fontSize: '1.3rem', color: tc.textActiveSecondary, marginBottom: '0.3rem' }}>{card.desc}</p>
                 {card.label && <Label label={card.label} />}
             </FlexColumn>
 
