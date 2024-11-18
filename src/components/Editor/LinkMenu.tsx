@@ -50,7 +50,14 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
                 <a href={url} target="_blank" style={{ marginRight: '0.3rem' }}>
                     {url}
                 </a>
-                <Button radius="2.5rem" title="Open" onClick={() => window.open(url, '_blank')}>
+                <Button
+                    radius="2.5rem"
+                    title="Open"
+                    onClick={() => {
+                        let urlParsed = url.includes('http') ? url : 'https://' + url
+                        window.open(urlParsed, '_blank')
+                    }}
+                >
                     <ArrowUpRight size={13} style={{ flexShrink: 0 }} weight="bold" />
                 </Button>
                 <Button radius="2.5rem" title="Edit Link" onClick={() => setIsEditLink(true)}>
@@ -123,7 +130,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
     )
 }
 
-const UrlInput = ({
+export const UrlInput = ({
     onConfirm,
     ...inputProps
 }: { onConfirm: () => void } & React.InputHTMLAttributes<HTMLInputElement>) => {
@@ -140,7 +147,7 @@ const UrlInput = ({
     )
 }
 
-const UrlTextInput = ({
+export const UrlTextInput = ({
     onConfirm,
     ...inputProps
 }: { onConfirm: () => void } & React.InputHTMLAttributes<HTMLInputElement>) => {
