@@ -17,6 +17,7 @@ useBoardStore.subscribe((store) => {
 })
 
 const popuplateInitialBoards = async () => {
+    // if this app is a chrome tab extension. load the boards
     if (isInsideChromeExtension()) {
         const boards = (await StorageService.loadBoards()) || []
         useBoardStore.setState({ boards })
@@ -30,7 +31,6 @@ export const App = () => {
     const swapCardPos = useBoardStore((s) => s.swapCardPos)
     const swapCardSwitchBoard = useBoardStore((s) => s.swapCardSwitchBoard)
 
-    // if this app is a chrome tab extension. load the boards
     useLayoutEffect(() => {
         popuplateInitialBoards()
     }, [])

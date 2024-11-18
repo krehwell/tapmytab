@@ -39,6 +39,37 @@ export const useCardPopupStore = create<{
     openPopup: ({ card, sortableCheat }) => set({ isOpen: true, card, sortableCheat }),
 }))
 
+export const CardPopup = () => {
+    const isOpen = useCardPopupStore((s) => s.isOpen)
+
+    return (
+        <Dialog
+            open={isOpen}
+            transitionDuration={0}
+            PaperComponent={({ children, style, ...props }) => (
+                <Box
+                    component={FlexColumn}
+                    style={{
+                        backgroundColor: tc.bgPrimary,
+                        borderRadius: '1.2rem',
+                        padding: '1.6rem',
+                        width: '62.4rem',
+                        ...style,
+                    }}
+                    {...props}
+                >
+                    {children}
+                </Box>
+            )}
+        >
+            <CardPopupHeader />
+            <CardPopupEditor key={String(isOpen)} />
+            <div style={{ marginBottom: '2rem' }} />
+            <CardPopupActions />
+        </Dialog>
+    )
+}
+
 const CardPopupHeader = () => {
     const card = useCardPopupStore((s) => s.card)
     const sortableCheat = useCardPopupStore((s) => s.sortableCheat)
@@ -158,36 +189,5 @@ const CardPopupActions = () => {
                 Save
             </Button>
         </FlexRowAlignCenter>
-    )
-}
-
-export const CardPopup = () => {
-    const isOpen = useCardPopupStore((s) => s.isOpen)
-
-    return (
-        <Dialog
-            open={isOpen}
-            transitionDuration={0}
-            PaperComponent={({ children, style, ...props }) => (
-                <Box
-                    component={FlexColumn}
-                    style={{
-                        backgroundColor: tc.bgPrimary,
-                        borderRadius: '1.2rem',
-                        padding: '1.6rem',
-                        width: '62.4rem',
-                        ...style,
-                    }}
-                    {...props}
-                >
-                    {children}
-                </Box>
-            )}
-        >
-            <CardPopupHeader />
-            <CardPopupEditor key={String(isOpen)} />
-            <div style={{ marginBottom: '2rem' }} />
-            <CardPopupActions />
-        </Dialog>
     )
 }
