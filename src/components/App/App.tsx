@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect } from 'react'
+import React, { useCallback } from 'react'
 import { DragOverEvent, DragEndEvent } from '@dnd-kit/core'
 import { Board } from '../Board'
 import { CanvasDndContext } from '../CanvasDndContext'
@@ -35,14 +35,14 @@ const popuplateInitialBoards = async () => {
     }
 }
 
+if (typeof window != 'undefined') {
+    popuplateInitialBoards()
+}
+
 export const App = () => {
     const boards = useBoardStore((s) => s.boards)
     const swapCardPos = useBoardStore((s) => s.swapCardPos)
     const swapCardSwitchBoard = useBoardStore((s) => s.swapCardSwitchBoard)
-
-    useLayoutEffect(() => {
-        popuplateInitialBoards()
-    }, [])
 
     const handleCardSwitchBoard = useCallback(
         (event: DragOverEvent) => {

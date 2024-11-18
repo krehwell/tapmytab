@@ -3,8 +3,11 @@ import { TBoard } from '../types'
 export const StorageService = {
     saveBoards: async (boards: TBoard[]) => {
         try {
-            await chrome.storage.sync.set({ boards })
+            await chrome.storage.local.set({ boards })
             console.log('Boards saved successfully')
+
+            const bytes = await chrome.storage.local.getBytesInUse();
+            console.log(`Storage usage: ${bytes} bytes`);
         } catch (error) {
             console.error('Error saving boards:', error)
         }
@@ -12,7 +15,7 @@ export const StorageService = {
 
     loadBoards: async (): Promise<TBoard[] | null> => {
         try {
-            const result = await chrome.storage.sync.get('boards')
+            const result = await chrome.storage.local.get('boards')
             return result.boards || null
         } catch (error) {
             console.error('Error loading boards:', error)
@@ -22,7 +25,7 @@ export const StorageService = {
 
     clearBoards: async () => {
         try {
-            await chrome.storage.sync.remove('boards')
+            await chrome.storage.local.remove('boards')
             console.log('Boards cleared successfully')
         } catch (error) {
             console.error('Error clearing boards:', error)
