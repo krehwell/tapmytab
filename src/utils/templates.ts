@@ -117,6 +117,7 @@ export const CARD1: TCard = {
     id: 'card1',
     title: 'Frontend Setup',
     content: TEMPLATE_CONTENT_1,
+    desc: 'a setup made with crxjs',
     label: TLabel.Blue,
 }
 
@@ -130,6 +131,7 @@ export const CARD3: TCard = {
     id: 'card3',
     title: 'Design System',
     content: TEMPLATE_CONTENT_3,
+    desc: 'Design system review required',
     label: TLabel.Red,
 }
 
@@ -137,6 +139,7 @@ export const CARD4: TCard = {
     id: 'card4',
     title: 'Performance',
     content: TEMPLATE_CONTENT_4,
+    desc: 'Needed before sprint review',
     label: TLabel.Yellow,
 }
 
@@ -163,6 +166,7 @@ export const CARD7: TCard = {
 export const CARD8: TCard = {
     id: 'card8',
     title: 'Accessibility',
+    desc: 'Accessibility audit required',
     content: TEMPLATE_CONTENT_8,
 }
 
