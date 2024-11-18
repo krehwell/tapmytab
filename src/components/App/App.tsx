@@ -10,11 +10,12 @@ import { useBoardStore } from '../../stores/useBoardStore'
 import { parseSortableCheat } from '../../utils/dndIdManager'
 import { isInsideChromeExtension, StorageService } from '../../utils/chromeStorage'
 import { BOARD1, BOARD2, BOARD3 } from '../../utils/templates'
+import { FirstTimeCheck } from '../../utils/firstTimeChecker'
 
 useBoardStore.subscribe((store) => {
     if (!isInsideChromeExtension()) {
-        console.log("try to save...!")
-        return 
+        console.log('try to save...!')
+        return
     }
     StorageService.saveBoards(store.boards)
 })
@@ -22,8 +23,13 @@ useBoardStore.subscribe((store) => {
 const popuplateInitialBoards = async () => {
     // if this app is a chrome tab extension. load the boards
     if (isInsideChromeExtension()) {
-        const boards = (await StorageService.loadBoards()) || []
-        useBoardStore.setState({ boards })
+        const isFirstTime = await FirstTimeCheck.isFirstTime()
+        if (isFirstTime) {
+            useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3] })
+        } else {
+            const boards = (await StorageService.loadBoards()) || []
+            useBoardStore.setState({ boards })
+        }
     } else {
         useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3] })
     }
