@@ -12,7 +12,10 @@ import { isInsideChromeExtension, StorageService } from '../../utils/chromeStora
 import { BOARD1, BOARD2, BOARD3 } from '../../utils/templates'
 
 useBoardStore.subscribe((store) => {
-    if (!isInsideChromeExtension()) return
+    if (!isInsideChromeExtension()) {
+        console.log("try to save...!")
+        return 
+    }
     StorageService.saveBoards(store.boards)
 })
 

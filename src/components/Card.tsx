@@ -20,7 +20,7 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
 
     const { editor } = useEditorInstance({
         content: card.content,
-        shouldRerenderOnTransaction: false,
+        shouldRerenderOnTransaction: true,
         onChange: ({ content }) => {
             updateCard({ sortableCheat, fields: { content } })
         },

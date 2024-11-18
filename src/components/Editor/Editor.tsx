@@ -1,3 +1,5 @@
+import './editor.css'
+
 import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import Link from '@tiptap/extension-link'
@@ -7,10 +9,9 @@ import TextAlign from '@tiptap/extension-text-align'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import debounce from 'lodash/debounce'
-
 import StarterKit from '@tiptap/starter-kit'
-import './editor.css'
 import { useEffect, useRef } from 'react'
+import LinkMenu from './LinkMenu'
 
 const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -25,7 +26,7 @@ const extensions = [
         orderedList: { keepMarks: true, keepAttributes: false },
     }),
     Link.configure({
-        openOnClick: true,
+        openOnClick: false,
         autolink: true,
         defaultProtocol: 'https',
     }),
@@ -67,17 +68,20 @@ export const Editor = ({ editor, style }: { editor: TiptapEditor; style: React.C
     const ref = useRef<HTMLDivElement>(null)
 
     return (
-        <EditorContent
-            ref={ref}
-            editor={editor}
-            style={{ cursor: 'text', fontSize: '1.3rem', lineHeight: '1', padding: '1.6rem 0.8rem', ...style }}
-            placeholder="Start typing..."
-            onClick={() => {
-                const currEditor = ref.current?.lastChild?.editor
-                if (!currEditor?.isFocused) {
-                    editor?.chain().focus().run()
-                }
-            }}
-        />
+        <>
+            <EditorContent
+                ref={ref}
+                editor={editor}
+                style={{ cursor: 'text', fontSize: '1.3rem', lineHeight: '1', padding: '1.6rem 0.8rem', ...style }}
+                placeholder="Start typing..."
+                onClick={() => {
+                    const currEditor = ref.current?.lastChild?.editor
+                    if (!currEditor?.isFocused) {
+                        editor?.chain().focus().run()
+                    }
+                }}
+            />
+            {editor && <LinkMenu editor={editor} />}
+        </>
     )
 }
