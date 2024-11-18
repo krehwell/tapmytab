@@ -1,6 +1,5 @@
 import { TBoard, TCard, TLabel } from '../types'
 
-// First, let's define the card contents with new formatting elements
 const TEMPLATE_CONTENT_1 = `
 <h2>Frontend Development Plan</h2>
 <ul data-type="taskList">
