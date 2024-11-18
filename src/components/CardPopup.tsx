@@ -106,7 +106,7 @@ const CardPopupHeader = () => {
                 >
                     {({ openMenu }) => (
                         <Button radius="3.2rem" onClick={openMenu}>
-                            <DotsThree size={22} weight="bold" />
+                            <DotsThree size={22} weight="bold" style={{ flexShrink: 0 }} />
                         </Button>
                     )}
                 </WithOptionsMenu>
@@ -161,7 +161,7 @@ const CardPopupEditor = () => {
                     backgroundColor: '#2C3034',
                     borderRadius: '0.8rem 0.8rem 0rem 0rem',
                     minHeight: '21.2rem',
-                    maxHeight: '30rem',
+                    maxHeight: '55rem',
                 }}
             />
             <Toolbar editor={editor} />
