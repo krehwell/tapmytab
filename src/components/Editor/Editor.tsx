@@ -11,7 +11,7 @@ import TaskList from '@tiptap/extension-task-list'
 import debounce from 'lodash/debounce'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect, useRef } from 'react'
-import LinkMenu from './LinkMenu'
+import { LinkMenu } from './LinkMenu'
 
 const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
