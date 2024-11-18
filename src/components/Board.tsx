@@ -182,7 +182,7 @@ const BoardOptions = ({ index }: { index: number }) => {
             {({ openMenu }) => {
                 return (
                     <Button radius="2.8rem" style={{ backgroundColor: tc.bgPrimary }} onClick={openMenu}>
-                        <DotsThree size={22} weight="bold" />
+                        <DotsThree size={22} weight="bold" style={{ flexShrink: 0 }} />
                     </Button>
                 )
             }}

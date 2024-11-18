@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { TCard } from '../types'
-import { FlexColumn, FlexRowAlignCenter } from './Flex'
+import { Flex, FlexColumn, FlexRowAlignCenter } from './Flex'
 import { Editor, useEditorInstance } from './Editor'
 import { tc } from '../utils/themeColors'
 import { useCardPopupStore } from './CardPopup'
@@ -46,12 +46,12 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
                 {...attributes}
                 {...listeners}
             >
-                <FlexRowAlignCenter>
+                <Flex>
                     <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>{card.title}</h2>
                     <Button radius="3rem" sx={{ marginLeft: 'auto' }}>
                         <ArrowsOutSimple size={18} />
                     </Button>
-                </FlexRowAlignCenter>
+                </Flex>
                 <p style={{ fontSize: '1.3rem', color: tc.textActiveSecondary, marginBottom: '0.3rem' }}>{card.desc}</p>
                 {card.label && <Label label={card.label} />}
             </FlexColumn>
