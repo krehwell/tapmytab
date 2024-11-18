@@ -1,5 +1,5 @@
 import { FlexRowAlignCenter } from '../../Flex'
-import { ArrowUUpLeft, ArrowUUpRight, BracketsCurly, Code, TextBolder, TextItalic } from 'phosphor-react'
+import { ArrowUUpLeft, ArrowUUpRight, BracketsCurly, Code, TextBolder, TextItalic } from '@phosphor-icons/react'
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { useTextmenuStates } from './useTextmenuStates'
 import { ToolbarBtn } from './ToolbarBtn'

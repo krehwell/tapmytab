@@ -1,7 +1,7 @@
 import ClickAwayListener from '@mui/material/ClickAwayListener'
 import { Button } from '../../Button'
 import { Editor as TiptapEditor } from '@tiptap/react'
-import { Link, KeyReturn } from 'phosphor-react'
+import { Link, KeyReturn } from '@phosphor-icons/react'
 import { useCallback, useState } from 'react'
 import { tc } from '../../../utils/themeColors'
 import { FlexRowAlignCenter, FlexColumn } from '../../Flex'

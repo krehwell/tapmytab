@@ -1,10 +1,11 @@
 import { FlexRowAlignCenter } from './Flex'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
-import { GoogleLogo, YoutubeLogo, TwitterLogo, CaretDown } from 'phosphor-react'
+import { GoogleLogo, YoutubeLogo, TwitterLogo, CaretDown } from '@phosphor-icons/react'
 import { WithOptionsMenu } from './WithOptionsMenu'
 import { Button } from './Button'
 import { useState } from 'react'
 import { tc } from '../utils/themeColors'
+import { Horse, Heart, Cube } from '@phosphor-icons/react'
 
 enum SearchOption {
     Youtube,

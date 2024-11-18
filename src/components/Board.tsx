@@ -6,7 +6,7 @@ import { TBoard } from '../types'
 import { FlexColumn, FlexRowAlignCenter } from './Flex'
 import { Button } from './Button'
 import { tc } from '../utils/themeColors'
-import { Copy, DotsThree, Plus, Trash } from 'phosphor-react'
+import { Copy, DotsThree, Plus, Trash } from '@phosphor-icons/react'
 import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
 import { WithMenuOption, WithOptionsMenu } from './WithOptionsMenu'
 import { createSortableCheat } from '../utils/dndIdManager'
@@ -153,7 +153,7 @@ const BoardOptions = ({ index }: { index: number }) => {
             onClick: () => addNewCard({ idx: index }),
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
-                    <Plus size={12} color="#4C5257" /> Add Card
+                    <Plus size={12} /> Add Card
                 </FlexRowAlignCenter>
             ),
         },
@@ -162,7 +162,7 @@ const BoardOptions = ({ index }: { index: number }) => {
             onClick: () => duplicateBoard({ idx: index }),
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
-                    <Copy size={12} color="#4C5257" /> Duplicate Board
+                    <Copy size={12} /> Duplicate Board
                 </FlexRowAlignCenter>
             ),
         },
@@ -171,14 +171,26 @@ const BoardOptions = ({ index }: { index: number }) => {
             onClick: () => deleteBoard({ idx: index }),
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
-                    <Trash size={12} color="#4C5257" /> Delete Board
+                    <Trash size={12} /> Delete Board
                 </FlexRowAlignCenter>
             ),
         },
     ]
 
     return (
-        <WithOptionsMenu options={options}>
+        <WithOptionsMenu
+            options={options}
+            menuItemProps={{
+                sx: {
+                    '&:hover': {
+                        backgroundColor: tc.tokenGrey,
+                        '& svg': { fill: tc.textActiveSecondary },
+                        color: tc.textActiveSecondary,
+                    },
+                    '& svg': { fill: tc.tokenGrey },
+                },
+            }}
+        >
             {({ openMenu }) => {
                 return (
                     <Button radius="2.8rem" style={{ backgroundColor: tc.bgPrimary }} onClick={openMenu}>

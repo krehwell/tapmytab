@@ -1,4 +1,4 @@
-import { TextAlignLeft, TextAlignCenter, TextAlignRight } from 'phosphor-react'
+import { TextAlignLeft, TextAlignCenter, TextAlignRight } from '@phosphor-icons/react'
 import { tc } from '../../../utils/themeColors'
 import { WithOptionsMenu } from '../../WithOptionsMenu'
 import { ToolbarBtn } from './ToolbarBtn'

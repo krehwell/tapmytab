@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { BubbleMenu as BaseBubbleMenu, Editor as TiptapEditor } from '@tiptap/react'
-import { ArrowUpRight, KeyReturn, Pencil, Trash, XCircle } from 'phosphor-react'
+import { ArrowUpRight, KeyReturn, Pencil, Trash, XCircle } from '@phosphor-icons/react'
 import { tc } from '../../utils/themeColors'
 import { Button } from '../Button'
 import { FlexColumn, FlexRowAlignCenter } from '../Flex'

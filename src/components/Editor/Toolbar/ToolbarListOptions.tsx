@@ -1,5 +1,5 @@
 import { Editor as TiptapEditor } from '@tiptap/react'
-import { ListBullets, ListDashes, ListNumbers } from 'phosphor-react'
+import { ListBullets, ListDashes, ListNumbers } from '@phosphor-icons/react'
 import { tc } from '../../../utils/themeColors'
 import { WithOptionsMenu } from '../../WithOptionsMenu'
 import { ToolbarBtn } from './ToolbarBtn'

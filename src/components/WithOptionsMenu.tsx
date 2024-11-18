@@ -101,6 +101,9 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                                 '&:hover': {
                                     backgroundColor: tc.tokenGrey,
                                     color: tc.textActiveSecondary,
+                                    '& svg': {
+                                        fill: tc.textActiveSecondary,
+                                    },
                                 },
                                 position: 'relative',
                                 textOverflow: 'ellipsis',
@@ -113,10 +116,6 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                                 margin: 0,
                                 zIndex: 9999,
                                 gap: '0.8rem',
-                                '&>svg': {
-                                    color: 'inherit',
-                                    fill: 'inherit',
-                                },
                                 ...optionStyle,
                             }}
                             key={String(option.label) + i}
