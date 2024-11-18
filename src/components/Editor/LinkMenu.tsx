@@ -122,6 +122,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
                     padding: '0.5rem 0.8rem',
                     borderRadius: '0.4rem',
                     boxShadow: 'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px',
+                    width: 'fit-content',
                 }}
             >
                 {isEditLink ? renderEditLink() : renderPreviewLink()}
