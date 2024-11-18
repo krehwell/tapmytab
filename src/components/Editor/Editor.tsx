@@ -6,6 +6,7 @@ import { Editor as TiptapEditor, EditorContent, useEditor } from '@tiptap/react'
 import TextAlign from '@tiptap/extension-text-align'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
+import debounce from 'lodash/debounce'
 
 import StarterKit from '@tiptap/starter-kit'
 import './editor.css'
@@ -30,6 +31,8 @@ const extensions = [
     }),
 ]
 
+const debouncedOnUpdate = debounce(({ editor, onChange }) => onChange({ content: editor?.getHTML() }), 500)
+
 export const useEditorInstance = ({
     content,
     onChange,
@@ -45,14 +48,13 @@ export const useEditorInstance = ({
             extensions,
             content,
             shouldRerenderOnTransaction,
-            onUpdate: ({ editor }) => onChange?.({ content: editor.getHTML() }),
+            onUpdate: ({ editor }) => debouncedOnUpdate({ editor, onChange }),
         },
         []
     )
 
     useEffect(() => {
         if (!editor) return
-
         if (content !== editor.getHTML()) {
             editor.commands.setContent(content)
         }

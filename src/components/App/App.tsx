@@ -11,6 +11,11 @@ import { parseSortableCheat } from '../../utils/dndIdManager'
 import { isInsideChromeExtension, StorageService } from '../../utils/chromeStorage'
 import { BOARD1, BOARD2, BOARD3 } from '../../utils/templates'
 
+useBoardStore.subscribe((store) => {
+    if (!isInsideChromeExtension()) return
+    StorageService.saveBoards(store.boards)
+})
+
 const popuplateInitialBoards = async () => {
     if (isInsideChromeExtension()) {
         const boards = (await StorageService.loadBoards()) || []

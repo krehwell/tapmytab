@@ -9,6 +9,7 @@ import { Button } from './Button'
 import { ArrowsOutSimple } from 'phosphor-react'
 import type { Editor as TiptapEditor } from '@tiptap/react'
 import { Label } from './Label'
+import { updateCard } from '../stores/useCardStore'
 
 export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?: boolean; sortableCheat: string }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -17,7 +18,13 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
         disabled,
     })
 
-    const { editor } = useEditorInstance({ content: card.content, shouldRerenderOnTransaction: false })
+    const { editor } = useEditorInstance({
+        content: card.content,
+        shouldRerenderOnTransaction: false,
+        onChange: ({ content }) => {
+            updateCard({ sortableCheat, fields: { content } })
+        },
+    })
     const openPopup = useCardPopupStore((s) => s.openPopup)
 
     return (

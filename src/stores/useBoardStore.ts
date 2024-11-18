@@ -86,3 +86,4 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
         set({ boards })
     },
 }))
+
