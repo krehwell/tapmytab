@@ -12,7 +12,7 @@ import { Label } from './Label'
 import { updateCard } from '../stores/useCardStore'
 
 export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?: boolean; sortableCheat: string }) => {
-    const { attributes, listeners, setNodeRef, transform, /* transition, */ isDragging } = useSortable({
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: card.id,
         data: { card, sortableCheat },
         disabled,
@@ -30,7 +30,7 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
     return (
         <FlexColumn
             ref={setNodeRef}
-            style={{ transform: CSS.Transform.toString(transform), /* transition, */ opacity: isDragging ? 0.4 : 1 }}
+            style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 }}
         >
             {/* CARD HEADER */}
             <FlexColumn
@@ -66,6 +66,7 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
                         overflow: 'hidden auto',
                         backgroundColor: '#2C3034',
                         borderRadius: '0.8rem',
+                        display: isDragging || disabled ? 'none' : 'block',
                         minHeight: '15.8rem',
                         maxHeight: '25rem',
                     }}
