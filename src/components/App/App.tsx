@@ -13,6 +13,7 @@ import { BOARD1, BOARD2, BOARD3 } from '../../utils/templates'
 import { FirstTimeCheck } from '../../utils/firstTimeChecker'
 
 useBoardStore.subscribe((store) => {
+    if (!store.isInialized) return
     if (!isInsideChromeExtension()) {
         console.log('try to save...!')
         return
@@ -25,13 +26,13 @@ const popuplateInitialBoards = async () => {
     if (isInsideChromeExtension()) {
         const isFirstTime = await FirstTimeCheck.isFirstTime()
         if (isFirstTime) {
-            useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3] })
+            useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3], isInialized: true })
         } else {
             const boards = (await StorageService.loadBoards()) || []
-            useBoardStore.setState({ boards })
+            useBoardStore.setState({ boards, isInialized: true })
         }
     } else {
-        useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3] })
+        useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3], isInialized: true })
     }
 }
 
