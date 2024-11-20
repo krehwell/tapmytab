@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { TCard } from '../types'
-import { Flex, FlexColumn, FlexRowAlignCenter } from './Flex'
+import { Flex, FlexColumn } from './Flex'
 import { Editor, useEditorInstance } from './Editor'
 import { tc } from '../utils/themeColors'
 import { useCardPopupStore } from './CardPopup'
@@ -12,7 +12,7 @@ import { Label } from './Label'
 import { updateCard } from '../stores/useCardStore'
 
 export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?: boolean; sortableCheat: string }) => {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    const { attributes, listeners, setNodeRef, transform, /* transition, */ isDragging } = useSortable({
         id: card.id,
         data: { card, sortableCheat },
         disabled,
@@ -30,7 +30,7 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
     return (
         <FlexColumn
             ref={setNodeRef}
-            style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 }}
+            style={{ transform: CSS.Transform.toString(transform), /* transition, */ opacity: isDragging ? 0.4 : 1 }}
         >
             {/* CARD HEADER */}
             <FlexColumn
