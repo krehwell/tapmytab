@@ -1,198 +1,98 @@
 import { TBoard, TCard, TLabel } from '../types'
 
-const TEMPLATE_CONTENT_1 = `
-<h2>New Feature Requirements</h2>
+const TEMPLATE_CONTENT_A = `
+<h2>🌱 Garden Makeover Plan</h2>
 <ul data-type="taskList">
-<li data-type="taskItem" data-checked="false">Setup Next.js project</li>
-<li data-type="taskItem" data-checked="false">Configure TypeScript</li>
-<li data-type="taskItem" data-checked="false">Setup testing with <a href="https://jestjs.io">Jest</a></li>
+<li data-type="taskItem" data-checked="false">🌸 <strong>Plant new flowers:</strong> Lavender, Roses, and Daisies</li>
+<li data-type="taskItem" data-checked="false">🍀 <em>Weed and mulch the garden beds</em></li>
+<li data-type="taskItem" data-checked="false">🚿 Install a drip irrigation system</li>
 </ul>
-<p>Reference: <a href="https://nextjs.org/docs">Next.js Documentation</a></p>
-<div class="meta">
-<span>Lead: Sarah</span>
-</div>
-`
-
-const TEMPLATE_CONTENT_2 = `
-<h2>API Documentation</h2>
-<p>Planning phase for our <strong>RESTful API endpoints</strong>.</p>
-<ol>
-<li>Authentication endpoints</li>
-<li>User management</li>
-<li>Content delivery</li>
-<li>Analytics integration</li>
-</ol>
-<p><em>Priority: High - Initial planning needed</em></p>
-`
-
-const TEMPLATE_CONTENT_3 = `
-<h2>In Progress: Design System Components</h2>
+<p>Inspiration: <a href="https://example-garden-ideas.com">Garden Ideas</a></p>
 <blockquote>
-<p>Currently implementing <strong>atomic design principles</strong></p>
+<p>“To plant a garden is to believe in tomorrow.”</p>
 </blockquote>
-<ul>
-<li>Atoms:
-  <ul>
-    <li>Buttons - In Review</li>
-    <li>Inputs - WIP</li>
-    <li>Icons - WIP</li>
-  </ul>
-</li>
-<li>Molecules:
-  <ul>
-    <li>Form groups - Pending</li>
-    <li>Search bars - Pending</li>
-  </ul>
-</li>
-</ul>
 `
 
-const TEMPLATE_CONTENT_4 = `
-<h2>Active: Performance Optimization</h2>
-<pre><code class="language-typescript">// Currently implementing lazy loading
-const MyComponent = dynamic(() => import('./MyComponent'), {
-  loading: () => <LoadingSpinner />
-})</code></pre>
-<ul data-type="taskList">
-<li data-type="taskItem" data-checked="true">Initial performance audit</li>
-<li data-type="taskItem" data-checked="false">Implement code splitting</li>
-<li data-type="taskItem" data-checked="false">Optimize images</li>
-</ul>
-`
-
-const TEMPLATE_CONTENT_5 = `
-<h2>Done: Authentication System</h2>
-<p><strong>Completed Deliverables:</strong></p>
+const TEMPLATE_CONTENT_B = `
+<h2>🎨 Home Decor Updates</h2>
+<p><em>Creative tasks for a cozy home:</em></p>
 <ol>
-<li>Implemented JWT authentication</li>
-<li>Added OAuth integration</li>
-<li>Completed security testing</li>
+<li>🛋️ Rearrange living room furniture</li>
+<li>🖼️ Hang new <strong>art pieces</strong> on walls</li>
+<li>🕯️ Add <em>scented candles</em> for ambiance</li>
 </ol>
-<p><em>Ready for deployment review</em></p>
+<p>DIY Project: Build a rustic bookshelf with reclaimed wood!</p>
+<pre><code class="language-plaintext">Supplies:
+- Wood planks
+- Screws and brackets
+- Sandpaper and paint</code></pre>
 `
 
-const TEMPLATE_CONTENT_6 = `
-<h2>Done: CSS Framework Migration</h2>
+const TEMPLATE_CONTENT_C = `
+<h2>📚 Reading Goals</h2>
+<ul data-type="taskList">
+<li data-type="taskItem" data-checked="true">📖 Finish <em>"Atomic Habits"</em> by James Clear</li>
+<li data-type="taskItem" data-checked="false">📘 Start <strong>"The Power of Now"</strong> by Eckhart Tolle</li>
+<li data-type="taskItem" data-checked="false">🖋️ Write a <em>book review</em> for Goodreads</li>
+</ul>
 <blockquote>
-<p><strong>Completed tasks:</strong></p>
+<p>“A reader lives a thousand lives before he dies.”</p>
 </blockquote>
-<ul data-type="taskList">
-<li data-type="taskItem" data-checked="true">Migrate to Tailwind CSS</li>
-<li data-type="taskItem" data-checked="true">Update component styles</li>
-<li data-type="taskItem" data-checked="true">Documentation update</li>
-</ul>
 `
 
-const TEMPLATE_CONTENT_7 = `
-<h2>In Progress: State Management Implementation</h2>
-<p>Currently implementing <em>Redux Toolkit</em>:</p>
+const TEMPLATE_CONTENT_D = `
+<h2>🍳 Cooking Challenges</h2>
+<p>Try these new recipes this week:</p>
 <ol>
-<li><strong>Progress:</strong>
-  <ul>
-    <li>Store configuration ✓</li>
-    <li>Basic reducers ✓</li>
-    <li>Middleware setup - WIP</li>
-  </ul>
-</li>
-<li><strong>Next Steps:</strong>
-  <ul>
-    <li>Implement async thunks</li>
-    <li>Add error handling</li>
-  </ul>
-</li>
+<li>🥗 Mediterranean quinoa salad</li>
+<li>🍝 Homemade pasta with fresh basil pesto</li>
+<li>🍪 Chocolate chip cookies with a pinch of sea salt</li>
 </ol>
+<p>Don’t forget to take photos for your food journal!</p>
 `
 
-const TEMPLATE_CONTENT_8 = `
-<h2>To Do: Accessibility Implementation</h2>
-<p><em>Required updates based on <a href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG 2.1</a> guidelines:</em></p>
-<ul data-type="taskList">
-<li data-type="taskItem" data-checked="false">Add ARIA labels</li>
-<li data-type="taskItem" data-checked="false">Improve keyboard navigation</li>
-<li data-type="taskItem" data-checked="false">Fix color contrast issues</li>
-</ul>
-`
-
-// Card definitions with varied labels
+// Card definitions
 export const CARD1: TCard = {
     id: 'card1',
-    title: 'New Feature Setup',
-    content: TEMPLATE_CONTENT_1,
-    desc: 'Initial project setup tasks',
-    label: TLabel.Red,
+    title: 'Garden Makeover 🌸',
+    content: TEMPLATE_CONTENT_A,
+    desc: 'Planning a refreshing garden transformation',
+    label: TLabel.Green,
 }
 
 export const CARD2: TCard = {
     id: 'card2',
-    title: 'API Planning',
-    content: TEMPLATE_CONTENT_2,
-    desc: 'Initial API architecture planning',
+    title: 'Home Decor Updates 🖼️',
+    content: TEMPLATE_CONTENT_B,
+    desc: 'Reimagining the living space',
     label: TLabel.Blue,
 }
 
 export const CARD3: TCard = {
     id: 'card3',
-    title: 'Design System Implementation',
-    content: TEMPLATE_CONTENT_3,
-    desc: 'In progress - Component development',
+    title: 'Reading Goals 📚',
+    content: TEMPLATE_CONTENT_C,
+    desc: 'Curated book reading and review goals',
     label: TLabel.Yellow,
 }
 
 export const CARD4: TCard = {
     id: 'card4',
-    title: 'Performance Optimization',
-    content: TEMPLATE_CONTENT_4,
-    desc: 'Active development',
-    label: TLabel.Yellow,
+    title: 'Cooking Challenges 🍳',
+    content: TEMPLATE_CONTENT_D,
+    desc: 'Delicious recipes to try',
+    label: TLabel.Red,
 }
 
-export const CARD5: TCard = {
-    id: 'card5',
-    title: 'Authentication System',
-    content: TEMPLATE_CONTENT_5,
-    desc: 'Completed and ready for review',
-    label: TLabel.Green,
-}
-
-export const CARD6: TCard = {
-    id: 'card6',
-    title: 'CSS Framework Migration',
-    content: TEMPLATE_CONTENT_6,
-    desc: 'Migration completed',
-    label: TLabel.Green,
-}
-
-export const CARD7: TCard = {
-    id: 'card7',
-    title: 'State Management',
-    content: TEMPLATE_CONTENT_7,
-    desc: 'Redux implementation in progress',
-    label: TLabel.Yellow,
-}
-
-export const CARD8: TCard = {
-    id: 'card8',
-    title: 'Accessibility Implementation',
-    desc: 'Pending accessibility updates',
-    content: TEMPLATE_CONTENT_8,
-    label: TLabel.Blue,
-}
-
-// Board definitions with distributed cards
+// Board definitions
 export const BOARD1: TBoard = {
     id: 'board1',
-    cards: [CARD1, CARD2, CARD8],
-    name: 'To Do',
+    cards: [CARD1, CARD2],
+    name: '🚀 To Do',
 }
 
 export const BOARD2: TBoard = {
     id: 'board2',
-    cards: [CARD3, CARD4, CARD7],
-    name: 'In Progress',
-}
-
-export const BOARD3: TBoard = {
-    id: 'board3',
-    cards: [CARD5, CARD6],
-    name: 'Done',
+    cards: [CARD3, CARD4],
+    name: '⚙️ Work in Progress',
 }

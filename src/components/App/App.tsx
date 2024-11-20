@@ -9,7 +9,7 @@ import { CardPopup } from '../CardPopup'
 import { useBoardStore } from '../../stores/useBoardStore'
 import { parseSortableCheat } from '../../utils/dndIdManager'
 import { isInsideChromeExtension, StorageService } from '../../utils/chromeStorage'
-import { BOARD1, BOARD2, BOARD3 } from '../../utils/templates'
+import { BOARD1, BOARD2 } from '../../utils/templates'
 import { FirstTimeCheck } from '../../utils/firstTimeChecker'
 
 useBoardStore.subscribe((store) => {
@@ -26,13 +26,13 @@ const popuplateInitialBoards = async () => {
     if (isInsideChromeExtension()) {
         const isFirstTime = await FirstTimeCheck.isFirstTime()
         if (isFirstTime) {
-            useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3], isInialized: true })
+            useBoardStore.setState({ boards: [BOARD1, BOARD2], isInialized: true })
         } else {
             const boards = (await StorageService.loadBoards()) || []
             useBoardStore.setState({ boards, isInialized: true })
         }
     } else {
-        useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3], isInialized: true })
+        useBoardStore.setState({ boards: [BOARD1, BOARD2], isInialized: true })
     }
 }
 
