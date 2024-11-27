@@ -1,16 +1,16 @@
 import React, { useCallback } from 'react'
-import { DragOverEvent, DragEndEvent } from '@dnd-kit/core'
-import { Board } from '../Board'
-import { CanvasDndContext } from '../CanvasDndContext'
-import { Flex } from '../Flex'
-import { Navbar } from '../Navbar'
-import { tc } from '../../utils/themeColors'
-import { CardPopup } from '../CardPopup'
-import { useBoardStore } from '../../stores/useBoardStore'
-import { parseSortableCheat } from '../../utils/dndIdManager'
-import { isInsideChromeExtension, StorageService } from '../../utils/chromeStorage'
-import { BOARD1, BOARD2 } from '../../utils/templates'
-import { FirstTimeCheck } from '../../utils/firstTimeChecker'
+import { DragEndEvent, DragOverEvent } from '@dnd-kit/core'
+import { Board } from '../Board.tsx'
+import { CanvasDndContext } from '../CanvasDndContext.tsx'
+import { Flex } from '../Flex/index.tsx'
+import { Navbar } from '../Navbar.tsx'
+import { tc } from '../../utils/themeColors.ts'
+import { CardPopup } from '../CardPopup.tsx'
+import { useBoardStore } from '../../stores/useBoardStore.ts'
+import { parseSortableCheat } from '../../utils/dndIdManager.ts'
+import { isInsideChromeExtension, StorageService } from '../../utils/chromeStorage.ts'
+import { BOARD1, BOARD2 } from '../../utils/templates.ts'
+import { FirstTimeCheck } from '../../utils/firstTimeChecker.ts'
 
 useBoardStore.subscribe((store) => {
     if (!store.isInialized) return
@@ -26,7 +26,10 @@ const popuplateInitialBoards = async () => {
     if (isInsideChromeExtension()) {
         const isFirstTime = await FirstTimeCheck.isFirstTime()
         if (isFirstTime) {
-            useBoardStore.setState({ boards: [BOARD1, BOARD2], isInialized: true })
+            useBoardStore.setState({
+                boards: [BOARD1, BOARD2],
+                isInialized: true,
+            })
         } else {
             const boards = (await StorageService.loadBoards()) || []
             useBoardStore.setState({ boards, isInialized: true })
@@ -58,14 +61,18 @@ export const App = () => {
                 ovrCardIdx = 0
 
             if (active.data.current) {
-                const { boardIdx, cardId, cardIdx } = parseSortableCheat(active.data.current.sortableCheat)
+                const { boardIdx, cardId, cardIdx } = parseSortableCheat(
+                    active.data.current.sortableCheat,
+                )
                 actBoardIdx = boardIdx
                 actCardId = cardId
                 actCardIdx = cardIdx
             }
 
             if (over.data.current) {
-                const { boardIdx, cardIdx } = parseSortableCheat(over.data.current.sortableCheat)
+                const { boardIdx, cardIdx } = parseSortableCheat(
+                    over.data.current.sortableCheat,
+                )
                 ovrBoardIdx = boardIdx
                 ovrCardIdx = cardIdx
             } else {
@@ -86,9 +93,9 @@ export const App = () => {
                 if (!draggingRect) {
                     newIdx = ovrCards.length + 1
                 } else {
-                    const isBelowLastItem =
-                        ovrCardIdx === ovrCards.length - 1 &&
-                        draggingRect.offsetTop > over.rect.offsetTop + over.rect.height
+                    const isBelowLastItem = ovrCardIdx === ovrCards.length - 1 &&
+                        draggingRect.offsetTop >
+                            over.rect.offsetTop + over.rect.height
 
                     const modifier = isBelowLastItem ? 1 : 0
                     newIdx = ovrCardIdx >= 0 ? ovrCardIdx + modifier : ovrCards.length + 1
@@ -102,7 +109,7 @@ export const App = () => {
                 newIdx: newIdx,
             })
         },
-        [boards]
+        [boards],
     )
 
     const handleCardSwapPos = useCallback(
@@ -114,7 +121,9 @@ export const App = () => {
             const { sortableCheat: actSortCht } = active.data.current
             const { sortableCheat: ovrSortCht } = over.data.current
             if (!actSortCht || !ovrSortCht) {
-                throw new Error('`activeSortableCheat | overSortableCheat` is invalid')
+                throw new Error(
+                    '`activeSortableCheat | overSortableCheat` is invalid',
+                )
             }
 
             const { boardIdx, cardIdx } = parseSortableCheat(actSortCht)
@@ -124,7 +133,7 @@ export const App = () => {
 
             swapCardPos({ boardIdx, currIdx: cardIdx, newIdx: destCardIdx })
         },
-        [boards]
+        [boards],
     )
 
     return (
@@ -138,7 +147,10 @@ export const App = () => {
                     overflowX: 'auto',
                 }}
             >
-                <CanvasDndContext onDragOver={handleCardSwitchBoard} onDragEnd={handleCardSwapPos}>
+                <CanvasDndContext
+                    onDragOver={handleCardSwitchBoard}
+                    onDragEnd={handleCardSwapPos}
+                >
                     {boards.map((board, i) => {
                         return <Board key={board.id} index={i} board={board} />
                     })}

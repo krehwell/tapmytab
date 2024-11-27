@@ -1,11 +1,9 @@
-import { FlexRowAlignCenter } from './Flex'
+import { FlexRowAlignCenter } from './Flex/index.tsx'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
-import { GoogleLogo, YoutubeLogo, TwitterLogo, CaretDown } from '@phosphor-icons/react'
-import { WithOptionsMenu } from './WithOptionsMenu'
-import { Button } from './Button'
-import { useState } from 'react'
-import { tc } from '../utils/themeColors'
-import { Horse, Heart, Cube } from '@phosphor-icons/react'
+import { CaretDown, GoogleLogo, TwitterLogo, YoutubeLogo } from '@phosphor-icons/react'
+import { WithOptionsMenu } from './WithOptionsMenu.tsx'
+import { Button } from './Button.tsx'
+import React, { useState } from 'react'
 
 enum SearchOption {
     Youtube,
@@ -14,7 +12,9 @@ enum SearchOption {
 }
 
 const SocMedInput = ({ style }: { style?: React.CSSProperties }) => {
-    const [searchWith, setSearchWith] = useState<SearchOption>(SearchOption.Youtube)
+    const [searchWith, setSearchWith] = useState<SearchOption>(
+        SearchOption.Youtube,
+    )
     const SEARCH_OPTIONS = [
         {
             label: 'Youtube',
@@ -45,12 +45,12 @@ const SocMedInput = ({ style }: { style?: React.CSSProperties }) => {
                 ...style,
             }}
         >
-            <WithOptionsMenu
-                options={SEARCH_OPTIONS}
-                menuItemProps={{ sx: { backgroundColor: tc.tokenGrey, '&:hover': { backgroundColor: tc.bgPrimary } } }}
-            >
+            <WithOptionsMenu options={SEARCH_OPTIONS}>
                 {({ openMenu }) => (
-                    <Button onClick={openMenu} style={{ height: '3rem', padding: '0 1rem', gap: '0.5rem' }}>
+                    <Button
+                        onClick={openMenu}
+                        style={{ height: '3rem', padding: '0 1rem', gap: '0.5rem' }}
+                    >
                         {SEARCH_OPTIONS[searchWith].node}
                         <CaretDown size={12} />
                     </Button>
@@ -63,11 +63,17 @@ const SocMedInput = ({ style }: { style?: React.CSSProperties }) => {
                     if (e.key === 'Enter') {
                         e.preventDefault()
                         if (searchWith === SearchOption.Youtube) {
-                            window.open(`https://www.youtube.com/results?search_query=${e.currentTarget.value}`)
+                            globalThis.open(
+                                `https://www.youtube.com/results?search_query=${e.currentTarget.value}`,
+                            )
                         } else if (searchWith === SearchOption.Google) {
-                            window.open(`https://www.google.com/search?q=${e.currentTarget.value}`)
+                            globalThis.open(
+                                `https://www.google.com/search?q=${e.currentTarget.value}`,
+                            )
                         } else if (searchWith === SearchOption.Twitter) {
-                            window.open(`https://twitter.com/search?q=${e.currentTarget.value}`)
+                            globalThis.open(
+                                `https://twitter.com/search?q=${e.currentTarget.value}`,
+                            )
                         }
                     }
                 }}
@@ -88,7 +94,7 @@ const SocMedInput = ({ style }: { style?: React.CSSProperties }) => {
 export const Navbar = () => {
     return (
         <FlexRowAlignCenter
-            as="nav"
+            as='nav'
             style={{
                 height: 'var(--navbar-height)',
                 padding: '0px 3.2rem',
@@ -96,8 +102,15 @@ export const Navbar = () => {
                 backgroundColor: '#2F3336',
             }}
         >
-            <span style={{ color: '#5F6061', fontFamily: 'Rumiko Sans', fontSize: '2.4rem', fontWeight: '600' }}>
-                Tap my Tab
+            <span
+                style={{
+                    color: '#5F6061',
+                    fontFamily: 'Rumiko Sans',
+                    fontSize: '2.4rem',
+                    fontWeight: '600',
+                }}
+            >
+                tapmytab
             </span>
             <SocMedInput style={{ marginLeft: 'auto' }} />
         </FlexRowAlignCenter>

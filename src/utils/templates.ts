@@ -1,4 +1,4 @@
-import { TBoard, TCard, TLabel } from '../types'
+import { TBoard, TCard, TLabel } from '../types.ts'
 
 const TEMPLATE_CONTENT_A = `
 <h2>🌱 Garden Makeover Plan</h2>

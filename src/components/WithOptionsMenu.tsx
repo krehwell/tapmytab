@@ -1,17 +1,17 @@
 import Menu, { MenuProps } from '@mui/material/Menu'
-import MenuItem, { MenuItemProps } from '@mui/material/MenuItem'
 import React, { useCallback } from 'react'
-import { tc } from '../utils/themeColors'
+import { tc } from '../utils/themeColors.ts'
+import Box, { BoxProps } from '@mui/material/Box'
 
 export type WithMenuOption =
     | null
-    | ({
-          label: string
-          node?: React.ReactNode
-          hide?: boolean
-          disabled?: boolean
-          onClick?: (e: React.MouseEvent) => void
-      } & { menuItemProps?: MenuItemProps })
+    | {
+        label: string
+        node?: React.ReactNode
+        hide?: boolean
+        disabled?: boolean
+        onClick?: (e: React.MouseEvent) => void
+    }
 
 export type WithOptionsMenuProps = {
     children: ({
@@ -22,7 +22,6 @@ export type WithOptionsMenuProps = {
         closeMenu: () => void
     }) => React.ReactNode
     options: WithMenuOption[]
-    menuItemProps?: MenuItemProps
     menuProps?: Omit<MenuProps, 'open'>
 }
 
@@ -37,7 +36,9 @@ export type WithOptionsMenuProps = {
  *
  * To customize custom style per-item, you can pass `menuItemProps` through option (`options.menuItemProps`)
  */
-export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }: WithOptionsMenuProps) => {
+export const WithOptionsMenu = (
+    { children, options, menuProps }: WithOptionsMenuProps,
+) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
     const openMenu = useCallback((event: React.MouseEvent<HTMLElement>) => {
@@ -65,39 +66,35 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                     // opinionated styles since we don't want shadow by default
                     '& .MuiPaper-root': { boxShadow: 'none' },
                     '& .MuiList-padding': { paddingTop: 0, paddingBottom: 0 },
+                    borderRadius: '888px',
+                    ...menuProps?.sx,
                 }}
-                BackdropProps={{
-                    ...menuProps?.BackdropProps,
-                    style: {
-                        backdropFilter: 'none',
-                        WebkitBackdropFilter: 'none',
-                        ...menuProps?.BackdropProps?.style,
+                slotProps={{
+                    paper: {
+                        sx: {
+                            borderRadius: '8px',
+                            backgroundColor: 'transparent',
+                            ...menuProps?.slotProps?.paper?.sx,
+                        },
                     },
-                }}
-                PaperProps={{
-                    sx: {
-                        overflow: 'hidden',
-                        borderRadius: '0.8rem',
-                        backgroundColor: 'transparent',
-                        ...menuProps?.sx,
-                    },
-                    ...menuProps?.PaperProps,
                 }}
             >
                 {options.map((option, i) => {
                     if (!option || option.hide) return null
 
-                    const optionStyle = {
-                        ...menuItemProps?.sx,
-                        ...option.menuItemProps?.sx,
-                    }
-
                     return (
                         <MenuItem
-                            {...menuItemProps}
-                            {...option?.menuItemProps}
-                            disableRipple
                             sx={{
+                                height: '3.3rem',
+                                alignContent: 'center',
+                                position: 'relative',
+                                textOverflow: 'ellipsis',
+                                cursor: !option.disabled ? 'pointer' : 'default',
+                                backgroundColor: tc.textActiveSecondary,
+                                color: tc.tokenGrey,
+                                '& svg': {
+                                    fill: tc.tokenGrey,
+                                },
                                 '&:hover': {
                                     backgroundColor: tc.tokenGrey,
                                     color: tc.textActiveSecondary,
@@ -105,18 +102,12 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
                                         fill: tc.textActiveSecondary,
                                     },
                                 },
-                                position: 'relative',
-                                textOverflow: 'ellipsis',
-                                cursor: !option.disabled ? 'pointer' : 'default',
-                                backgroundColor: tc.textActiveSecondary,
-                                color: tc.tokenGrey,
                                 fontFamily: 'Rumiko Sans',
                                 paddingInline: '1.2rem',
                                 fontSize: '1rem',
                                 margin: 0,
                                 zIndex: 9999,
                                 gap: '0.8rem',
-                                ...optionStyle,
                             }}
                             key={String(option.label) + i}
                             onClick={(e) => {
@@ -131,4 +122,8 @@ export const WithOptionsMenu = ({ children, options, menuItemProps, menuProps }:
             </Menu>
         </>
     )
+}
+
+const MenuItem = ({ sx, children, ...props }: BoxProps<'li'>) => {
+    return <Box component='li' sx={sx} {...props}>{children}</Box>
 }

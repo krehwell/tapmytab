@@ -1,0 +1,57 @@
+{
+    "version": "0.0.1",
+    "private": true,
+    "tasks": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "nodeModulesDir": "auto",
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "jsxImportSource": "react",
+        "lib": [
+            "dom"
+        ]
+    },
+    "imports": {
+        "@std/collections": "jsr:@std/collections@^1.0.9",
+        "@dnd-kit/core": "npm:@dnd-kit/core@6.1.0",
+        "@dnd-kit/modifiers": "npm:@dnd-kit/modifiers@^7.0.0",
+        "@dnd-kit/sortable": "npm:@dnd-kit/sortable@8.0.0",
+        "@dnd-kit/utilities": "npm:@dnd-kit/utilities@3.2.2",
+        "@emotion/react": "npm:@emotion/react@11.13.3",
+        "@emotion/styled": "npm:@emotion/styled@11.13.0",
+        "@mui/base": "npm:@mui/base@5.0.0-beta.61",
+        "@mui/material": "npm:@mui/material@6.1.7",
+        "@tiptap/extension-link": "npm:@tiptap/extension-link@2.9.1",
+        "@tiptap/extension-task-item": "npm:@tiptap/extension-task-item@2.9.1",
+        "@tiptap/extension-task-list": "npm:@tiptap/extension-task-list@2.9.1",
+        "@tiptap/extension-text-align": "npm:@tiptap/extension-text-align@2.9.1",
+        "@tiptap/extension-list-item": "npm:@tiptap/extension-list-item@^2.10.0",
+        "@tiptap/pm": "npm:@tiptap/pm@2.9.1",
+        "@tiptap/react": "npm:@tiptap/react@2.9.1",
+        "@tiptap/starter-kit": "npm:@tiptap/starter-kit@2.9.1",
+        "clsx": "npm:clsx@2.1.1",
+        "light-uid": "npm:light-uid@1.1.0",
+        "@phosphor-icons/react": "npm:@phosphor-icons/react@2.1.7",
+        "react": "npm:react",
+        "react-dom": "npm:react-dom",
+        "@types/react": "npm:@types/react@^18.3",
+        "zustand": "npm:zustand@5.0.1",
+        "@types/chrome": "npm:@types/chrome@0.0.272",
+        "@crxjs/vite-plugin": "npm:@crxjs/vite-plugin@1.0.14",
+        "@vitejs/plugin-react": "npm:@vitejs/plugin-react@4.3.3",
+        "vite": "npm:vite@5.4.11",
+        "@types/lodash": "npm:@types/lodash@4.17.13",
+        "lodash": "npm:lodash@4.17.21"
+    },
+    "fmt": {
+        "useTabs": false,
+        "lineWidth": 120,
+        "indentWidth": 4,
+        "semiColons": false,
+        "singleQuote": true,
+        "proseWrap": "preserve"
+    }
+}

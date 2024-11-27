@@ -1,3 +1,4 @@
+import React from 'react'
 import {
     closestCorners,
     DndContext,
@@ -10,8 +11,9 @@ import {
     useSensors,
 } from '@dnd-kit/core'
 import { useState } from 'react'
-import { Card } from './Card'
-import { TCard } from '../types'
+import { Card } from './Card.tsx'
+import { TCard } from '../types.ts'
+import { snapCenterToCursor } from '@dnd-kit/modifiers'
 
 export const CanvasDndContext = ({
     children,
@@ -31,13 +33,14 @@ export const CanvasDndContext = ({
             activationConstraint: {
                 distance: 8,
             },
-        })
+        }),
     )
 
     return (
         <DndContext
             sensors={sensors}
             collisionDetection={closestCorners}
+            modifiers={[snapCenterToCursor]}
             onDragStart={(e) => {
                 setCurrDraggedCard(e.active.data.current?.card as TCard)
                 onDragStart?.(e)
@@ -53,7 +56,7 @@ export const CanvasDndContext = ({
             {/* PLACEHOLDER PREVIEW-CARD DURING DRAGGING A CARD */}
             {currDraggedCard && (
                 <DragOverlay>
-                    <Card card={currDraggedCard} disabled sortableCheat="" />
+                    <Card card={currDraggedCard} disabled sortableCheat='' />
                 </DragOverlay>
             )}
         </DndContext>

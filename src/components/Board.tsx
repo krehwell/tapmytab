@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { Card } from './Card'
-import { TBoard } from '../types'
-import { FlexColumn, FlexRowAlignCenter } from './Flex'
-import { Button } from './Button'
-import { tc } from '../utils/themeColors'
+import { Card } from './Card.tsx'
+import { TBoard } from '../types.ts'
+import { Flex, FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
+import { Button } from './Button.tsx'
+import { tc } from '../utils/themeColors.ts'
 import { Copy, DotsThree, Plus, Trash } from '@phosphor-icons/react'
 import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
-import { WithMenuOption, WithOptionsMenu } from './WithOptionsMenu'
-import { createSortableCheat } from '../utils/dndIdManager'
-import { useBoardStore } from '../stores/useBoardStore'
+import { WithMenuOption, WithOptionsMenu } from './WithOptionsMenu.tsx'
+import { createSortableCheat } from '../utils/dndIdManager.ts'
+import { useBoardStore } from '../stores/useBoardStore.ts'
 import genUid from 'light-uid'
 
 type RegularBoardProps = {
@@ -52,7 +52,7 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
                 ...style,
             }}
         >
-            <FlexRowAlignCenter style={{ justifyContent: 'space-between', marginBottom: '2.4rem' }}>
+            <Flex style={{ justifyContent: 'space-between', marginBottom: '2.4rem', }}>
                 <BoardNameInput
                     value={name}
                     disabled={false}
@@ -67,7 +67,11 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
                         const newTitle = e.target.value
 
                         if (isPlaceholder && newTitle) {
-                            addNewBoard({ name: newTitle, idx: index + 1, id: genUid(8) })
+                            addNewBoard({
+                                name: newTitle,
+                                idx: index + 1,
+                                id: genUid(8),
+                            })
                             resetBoard()
                         }
 
@@ -78,7 +82,7 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
                     }}
                 />
                 {!isPlaceholder && <BoardOptions index={index} />}
-            </FlexRowAlignCenter>
+            </Flex>
 
             {/* CARD LIST */}
             {board && <SortableCardList board={board} index={index} />}
@@ -86,12 +90,18 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
     )
 }
 
-const SortableCardList = ({ board, index }: { board: TBoard; index: number }) => {
+const SortableCardList = (
+    { board, index }: { board: TBoard; index: number },
+) => {
     const { setNodeRef } = useDroppable({ id: board.id, disabled: false })
     const cards = board.cards
 
     return (
-        <SortableContext id={board.id} items={cards} strategy={verticalListSortingStrategy}>
+        <SortableContext
+            id={board.id}
+            items={cards}
+            strategy={verticalListSortingStrategy}
+        >
             <FlexColumn
                 ref={setNodeRef}
                 style={{
@@ -109,8 +119,19 @@ const SortableCardList = ({ board, index }: { board: TBoard; index: number }) =>
                     const boardIdx = index
                     const cardId = card.id
                     const cardIdx = i
-                    const sortableCheat = createSortableCheat({ boardId, cardId, boardIdx, cardIdx })
-                    return <Card key={cardId} sortableCheat={sortableCheat} card={card} />
+                    const sortableCheat = createSortableCheat({
+                        boardId,
+                        cardId,
+                        boardIdx,
+                        cardIdx,
+                    })
+                    return (
+                        <Card
+                            key={cardId}
+                            sortableCheat={sortableCheat}
+                            card={card}
+                        />
+                    )
                 })}
             </FlexColumn>
         </SortableContext>
@@ -135,6 +156,7 @@ const BoardNameInput = ({
                 flex: 1,
                 backgroundColor: 'transparent',
                 resize: 'none',
+                textOverflow: 'ellipsis',
                 ...style,
             }}
             {...props}
@@ -178,23 +200,19 @@ const BoardOptions = ({ index }: { index: number }) => {
     ]
 
     return (
-        <WithOptionsMenu
-            options={options}
-            menuItemProps={{
-                sx: {
-                    '&:hover': {
-                        backgroundColor: tc.tokenGrey,
-                        '& svg': { fill: tc.textActiveSecondary },
-                        color: tc.textActiveSecondary,
-                    },
-                    '& svg': { fill: tc.tokenGrey },
-                },
-            }}
-        >
+        <WithOptionsMenu options={options}>
             {({ openMenu }) => {
                 return (
-                    <Button radius="2.8rem" style={{ backgroundColor: tc.bgPrimary }} onClick={openMenu}>
-                        <DotsThree size={22} weight="bold" style={{ flexShrink: 0 }} />
+                    <Button
+                        radius='2.8rem'
+                        style={{ backgroundColor: tc.bgPrimary, marginTop: '0.7rem' }}
+                        onClick={openMenu}
+                    >
+                        <DotsThree
+                            size={22}
+                            weight='bold'
+                            style={{ flexShrink: 0 }}
+                        />
                     </Button>
                 )
             }}

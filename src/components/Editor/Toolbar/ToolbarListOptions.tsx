@@ -1,16 +1,14 @@
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { ListBullets, ListDashes, ListNumbers } from '@phosphor-icons/react'
-import { tc } from '../../../utils/themeColors'
-import { WithOptionsMenu } from '../../WithOptionsMenu'
-import { ToolbarBtn } from './ToolbarBtn'
-import { useTextmenuStates } from './useTextmenuStates'
+import { WithOptionsMenu } from '../../WithOptionsMenu.tsx'
+import { ToolbarBtn } from './ToolbarBtn.tsx'
+import { useTextmenuStates } from './useTextmenuStates.ts'
 
 export const ToolbarListOptions = ({ editor }: { editor: TiptapEditor }) => {
     const { isOrderedList, isBulletList, isTaskList } = useTextmenuStates(editor)
 
     return (
         <WithOptionsMenu
-            menuItemProps={{ sx: { backgroundColor: tc.bgSecondary } }}
             options={[
                 {
                     label: 'Ordered List',
@@ -31,7 +29,7 @@ export const ToolbarListOptions = ({ editor }: { editor: TiptapEditor }) => {
         >
             {({ openMenu }) => (
                 <ToolbarBtn
-                    title="Lists"
+                    title='Lists'
                     Icon={isOrderedList ? ListNumbers : isBulletList ? ListBullets : ListDashes}
                     onClick={openMenu}
                 />

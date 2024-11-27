@@ -1,19 +1,19 @@
 import { create } from 'zustand'
 import Dialog from '@mui/material/Dialog'
-import { FlexColumn, FlexRowAlignCenter } from './Flex'
-import { tc } from '../utils/themeColors'
+import { FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
+import { tc } from '../utils/themeColors.ts'
 import Box from '@mui/material/Box'
-import { TCard } from '../types'
-import { Label } from './Label'
-import { Editor, useEditorInstance } from './Editor'
-import { Button } from './Button'
-import { Toolbar } from './Editor/Toolbar'
+import { TCard } from '../types.ts'
+import { Label } from './Label.tsx'
+import { Editor, useEditorInstance } from './Editor/Editor.tsx'
+import { Button } from './Button.tsx'
+import { Toolbar } from './Editor/Toolbar/Toolbar.tsx'
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { DotsThree, X } from '@phosphor-icons/react'
-import { WithOptionsMenu } from './WithOptionsMenu'
+import { WithOptionsMenu } from './WithOptionsMenu.tsx'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
-import { cycleNextLabel } from '../utils/label'
-import { deleteCard, updateCard } from '../stores/useCardStore'
+import { cycleNextLabel, LABELS } from '../utils/label.ts'
+import { deleteCard, updateCard } from '../stores/useCardStore.ts'
 
 export const useCardPopupStore = create<{
     isOpen: boolean
@@ -105,18 +105,18 @@ const CardPopupHeader = () => {
                     ]}
                 >
                     {({ openMenu }) => (
-                        <Button radius="3.2rem" onClick={openMenu}>
-                            <DotsThree size={22} weight="bold" style={{ flexShrink: 0 }} />
+                        <Button radius='3.2rem' onClick={openMenu}>
+                            <DotsThree size={22} weight='bold' style={{ flexShrink: 0 }} />
                         </Button>
                     )}
                 </WithOptionsMenu>
-                <Button radius="3.2rem" onClick={closePopup}>
+                <Button radius='3.2rem' onClick={closePopup}>
                     <X size={22} />
                 </Button>
             </FlexRowAlignCenter>
             <TextareaAutosize
-                maxRows={1}
-                maxLength={60}
+                maxRows={2}
+                maxLength={128}
                 defaultValue={card?.desc}
                 placeholder={'Add description...'}
                 onChange={(e) => updateField({ fields: { desc: e.target.value } })}
@@ -127,14 +127,36 @@ const CardPopupHeader = () => {
                     color: 'rgba(248, 249, 250, 0.80)',
                 }}
             />
-            <Label
-                label={card?.label}
-                style={{ marginTop: '0.8rem' }}
-                onClick={(e) => {
-                    e.stopPropagation()
-                    updateField({ fields: { label: cycleNextLabel({ label: card?.label }) } })
+            <WithOptionsMenu
+                menuProps={{
+                    sx: {
+                        '.MuiList-root': {
+                            display: 'flex',
+                            flexDirection: 'row',
+                        },
+                    },
+                    anchorOrigin: { vertical: 'center', horizontal: 'right' },
+                    transformOrigin: { vertical: 'center', horizontal: 'left' },
                 }}
-            />
+                options={[...LABELS, ''].map((l) => ({
+                    label: l,
+                    node: <Label label={l} style={{ cursor: 'pointer' }} />,
+                    onClick: () => updateField({ fields: { label: l } }),
+                }))}
+            >
+                {({ openMenu }) => {
+                    return (
+                        <Label
+                            label={card?.label}
+                            style={{ marginTop: '0.8rem' }}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                openMenu(e)
+                            }}
+                        />
+                    )
+                }}
+            </WithOptionsMenu>
             <div style={{ marginBottom: '2rem' }} />
         </>
     )
@@ -176,7 +198,10 @@ const CardPopupActions = () => {
 
     return (
         <FlexRowAlignCenter style={{ gap: '1.2rem', marginLeft: 'auto' }}>
-            <Button onClick={closePopup} style={{ width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}>
+            <Button
+                onClick={closePopup}
+                style={{ width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}
+            >
                 Cancel
             </Button>
             <Button
@@ -184,7 +209,12 @@ const CardPopupActions = () => {
                     updateCard({ sortableCheat: sortableCheat!, fields: card! })
                     closePopup()
                 }}
-                sx={{ backgroundColor: '#4C5257', width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}
+                sx={{
+                    backgroundColor: '#4C5257',
+                    width: '6.8rem',
+                    height: '3.3rem',
+                    borderRadius: '0.8rem',
+                }}
             >
                 Save
             </Button>

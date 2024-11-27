@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react'
 import { BubbleMenu as BaseBubbleMenu, Editor as TiptapEditor } from '@tiptap/react'
 import { ArrowUpRight, KeyReturn, Pencil, Trash, XCircle } from '@phosphor-icons/react'
-import { tc } from '../../utils/themeColors'
-import { Button } from '../Button'
-import { FlexColumn, FlexRowAlignCenter } from '../Flex'
+import { tc } from '../../utils/themeColors.ts'
+import { Button } from '../Button.tsx'
+import { FlexColumn, FlexRowAlignCenter } from '../Flex/index.tsx'
 
 export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
     const [url, setUrl] = useState('')
@@ -37,7 +37,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
                 .run()
             setIsEditLink(false)
         },
-        [editor]
+        [editor],
     )
 
     const onUnsetLink = useCallback(() => {
@@ -47,20 +47,24 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
     const renderPreviewLink = () => {
         return (
             <>
-                <a href={url} target="_blank" style={{ marginRight: '0.3rem' }}>
+                <a href={url} target='_blank' style={{ marginRight: '0.3rem' }}>
                     {url}
                 </a>
                 <Button
-                    radius="2.5rem"
-                    title="Open"
+                    radius='2.5rem'
+                    title='Open'
                     onClick={() => {
                         let urlParsed = url.includes('http') ? url : 'https://' + url
                         window.open(urlParsed, '_blank')
                     }}
                 >
-                    <ArrowUpRight size={13} style={{ flexShrink: 0 }} weight="bold" />
+                    <ArrowUpRight size={13} style={{ flexShrink: 0 }} weight='bold' />
                 </Button>
-                <Button radius="2.5rem" title="Edit Link" onClick={() => setIsEditLink(true)}>
+                <Button
+                    radius='2.5rem'
+                    title='Edit Link'
+                    onClick={() => setIsEditLink(true)}
+                >
                     <Pencil size={13} style={{ flexShrink: 0 }} />
                 </Button>
             </>
@@ -81,14 +85,28 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
                         onConfirm={() => onSetLink({ text, url })}
                         onChange={(e) => setUrl(e.target.value)}
                     />
-                    <FlexRowAlignCenter style={{ margin: '0.3rem auto 0', gap: '0.8rem' }}>
-                        <Button radius="2rem" title="Cancel Edit" onClick={() => setIsEditLink(false)}>
+                    <FlexRowAlignCenter
+                        style={{ margin: '0.3rem auto 0', gap: '0.8rem' }}
+                    >
+                        <Button
+                            radius='2rem'
+                            title='Cancel Edit'
+                            onClick={() => setIsEditLink(false)}
+                        >
                             <XCircle size={16} style={{ flexShrink: 0 }} />
                         </Button>
-                        <Button radius="2rem" title={'Remove Link'} onClick={() => onUnsetLink()}>
+                        <Button
+                            radius='2rem'
+                            title={'Remove Link'}
+                            onClick={() => onUnsetLink()}
+                        >
                             <Trash size={16} style={{ flexShrink: 0 }} />
                         </Button>
-                        <Button radius="2rem" title="Confirm Modify" onClick={() => onSetLink({ url, text })}>
+                        <Button
+                            radius='2rem'
+                            title='Confirm Modify'
+                            onClick={() => onSetLink({ url, text })}
+                        >
                             <KeyReturn size={16} style={{ flexShrink: 0 }} />
                         </Button>
                     </FlexRowAlignCenter>
@@ -100,7 +118,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
     return (
         <BaseBubbleMenu
             editor={editor}
-            pluginKey="textMenu"
+            pluginKey='textMenu'
             shouldShow={shouldShow}
             updateDelay={0}
             tippyOptions={{
@@ -138,8 +156,8 @@ export const UrlInput = ({
 }: { onConfirm: () => void } & React.InputHTMLAttributes<HTMLInputElement>) => {
     return (
         <input
-            type="text"
-            placeholder="url"
+            type='text'
+            placeholder='url'
             onKeyDown={(e) => {
                 if (e.key === 'Enter') onConfirm()
             }}
@@ -155,8 +173,8 @@ export const UrlTextInput = ({
 }: { onConfirm: () => void } & React.InputHTMLAttributes<HTMLInputElement>) => {
     return (
         <input
-            type="text"
-            placeholder="link text"
+            type='text'
+            placeholder='link text'
             onKeyDown={(e) => {
                 if (e.key === 'Enter') onConfirm()
             }}

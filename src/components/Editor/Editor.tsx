@@ -1,9 +1,6 @@
 import './editor.css'
 
-import { Color } from '@tiptap/extension-color'
-import ListItem from '@tiptap/extension-list-item'
 import Link from '@tiptap/extension-link'
-import TextStyle from '@tiptap/extension-text-style'
 import { Editor as TiptapEditor, EditorContent, useEditor } from '@tiptap/react'
 import TextAlign from '@tiptap/extension-text-align'
 import TaskItem from '@tiptap/extension-task-item'
@@ -11,11 +8,9 @@ import TaskList from '@tiptap/extension-task-list'
 import debounce from 'lodash/debounce'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect, useRef } from 'react'
-import { LinkMenu } from './LinkMenu'
+import { LinkMenu } from './LinkMenu.tsx'
 
 const extensions = [
-    Color.configure({ types: [TextStyle.name, ListItem.name] }),
-    TextStyle.configure({ types: [ListItem.name] }),
     TaskList,
     TaskItem.configure({ nested: true }),
     TextAlign.configure({
@@ -32,7 +27,10 @@ const extensions = [
     }),
 ]
 
-const debouncedOnUpdate = debounce(({ editor, onChange }) => onChange({ content: editor?.getHTML() }), 500)
+const debouncedOnUpdate = debounce(
+    ({ editor, onChange }) => onChange({ content: editor?.getHTML() }),
+    500,
+)
 
 export const useEditorInstance = ({
     content,
@@ -51,7 +49,7 @@ export const useEditorInstance = ({
             shouldRerenderOnTransaction,
             onUpdate: ({ editor }) => debouncedOnUpdate({ editor, onChange }),
         },
-        []
+        [],
     )
 
     useEffect(() => {
@@ -64,7 +62,9 @@ export const useEditorInstance = ({
     return { editor }
 }
 
-export const Editor = ({ editor, style }: { editor: TiptapEditor; style: React.CSSProperties }) => {
+export const Editor = (
+    { editor, style }: { editor: TiptapEditor; style: React.CSSProperties },
+) => {
     const ref = useRef<HTMLDivElement>(null)
 
     return (
@@ -72,8 +72,14 @@ export const Editor = ({ editor, style }: { editor: TiptapEditor; style: React.C
             <EditorContent
                 ref={ref}
                 editor={editor}
-                style={{ cursor: 'text', fontSize: '1.3rem', lineHeight: '1', padding: '1.6rem 0.8rem', ...style }}
-                placeholder="Start typing..."
+                style={{
+                    cursor: 'text',
+                    fontSize: '1.3rem',
+                    lineHeight: '1',
+                    padding: '1.6rem 0.8rem',
+                    ...style,
+                }}
+                placeholder='Start typing...'
                 onClick={() => {
                     const currEditor = ref.current?.lastChild?.editor
                     if (!currEditor?.isFocused) {

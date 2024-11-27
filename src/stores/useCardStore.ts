@@ -1,8 +1,10 @@
-import { TCard } from '../types'
-import { parseSortableCheat } from '../utils/dndIdManager'
-import { useBoardStore } from './useBoardStore'
+import { TCard } from '../types.ts'
+import { parseSortableCheat } from '../utils/dndIdManager.ts'
+import { useBoardStore } from './useBoardStore.ts'
 
-export const updateCard = ({ sortableCheat, fields }: { sortableCheat: string; fields: Partial<TCard> }) => {
+export const updateCard = (
+    { sortableCheat, fields }: { sortableCheat: string; fields: Partial<TCard> },
+) => {
     useBoardStore.setState((s) => {
         const { boardIdx, cardIdx } = parseSortableCheat(sortableCheat)
 

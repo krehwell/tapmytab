@@ -1,15 +1,19 @@
 import Box, { BoxProps } from '@mui/material/Box'
 
-export const Button = ({ children, radius, sx, disabled, ...props }: { radius?: string } & BoxProps<'button'>) => {
+export const Button = (
+    { children, radius, sx, disabled, ...props }:
+        & { radius?: string }
+        & BoxProps<'button'>,
+) => {
     return (
         <Box
-            component="button"
+            component='button'
             sx={[
                 {
                     width: radius,
                     outline: 'none',
-                    border: "none",
-                    backgroundColor: "transparent",
+                    border: 'none',
+                    backgroundColor: 'transparent',
                     height: radius,
                     borderRadius: '9999px',
                     justifyContent: 'center',
@@ -17,7 +21,7 @@ export const Button = ({ children, radius, sx, disabled, ...props }: { radius?: 
                     '&:active': !disabled ? { boxShadow: 'inset 0 0 0 10em rgba(0, 0, 0, 0.55)' } : null,
                     display: 'flex',
                     alignItems: 'center',
-                    cursor: "pointer",
+                    cursor: 'pointer',
                     flexShrink: 0,
                     fontSize: '1.3rem',
                 },

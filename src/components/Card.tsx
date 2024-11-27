@@ -1,18 +1,33 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { TCard } from '../types'
-import { Flex, FlexColumn } from './Flex'
-import { Editor, useEditorInstance } from './Editor'
-import { tc } from '../utils/themeColors'
-import { useCardPopupStore } from './CardPopup'
-import { Button } from './Button'
+import { TCard } from '../types.ts'
+import { Flex, FlexColumn } from './Flex/index.tsx'
+import { Editor, useEditorInstance } from './Editor/index.ts'
+import { tc } from '../utils/themeColors.ts'
+import { useCardPopupStore } from './CardPopup.tsx'
+import { Button } from './Button.tsx'
 import { ArrowsOutSimple } from '@phosphor-icons/react'
 import type { Editor as TiptapEditor } from '@tiptap/react'
-import { Label } from './Label'
-import { updateCard } from '../stores/useCardStore'
+import { Label } from './Label.tsx'
+import { updateCard } from '../stores/useCardStore.ts'
 
-export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?: boolean; sortableCheat: string }) => {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+export const Card = ({
+    card,
+    disabled,
+    sortableCheat,
+}: {
+    card: TCard
+    disabled?: boolean
+    sortableCheat: string
+}) => {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transition,
+        transform,
+        isDragging,
+    } = useSortable({
         id: card.id,
         data: { card, sortableCheat },
         disabled,
@@ -30,7 +45,11 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
     return (
         <FlexColumn
             ref={setNodeRef}
-            style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 }}
+            style={{
+                transform: CSS.Transform.toString(transform),
+                transition,
+                opacity: isDragging ? 0.4 : 1,
+            }}
         >
             {/* CARD HEADER */}
             <FlexColumn
@@ -48,17 +67,29 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
             >
                 <Flex>
                     <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>{card.title}</h2>
-                    <Button radius="3rem" sx={{ marginLeft: 'auto' }}>
+                    <Button radius='3rem' sx={{ marginLeft: 'auto' }}>
                         <ArrowsOutSimple size={18} />
                     </Button>
                 </Flex>
-                <p style={{ fontSize: '1.3rem', color: tc.textActiveSecondary, marginBottom: '0.3rem' }}>{card.desc}</p>
+                <p
+                    style={{
+                        fontSize: '1.3rem',
+                        color: tc.textActiveSecondary,
+                        marginBottom: '0.3rem',
+                    }}
+                >
+                    {card.desc}
+                </p>
                 {card.label && <Label label={card.label} />}
             </FlexColumn>
 
             {/* CARD CONTENT */}
             <FlexColumn
-                style={{ padding: '0 0.8rem 1.6rem', backgroundColor: tc.bgPrimary, borderRadius: '0 0 12px 12px' }}
+                style={{
+                    padding: '0 0.8rem 1.6rem',
+                    backgroundColor: tc.bgPrimary,
+                    borderRadius: '0 0 12px 12px',
+                }}
             >
                 <Editor
                     editor={editor as TiptapEditor}
@@ -68,7 +99,7 @@ export const Card = ({ card, disabled, sortableCheat }: { card: TCard; disabled?
                         borderRadius: '0.8rem',
                         display: isDragging || disabled ? 'none' : 'block',
                         minHeight: '15.8rem',
-                        maxHeight: '25rem',
+                        maxHeight: '36rem',
                     }}
                 />
             </FlexColumn>

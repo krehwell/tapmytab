@@ -1,7 +1,7 @@
-import { Button } from './Button'
-import { TLabel } from '../types'
-import { getColorFromLabel } from '../utils/label'
-import { tc } from '../utils/themeColors'
+import { Button } from './Button.tsx'
+import { TLabel } from '../types.ts'
+import { getColorFromLabel } from '../utils/label.ts'
+import { tc } from '../utils/themeColors.ts'
 
 export const Label = ({
     label,

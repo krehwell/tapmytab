@@ -1,11 +1,11 @@
-import { FlexRowAlignCenter } from '../../Flex'
+import { FlexRowAlignCenter } from '../../Flex/index.tsx'
 import { ArrowUUpLeft, ArrowUUpRight, BracketsCurly, Code, TextBolder, TextItalic } from '@phosphor-icons/react'
 import { Editor as TiptapEditor } from '@tiptap/react'
-import { useTextmenuStates } from './useTextmenuStates'
-import { ToolbarBtn } from './ToolbarBtn'
-import { ToolbarLinkOption } from './ToolbarLinkOption'
-import { ToolbarListOptions } from './ToolbarListOptions'
-import { ToolbarTextAlignOptions } from './ToolbarTextAlignOptions'
+import { useTextmenuStates } from './useTextmenuStates.ts'
+import { ToolbarBtn } from './ToolbarBtn.tsx'
+import { ToolbarLinkOption } from './ToolbarLinkOption.tsx'
+import { ToolbarListOptions } from './ToolbarListOptions.tsx'
+import { ToolbarTextAlignOptions } from './ToolbarTextAlignOptions.tsx'
 
 export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
     const { isBold, isItalic, isCode, isCodeBlock } = useTextmenuStates(editor)
@@ -20,12 +20,20 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 height: '3.6rem',
             }}
         >
-            <ToolbarBtn title="Undo" Icon={ArrowUUpLeft} onClick={() => editor.chain().undo().run()} />
-            <ToolbarBtn title="Redo" Icon={ArrowUUpRight} onClick={() => editor.chain().redo().run()} />
+            <ToolbarBtn
+                title='Undo'
+                Icon={ArrowUUpLeft}
+                onClick={() => editor.chain().undo().run()}
+            />
+            <ToolbarBtn
+                title='Redo'
+                Icon={ArrowUUpRight}
+                onClick={() => editor.chain().redo().run()}
+            />
             <ToolbarTextAlignOptions editor={editor} />
             <ToolbarListOptions editor={editor} />
             <ToolbarBtn
-                title="Bold"
+                title='Bold'
                 isActive={isBold}
                 Icon={TextBolder}
                 onClick={() => {
@@ -33,7 +41,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 }}
             />
             <ToolbarBtn
-                title="Italic"
+                title='Italic'
                 isActive={isItalic}
                 Icon={TextItalic}
                 onClick={() => {
@@ -41,7 +49,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 }}
             />
             <ToolbarBtn
-                title="Code"
+                title='Code'
                 isActive={isCode}
                 Icon={Code}
                 onClick={() => {
@@ -49,7 +57,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 }}
             />
             <ToolbarBtn
-                title="Code Block"
+                title='Code Block'
                 isActive={isCodeBlock}
                 Icon={BracketsCurly}
                 onClick={() => {

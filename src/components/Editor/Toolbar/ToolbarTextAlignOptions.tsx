@@ -1,16 +1,18 @@
-import { TextAlignLeft, TextAlignCenter, TextAlignRight } from '@phosphor-icons/react'
-import { tc } from '../../../utils/themeColors'
-import { WithOptionsMenu } from '../../WithOptionsMenu'
-import { ToolbarBtn } from './ToolbarBtn'
-import { useTextmenuStates } from './useTextmenuStates'
+import { TextAlignCenter, TextAlignLeft, TextAlignRight } from '@phosphor-icons/react'
+import { WithOptionsMenu } from '../../WithOptionsMenu.tsx'
+import { ToolbarBtn } from './ToolbarBtn.tsx'
+import { useTextmenuStates } from './useTextmenuStates.ts'
 import { Editor as TiptapEditor } from '@tiptap/react'
 
-export const ToolbarTextAlignOptions = ({ editor }: { editor: TiptapEditor }) => {
-    const { isAlignLeft, isAlignCenter, isAlignRight } = useTextmenuStates(editor)
+export const ToolbarTextAlignOptions = (
+    { editor }: { editor: TiptapEditor },
+) => {
+    const { isAlignLeft, isAlignCenter, isAlignRight } = useTextmenuStates(
+        editor,
+    )
 
     return (
         <WithOptionsMenu
-            menuItemProps={{ sx: { backgroundColor: tc.bgSecondary } }}
             options={[
                 {
                     label: 'Left',
@@ -31,7 +33,7 @@ export const ToolbarTextAlignOptions = ({ editor }: { editor: TiptapEditor }) =>
         >
             {({ openMenu }) => (
                 <ToolbarBtn
-                    title="Text Alignment"
+                    title='Text Alignment'
                     Icon={isAlignCenter ? TextAlignCenter : isAlignRight ? TextAlignRight : TextAlignLeft}
                     onClick={openMenu}
                 />

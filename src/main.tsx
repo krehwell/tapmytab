@@ -1,7 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom';
 import './index.css'
-import { App } from './components/App'
+import { App } from './components/App/App.tsx'
 
 const buildRoot = () => {
     const root = document.createElement('div')
@@ -15,5 +15,5 @@ const root = buildRoot()
 ReactDOM.createRoot(root).render(
     <React.StrictMode>
         <App />
-    </React.StrictMode>
+    </React.StrictMode>,
 )

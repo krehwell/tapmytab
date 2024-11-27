@@ -1,4 +1,4 @@
-import { TBoard, TCard } from '../types'
+import { TBoard, TCard } from '../types.ts'
 import { create } from 'zustand'
 import { arrayMove } from '@dnd-kit/sortable'
 import genUid from 'light-uid'
@@ -11,8 +11,17 @@ type BoardStore = {
     changeBoardName: (props: { idx: number; name: string }) => void
     deleteBoard: (props: { idx: number }) => void
     duplicateBoard: (props: { idx: number }) => void
-    swapCardPos: (props: { boardIdx: number; currIdx: number; newIdx: number }) => void
-    swapCardSwitchBoard: (props: { currBoardIdx: number; currIdx: number; newBoardIdx: number; newIdx: number }) => void
+    swapCardPos: (
+        props: { boardIdx: number; currIdx: number; newIdx: number },
+    ) => void
+    swapCardSwitchBoard: (
+        props: {
+            currBoardIdx: number
+            currIdx: number
+            newBoardIdx: number
+            newIdx: number
+        },
+    ) => void
 }
 
 export const useBoardStore = create<BoardStore>((set, get) => ({

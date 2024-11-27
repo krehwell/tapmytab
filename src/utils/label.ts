@@ -1,4 +1,6 @@
-import { TLabel } from '../types'
+import { TLabel } from '../types.ts'
+
+export const LABELS = [TLabel.Red, TLabel.Green, TLabel.Blue, TLabel.Yellow]
 
 export const getColorFromLabel = ({ label }: { label: TLabel }) => {
     switch (label) {

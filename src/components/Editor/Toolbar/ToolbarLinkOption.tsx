@@ -1,12 +1,12 @@
 import ClickAwayListener from '@mui/material/ClickAwayListener'
-import { Button } from '../../Button'
+import { Button } from '../../Button.tsx'
 import { Editor as TiptapEditor } from '@tiptap/react'
-import { Link, KeyReturn } from '@phosphor-icons/react'
+import { KeyReturn, Link } from '@phosphor-icons/react'
 import { useCallback, useState } from 'react'
-import { tc } from '../../../utils/themeColors'
-import { FlexRowAlignCenter, FlexColumn } from '../../Flex'
-import { UrlTextInput, UrlInput } from '../LinkMenu'
-import { ToolbarBtn } from './ToolbarBtn'
+import { tc } from '../../../utils/themeColors.ts'
+import { FlexColumn, FlexRowAlignCenter } from '../../Flex/index.tsx'
+import { UrlInput, UrlTextInput } from '../LinkMenu.tsx'
+import { ToolbarBtn } from './ToolbarBtn.tsx'
 
 export const ToolbarLinkOption = ({ editor }: { editor: TiptapEditor }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -20,16 +20,20 @@ export const ToolbarLinkOption = ({ editor }: { editor: TiptapEditor }) => {
             editor
                 .chain()
                 .focus()
-                .insertContent({ type: 'text', text: text, marks: [{ type: 'link', attrs: { href: url } }] })
+                .insertContent({
+                    type: 'text',
+                    text: text,
+                    marks: [{ type: 'link', attrs: { href: url } }],
+                })
                 .run()
         },
-        [editor]
+        [editor],
     )
 
     return (
         <div style={{ position: 'relative' }}>
             <ToolbarBtn
-                title="Link"
+                title='Link'
                 Icon={Link}
                 onClick={() => {
                     setIsMenuOpen(true)
@@ -64,7 +68,11 @@ export const ToolbarLinkOption = ({ editor }: { editor: TiptapEditor }) => {
                                 onChange={(e) => setUrl(e.target.value)}
                             />
                         </FlexColumn>
-                        <Button radius="2.5rem" title="Confirm Modify" onClick={() => onSetLink({ url, text })}>
+                        <Button
+                            radius='2.5rem'
+                            title='Confirm Modify'
+                            onClick={() => onSetLink({ url, text })}
+                        >
                             <KeyReturn size={16} style={{ flexShrink: 0 }} />
                         </Button>
                     </FlexRowAlignCenter>

@@ -1,4 +1,4 @@
-import { TBoard } from '../types'
+import { TBoard } from '../types.ts'
 
 export const StorageService = {
     saveBoards: async (boards: TBoard[]) => {
@@ -6,8 +6,8 @@ export const StorageService = {
             await chrome.storage.local.set({ boards })
             console.log('Boards saved successfully')
 
-            const bytes = await chrome.storage.local.getBytesInUse();
-            console.log(`Storage usage: ${bytes} bytes`);
+            const bytes = await chrome.storage.local.getBytesInUse()
+            console.log(`Storage usage: ${bytes} bytes`)
         } catch (error) {
             console.error('Error saving boards:', error)
         }

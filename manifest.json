@@ -15,7 +15,9 @@
         "192": "android-chrome-192x192.png",
         "512": "android-chrome-512x512.png"
     },
-    "permissions": ["storage", "tabs"],
+    "permissions": [
+        "storage"
+    ],
     "chrome_url_overrides": {
         "newtab": "index.html"
     },
