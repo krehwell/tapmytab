@@ -1,17 +1,32 @@
-import { Editor as TiptapEditor } from '@tiptap/react'
+import { Editor as TiptapEditor, useEditorState } from '@tiptap/react'
 
 export const useTextmenuStates = (editor: TiptapEditor) => {
-    return {
-        isBold: editor.isActive('bold'),
-        isItalic: editor.isActive('italic'),
-        isCode: editor.isActive('code'),
-        isCodeBlock: editor.isActive('codeBlock'),
-        isAlignLeft: editor.isActive({ textAlign: 'left' }),
-        isAlignCenter: editor.isActive({ textAlign: 'center' }),
-        isAlignRight: editor.isActive({ textAlign: 'right' }),
-        isAlignJustify: editor.isActive({ textAlign: 'justify' }),
-        isOrderedList: editor.isActive('orderedList'),
-        isBulletList: editor.isActive('bulletList'),
-        isTaskList: editor.isActive('taskList'),
-    }
+    const states = useEditorState({
+        editor,
+        selector: (ctx) => {
+            return {
+                isParagraph: ctx.editor.isActive('paragraph') &&
+                    !ctx.editor.isActive('orderedList') &&
+                    !ctx.editor.isActive('bulletList') &&
+                    !ctx.editor.isActive('taskList'),
+                isBold: ctx.editor.isActive('bold'),
+                isItalic: ctx.editor.isActive('italic'),
+                isCode: ctx.editor.isActive('code'),
+                isCodeBlock: ctx.editor.isActive('codeBlock'),
+                isAlignLeft: ctx.editor.isActive({ textAlign: 'left' }),
+                isAlignCenter: ctx.editor.isActive({ textAlign: 'center' }),
+                isAlignRight: ctx.editor.isActive({ textAlign: 'right' }),
+                isAlignJustify: ctx.editor.isActive({ textAlign: 'justify' }),
+                isOrderedList: ctx.editor.isActive('orderedList'),
+                isBulletList: ctx.editor.isActive('bulletList'),
+                isTaskList: ctx.editor.isActive('taskList'),
+                isH1: ctx.editor.isActive('heading', { level: 1 }),
+                isH2: ctx.editor.isActive('heading', { level: 2 }),
+                isH3: ctx.editor.isActive('heading', { level: 3 }),
+                isH4: ctx.editor.isActive('heading', { level: 4 }),
+            }
+        },
+    })
+
+    return states
 }

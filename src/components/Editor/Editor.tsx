@@ -7,6 +7,7 @@ import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import debounce from 'lodash/debounce'
 import StarterKit from '@tiptap/starter-kit'
+import Placeholder from '@tiptap/extension-placeholder'
 import { useEffect, useRef } from 'react'
 import { LinkMenu } from './LinkMenu.tsx'
 
@@ -24,6 +25,21 @@ const extensions = [
         openOnClick: false,
         autolink: true,
         defaultProtocol: 'https',
+    }),
+    Placeholder.configure({
+        placeholder: ({ editor }) => {
+            if (editor.isActive('heading')) {
+                return ''
+            }
+            return `Start typing (supports markdown). try:
+
+## title 
+desc
+
+- list one
+- list two
+`
+        },
     }),
 ]
 
@@ -79,7 +95,6 @@ export const Editor = (
                     padding: '1.6rem 0.8rem',
                     ...style,
                 }}
-                placeholder='Start typing...'
                 onClick={() => {
                     const currEditor = ref.current?.lastChild?.editor
                     if (!currEditor?.isFocused) {

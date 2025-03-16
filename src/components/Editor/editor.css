@@ -88,13 +88,13 @@
     display: flex;
 }
 
-.tiptap ul[data-type='taskList'] li > label {
+.tiptap ul[data-type='taskList'] li>label {
     flex: 0 0 auto;
     margin-right: 0.5rem;
     user-select: none;
 }
 
-.tiptap ul[data-type='taskList'] li > div {
+.tiptap ul[data-type='taskList'] li>div {
     flex: 1 1 auto;
 }
 
@@ -125,14 +125,14 @@
     color: #4d9fff;
 }
 
-/* Blockquotes - StarterKit */
+/* Blockquotes */
 .tiptap blockquote {
     border-left: 3px solid var(--color-bg-primary);
     padding-left: 1.6rem;
     margin: 2rem 0;
 }
 
-/* Code blocks - StarterKit */
+/* Code blocks */
 .tiptap pre {
     background: var(--color-bg-primary);
     border-radius: 0.4rem;
@@ -149,40 +149,42 @@
     font-size: 0.9em;
 }
 
-/* Horizontal rule - StarterKit */
+/* Horizontal rule */
 .tiptap hr {
     border: none;
     border-top: 2px solid var(--color-bg-primary);
     margin: 2rem 0;
 }
 
-/* Text alignment - StarterKit */
+/* Placeholder */
 .tiptap .is-editor-empty:first-child::before {
     content: attr(data-placeholder);
     float: left;
     color: #9ca3af;
     pointer-events: none;
     height: 0;
+    font-size: 1.3rem;
+    font-weight: 400;
 }
 
-/* Mark - StarterKit */
+/* Mark */
 .tiptap mark {
     background-color: #fef08a;
     border-radius: 0.2rem;
     padding: 0 0.2rem;
 }
 
-/* Bold - StarterKit */
+/* Bold */
 .tiptap strong {
     font-weight: 600;
 }
 
-/* Italic - StarterKit */
+/* Italic */
 .tiptap em {
     font-style: italic;
 }
 
-/* Strike - StarterKit */
+/* Strike */
 .tiptap s {
     text-decoration: line-through;
 }

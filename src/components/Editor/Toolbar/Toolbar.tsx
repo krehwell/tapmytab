@@ -3,9 +3,10 @@ import { ArrowUUpLeft, ArrowUUpRight, BracketsCurly, Code, TextBolder, TextItali
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { useTextmenuStates } from './useTextmenuStates.ts'
 import { ToolbarBtn } from './ToolbarBtn.tsx'
-import { ToolbarLinkOption } from './ToolbarLinkOption.tsx'
+import { ToolbarLinkOptions } from './ToolbarLinkOptions.tsx'
 import { ToolbarListOptions } from './ToolbarListOptions.tsx'
 import { ToolbarTextAlignOptions } from './ToolbarTextAlignOptions.tsx'
+import { ToolbarHeadingOptions } from './ToolbarHeadingOptions.tsx'
 
 export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
     const { isBold, isItalic, isCode, isCodeBlock } = useTextmenuStates(editor)
@@ -30,6 +31,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 Icon={ArrowUUpRight}
                 onClick={() => editor.chain().redo().run()}
             />
+            <ToolbarHeadingOptions editor={editor} />
             <ToolbarTextAlignOptions editor={editor} />
             <ToolbarListOptions editor={editor} />
             <ToolbarBtn
@@ -64,7 +66,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                     editor.chain().focus().toggleCodeBlock().run()
                 }}
             />
-            <ToolbarLinkOption editor={editor} />
+            <ToolbarLinkOptions editor={editor} />
         </FlexRowAlignCenter>
     )
 }

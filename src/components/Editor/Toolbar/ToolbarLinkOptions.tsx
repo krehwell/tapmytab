@@ -8,7 +8,7 @@ import { FlexColumn, FlexRowAlignCenter } from '../../Flex/index.tsx'
 import { UrlInput, UrlTextInput } from '../LinkMenu.tsx'
 import { ToolbarBtn } from './ToolbarBtn.tsx'
 
-export const ToolbarLinkOption = ({ editor }: { editor: TiptapEditor }) => {
+export const ToolbarLinkOptions = ({ editor }: { editor: TiptapEditor }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [text, setText] = useState('')
     const [url, setUrl] = useState('')
