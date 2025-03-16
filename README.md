@@ -3,7 +3,7 @@
 <img align="right" src="https://deno.land/logo.svg" height="150px" alt="the deno mascot dinosaur standing in the rain">
 
 # tapmytab: Effortless Kanban, drag-and-drop magic—right from your browser tab! 🎨✨
-[krehwell](https://krehwell.com) 💩, [Hafizh Izzan Zaldi](https://www.linkedin.com/in/hafizh-izzan-zaldi/) 👩🏻‍🎨🖌
+[krehwell](https://krehwell.com) 👾, [Hafizh Izzan Zaldi](https://www.linkedin.com/in/hafizh-izzan-zaldi/) 👩🏻‍🎨🖌
 </div>
 
 
