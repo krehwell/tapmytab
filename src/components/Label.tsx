@@ -8,12 +8,13 @@ export const Label = ({
     style,
     onClick,
 }: {
-    label?: TLabel
+    label: TLabel
     style?: React.CSSProperties
     onClick?: (e: React.MouseEvent) => void
 }) => {
     return (
         <Button
+            tabIndex={-1}
             onClick={onClick}
             style={{
                 width: '5.1rem',
@@ -26,16 +27,14 @@ export const Label = ({
                 ...style,
             }}
         >
-            {label && (
-                <div
-                    style={{
-                        height: '1rem',
-                        width: '100%',
-                        borderRadius: '0.4rem',
-                        backgroundColor: getColorFromLabel({ label }),
-                    }}
-                />
-            )}
+            <div
+                style={{
+                    height: '1rem',
+                    width: '100%',
+                    borderRadius: '0.4rem',
+                    backgroundColor: getColorFromLabel({ label }),
+                }}
+            />
         </Button>
     )
 }

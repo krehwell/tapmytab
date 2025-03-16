@@ -3,7 +3,7 @@ export type TCard = {
     title: string
     desc?: string
     content: string
-    label?: TLabel
+    label: TLabel
 }
 
 export type TBoard = {
@@ -17,4 +17,5 @@ export enum TLabel {
     Green = 'green',
     Blue = 'blue',
     Yellow = 'yellow',
+    No = 'transparent'
 }

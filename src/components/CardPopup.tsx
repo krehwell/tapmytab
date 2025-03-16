@@ -12,7 +12,7 @@ import { Editor as TiptapEditor } from '@tiptap/react'
 import { DotsThree, X } from '@phosphor-icons/react'
 import { WithOptionsMenu } from './WithOptionsMenu.tsx'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
-import { cycleNextLabel, LABELS } from '../utils/label.ts'
+import { LABELS } from '../utils/label.ts'
 import { deleteCard, updateCard } from '../stores/useCardStore.ts'
 
 export const useCardPopupStore = create<{
@@ -76,6 +76,8 @@ const CardPopupHeader = () => {
     const closePopup = useCardPopupStore((s) => s.closePopup)
     const updateField = useCardPopupStore((s) => s.updateField)
 
+    if (!card) return null
+
     return (
         <>
             <FlexRowAlignCenter style={{ marginBottom: '0.8rem' }}>
@@ -83,8 +85,11 @@ const CardPopupHeader = () => {
                     maxRows={1}
                     maxLength={60}
                     defaultValue={card?.title}
-                    placeholder={'Add Title...'}
+                    placeholder='Add Title...'
                     onChange={(e) => updateField({ fields: { title: e.target.value } })}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') e.currentTarget.blur()
+                    }}
                     style={{
                         backgroundColor: 'transparent',
                         flex: 1,
@@ -105,12 +110,12 @@ const CardPopupHeader = () => {
                     ]}
                 >
                     {({ openMenu }) => (
-                        <Button radius='3.2rem' onClick={openMenu}>
+                        <Button radius='3.2rem' onClick={openMenu} tabIndex={-1}>
                             <DotsThree size={22} weight='bold' style={{ flexShrink: 0 }} />
                         </Button>
                     )}
                 </WithOptionsMenu>
-                <Button radius='3.2rem' onClick={closePopup}>
+                <Button radius='3.2rem' onClick={closePopup} tabIndex={-1}>
                     <X size={22} />
                 </Button>
             </FlexRowAlignCenter>
@@ -118,7 +123,7 @@ const CardPopupHeader = () => {
                 maxRows={2}
                 maxLength={128}
                 defaultValue={card?.desc}
-                placeholder={'Add description...'}
+                placeholder='Add description...'
                 onChange={(e) => updateField({ fields: { desc: e.target.value } })}
                 style={{
                     backgroundColor: 'transparent',
@@ -138,7 +143,7 @@ const CardPopupHeader = () => {
                     anchorOrigin: { vertical: 'center', horizontal: 'right' },
                     transformOrigin: { vertical: 'center', horizontal: 'left' },
                 }}
-                options={[...LABELS, ''].map((l) => ({
+                options={[...LABELS].map((l) => ({
                     label: l,
                     node: <Label label={l} style={{ cursor: 'pointer' }} />,
                     onClick: () => updateField({ fields: { label: l } }),
@@ -147,7 +152,7 @@ const CardPopupHeader = () => {
                 {({ openMenu }) => {
                     return (
                         <Label
-                            label={card?.label}
+                            label={card.label}
                             style={{ marginTop: '0.8rem' }}
                             onClick={(e) => {
                                 e.stopPropagation()

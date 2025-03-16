@@ -1,6 +1,6 @@
 import { TLabel } from '../types.ts'
 
-export const LABELS = [TLabel.Red, TLabel.Green, TLabel.Blue, TLabel.Yellow]
+export const LABELS = [TLabel.Red, TLabel.Green, TLabel.Blue, TLabel.Yellow, TLabel.No]
 
 export const getColorFromLabel = ({ label }: { label: TLabel }) => {
     switch (label) {
@@ -12,6 +12,8 @@ export const getColorFromLabel = ({ label }: { label: TLabel }) => {
             return '#9BF6FF'
         case TLabel.Yellow:
             return '#FED7A5'
+        case TLabel.No:
+            return 'transparent'
     }
 }
 
@@ -24,7 +26,8 @@ export const cycleNextLabel = ({ label }: { label?: TLabel }) => {
         case TLabel.Blue:
             return TLabel.Yellow
         case TLabel.Yellow:
-            return undefined
+            return TLabel.No
+        case TLabel.No:
         default:
             return TLabel.Red
     }

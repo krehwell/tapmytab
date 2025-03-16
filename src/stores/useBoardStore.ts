@@ -1,11 +1,11 @@
-import { TBoard, TCard } from '../types.ts'
+import { TBoard, TCard, TLabel } from '../types.ts'
 import { create } from 'zustand'
 import { arrayMove } from '@dnd-kit/sortable'
 import genUid from 'light-uid'
 
 type BoardStore = {
     boards: TBoard[]
-    isInialized: boolean
+    isInitialized: boolean
     addNewCard: (props: { idx: number }) => void
     addNewBoard: (props: { id: string; name: string; idx: number }) => void
     changeBoardName: (props: { idx: number; name: string }) => void
@@ -26,12 +26,13 @@ type BoardStore = {
 
 export const useBoardStore = create<BoardStore>((set, get) => ({
     boards: [],
-    isInialized: false,
+    isInitialized: false,
     addNewCard: ({ idx }) => {
         const newCard: TCard = {
             id: genUid(8),
             content: '',
             title: 'New Card',
+            label: TLabel.No
         }
         const boards = [...get().boards]
         const board = boards[idx]
