@@ -15,13 +15,13 @@ import { FirstTimeCheck } from '../../utils/firstTimeChecker.ts'
 useBoardStore.subscribe((store) => {
     if (!store.isInitialized) return
     if (!isInsideChromeExtension()) {
-        console.log('try to save...!')
+        console.log('dev: try to save...!')
         return
     }
     StorageService.saveBoards(store.boards)
 })
 
-const popuplateInitialBoards = async () => {
+const populateInitialBoards = async () => {
     // if this app is a chrome tab extension. load the boards
     if (isInsideChromeExtension()) {
         const isFirstTime = await FirstTimeCheck.isFirstTime()
@@ -40,7 +40,7 @@ const popuplateInitialBoards = async () => {
 }
 
 if (typeof window != 'undefined') {
-    popuplateInitialBoards()
+    populateInitialBoards()
 }
 
 export const App = () => {

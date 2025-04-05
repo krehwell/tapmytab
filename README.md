@@ -9,6 +9,7 @@
 
 ## ✨ Features
 - 🌟 Open Source 
+- ✏️ Scratch anything on your new tab
 - 📋 Instant Kanban board appears on every new Chrome tab
 - 🎯 Drag-and-drop (DND) functionality for smooth task management
 - 📝 Full Markdown support for rich text formatting in cards

@@ -16,7 +16,8 @@
         "512": "android-chrome-512x512.png"
     },
     "permissions": [
-        "storage"
+        "storage",
+        "tabs"
     ],
     "chrome_url_overrides": {
         "newtab": "index.html"
@@ -24,5 +25,10 @@
     "background": {
         "service_worker": "src/background.ts",
         "type": "module"
-    }
+    },
+    "host_permissions": [
+        "https://www.youtube.com/*",
+        "https://www.google.com/*",
+        "https://twitter.com/*"
+    ]
 }
