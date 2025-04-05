@@ -5,6 +5,7 @@ import { CaretDown, GoogleLogo, TwitterLogo, YoutubeLogo } from '@phosphor-icons
 import { WithOptionsMenu } from './WithOptionsMenu.tsx'
 import { Button } from './Button.tsx'
 import { useLocalStorage } from 'react-use'
+import { StorageService } from '../utils/chromeStorage.ts'
 
 enum SearchOption {
     Youtube,
@@ -94,6 +95,25 @@ const SocMedInput = ({ style }: { style?: React.CSSProperties }) => {
     )
 }
 
+const MainTitle = () => {
+    return (
+        <WithOptionsMenu
+            options={[
+                { label: 'Export Boards', onClick: () => StorageService.exportBoards() },
+            ]}
+        >
+            {({ openMenu }) => (
+                <h1
+                    onClick={openMenu}
+                    style={{ color: '#5F6061', fontFamily: 'Rumiko Sans', fontSize: '2.4rem', fontWeight: '600' }}
+                >
+                    tapmytab
+                </h1>
+            )}
+        </WithOptionsMenu>
+    )
+}
+
 export const Navbar = () => {
     return (
         <FlexRowAlignCenter
@@ -105,16 +125,7 @@ export const Navbar = () => {
                 backgroundColor: '#2F3336',
             }}
         >
-            <span
-                style={{
-                    color: '#5F6061',
-                    fontFamily: 'Rumiko Sans',
-                    fontSize: '2.4rem',
-                    fontWeight: '600',
-                }}
-            >
-                tapmytab
-            </span>
+            <MainTitle />
             <SocMedInput style={{ marginLeft: 'auto' }} />
         </FlexRowAlignCenter>
     )

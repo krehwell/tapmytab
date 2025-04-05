@@ -23,6 +23,24 @@ export const StorageService = {
         }
     },
 
+    exportBoards: async () => {
+        try {
+            const boards = await StorageService.loadBoards()
+            if (boards) {
+                const json = JSON.stringify(boards, null, 2)
+                const blob = new Blob([json], { type: 'application/json' })
+                const url = URL.createObjectURL(blob)
+                const link = document.createElement('a')
+                link.href = url
+                link.download = 'tapmytab_boards.json'
+                link.click()
+                URL.revokeObjectURL(url)
+            }
+        } catch (error) {
+            console.error('Error exporting boards:', error)
+        }
+    },
+
     clearBoards: async () => {
         try {
             await chrome.storage.local.remove('boards')

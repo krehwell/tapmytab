@@ -23,7 +23,7 @@
         "@emotion/react": "npm:@emotion/react@11.13.3",
         "@emotion/styled": "npm:@emotion/styled@11.13.0",
         "@mui/base": "npm:@mui/base@5.0.0-beta.61",
-        "@mui/material": "npm:@mui/material@6.1.7",
+        "@mui/material": "npm:@mui/material@7.0.1",
         "react-use": "npm:react-use@^17.6.0",
         "@tiptap/extension-link": "npm:@tiptap/extension-link@2.11.5",
         "@tiptap/extension-task-item": "npm:@tiptap/extension-task-item@2.11.5",

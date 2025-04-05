@@ -47,7 +47,11 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
     const renderPreviewLink = () => {
         return (
             <>
-                <a href={url} target='_blank' style={{ marginRight: '0.3rem' }}>
+                <a
+                    href={url}
+                    target='_blank'
+                    style={{ marginRight: '0.3rem', textOverflow: 'ellipsis', maxWidth: '35rem', overflow: 'hidden' }}
+                >
                     {url}
                 </a>
                 <Button
@@ -97,7 +101,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
                         </Button>
                         <Button
                             radius='2rem'
-                            title={'Remove Link'}
+                            title='Remove Link'
                             onClick={() => onUnsetLink()}
                         >
                             <Trash size={16} style={{ flexShrink: 0 }} />
@@ -135,7 +139,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
         >
             <FlexRowAlignCenter
                 style={{
-                    display: !!url ? 'flex' : 'none',
+                    display: url ? 'flex' : 'none',
                     backgroundColor: tc.tokenGrey,
                     fontSize: '1.3rem',
                     padding: '0.5rem 0.8rem',
