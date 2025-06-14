@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="https://i.imgur.com/DviBorP.png" width="700" alt="tapmytab ui">
+</p>
+
+  
 <div align="center">
 <img align="left" width="150" height="150" src="./public/tapmytab.png" alt="tapmytab icon">
 <img align="right" src="https://deno.land/logo.svg" height="150px" alt="the deno mascot dinosaur standing in the rain">
