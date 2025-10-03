@@ -25,10 +25,5 @@
     "background": {
         "service_worker": "src/background.ts",
         "type": "module"
-    },
-    "host_permissions": [
-        "https://www.youtube.com/*",
-        "https://www.google.com/*",
-        "https://twitter.com/*"
-    ]
+    }
 }
