@@ -46,7 +46,8 @@
         "@vitejs/plugin-react": "npm:@vitejs/plugin-react@4.3.3",
         "vite": "npm:vite@5.4.11",
         "@types/lodash": "npm:@types/lodash@4.17.13",
-        "lodash": "npm:lodash@4.17.21"
+        "lodash": "npm:lodash@4.17.21",
+        "dayjs": "npm:dayjs@1.11.18"
     },
     "fmt": {
         "useTabs": false,
