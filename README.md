@@ -4,7 +4,7 @@
 
   
 <div align="center">
-<img align="left" width="150" height="150" src="./public/tapmytab.svg" alt="tapmytab icon">
+<img align="left" width="150" height="150" src="./public/tapmytab.png" alt="tapmytab icon">
 <img align="right" src="https://deno.land/logo.svg" height="150px" alt="the deno mascot dinosaur standing in the rain">
 
 # tapmytab: Effortless Kanban, drag-and-drop magic—right from your browser tab! 🎨✨
@@ -24,6 +24,7 @@
 - 🏷️ Custom labels and tags for better organization
 - ⌨️ Markdown shortcuts for faster formatting
 - 📁 Multiple board support for different projects
+- 📅 Due date
 - 💾 Export/Import functionality for backup (_maybe coming_)
 - 🎨 Customizable board themes and layouts (_maybe coming_)
 
