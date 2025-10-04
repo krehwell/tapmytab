@@ -30,7 +30,7 @@ export const Due = ({
                 ref.current?.showPicker()
             }}
             style={{
-                cursor: isEditable ? 'default' : 'pointer',
+                cursor: !isEditable ? 'default' : 'pointer',
                 marginLeft: 'auto',
                 backgroundColor: hasPassedOrIsToday ? '#cc2936' : '#24272A',
                 padding: '0.6rem 0.8rem',
