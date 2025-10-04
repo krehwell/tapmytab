@@ -134,7 +134,7 @@ const MainTitle = () => {
                         fontWeight: '600',
                     }}
                 >
-                    tapmytab1
+                    tapmytab
                 </h1>
             )}
         </WithOptionsMenu>
