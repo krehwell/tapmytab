@@ -1,18 +1,16 @@
-console.log('Background script loaded')
+import { extensionAPI, isFirefox } from './utils/extensionAPI.ts'
+import { FirstTimeService } from './utils/firstTimeChecker.ts'
 
-chrome.runtime.onInstalled.addListener(async (details) => {
+extensionAPI.runtime.onInstalled.addListener(async (details) => {
     console.log('Extension installed')
 
     if (details.reason === 'install') {
-        // First time installation
-        await chrome.storage.local.set({
-            firstInstall: true,
-            installDate: new Date().toISOString(),
-        })
+        await FirstTimeService.flagIsFirstTime()
         console.log('First time installation detected')
     }
 })
 
-chrome.action.onClicked.addListener((tab) => {
-    chrome.tabs.create({ url: 'chrome://newtab' })
+extensionAPI.action.onClicked.addListener((tab) => {
+    const newTabUrl = isFirefox ? 'about:newtab' : 'chrome://newtab'
+    extensionAPI.tabs.create({ url: newTabUrl })
 })

@@ -8,13 +8,13 @@ import { tc } from '../../utils/themeColors.ts'
 import { CardPopup } from '../CardPopup.tsx'
 import { useBoardStore } from '../../stores/useBoardStore.ts'
 import { parseSortableCheat } from '../../utils/dndIdManager.ts'
-import { isInsideChromeExtension, StorageService } from '../../utils/chromeStorage.ts'
+import { isInsideExtension, StorageService } from '../../utils/storage.ts'
 import { BOARD1, BOARD2 } from '../../utils/templates.ts'
-import { FirstTimeCheck } from '../../utils/firstTimeChecker.ts'
+import { FirstTimeService } from '../../utils/firstTimeChecker.ts'
 
 useBoardStore.subscribe((store) => {
     if (!store.isInitialized) return
-    if (!isInsideChromeExtension()) {
+    if (!isInsideExtension()) {
         console.log('dev: try to save...!')
         return
     }
@@ -22,16 +22,16 @@ useBoardStore.subscribe((store) => {
 })
 
 const populateInitialBoards = async () => {
-    // if this app is a chrome tab extension. load the boards
-    if (isInsideChromeExtension()) {
-        const isFirstTime = await FirstTimeCheck.isFirstTime()
+    // if this app is an extension. load the boards
+    if (isInsideExtension()) {
+        const isFirstTime = await FirstTimeService.isFirstTime()
         if (isFirstTime) {
             useBoardStore.setState({
                 boards: [BOARD1, BOARD2],
                 isInitialized: true,
             })
         } else {
-            const boards = (await StorageService.loadBoards()) || []
+            const boards = (await StorageService.loadBoards()) || [BOARD1, BOARD2]
             useBoardStore.setState({ boards, isInitialized: true })
         }
     } else {

@@ -1,10 +1,14 @@
 {
-    "version": "1.5.1",
+    "version": "1.5.2",
     "private": true,
     "tasks": {
         "dev": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "build:chrome": "deno task build && cp manifest.chrome.json dist/manifest.json",
+        "build:firefox": "deno task build && cp manifest.firefox.json dist/manifest.json",
+        "zip:chrome": "deno task build:chrome && cd dist && zip -r ../tapmytab-chrome.zip . && cd ..",
+        "zip:firefox": "deno task build:firefox && cd dist && zip -r ../tapmytab-firefox.zip . && cd .."
     },
     "nodeModulesDir": "auto",
     "compilerOptions": {

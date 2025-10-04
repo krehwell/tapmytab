@@ -5,7 +5,7 @@ import { CaretDown, GoogleLogo, TwitterLogo, YoutubeLogo } from '@phosphor-icons
 import { WithOptionsMenu } from './WithOptionsMenu.tsx'
 import { Button } from './Button.tsx'
 import { useLocalStorage } from 'react-use'
-import { StorageService } from '../utils/chromeStorage.ts'
+import { StorageService } from '../utils/storage.ts'
 
 enum SearchOption {
     Youtube,
@@ -70,17 +70,20 @@ const SocMedInput = ({ style }: { style?: React.CSSProperties }) => {
                         const query = e.currentTarget.value
 
                         if (searchWith === SearchOption.Youtube) {
-                            chrome.tabs.update({
-                                url: `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
-                            })
+                            globalThis.open(
+                                `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
+                                '_blank',
+                            )
                         } else if (searchWith === SearchOption.Google) {
-                            chrome.tabs.update({
-                                url: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
-                            })
+                            globalThis.open(
+                                `https://www.google.com/search?q=${encodeURIComponent(query)}`,
+                                '_blank',
+                            )
                         } else if (searchWith === SearchOption.Twitter) {
-                            chrome.tabs.update({
-                                url: `https://twitter.com/search?q=${encodeURIComponent(query)}`,
-                            })
+                            globalThis.open(
+                                `https://twitter.com/search?q=${encodeURIComponent(query)}`,
+                                '_blank',
+                            )
                         }
                     }
                 }}
@@ -131,7 +134,7 @@ const MainTitle = () => {
                         fontWeight: '600',
                     }}
                 >
-                    tapmytab
+                    tapmytab1
                 </h1>
             )}
         </WithOptionsMenu>
