@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "tapmytab",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "action": {
         "default_icon": {
             "16": "favicon-16x16.png",
