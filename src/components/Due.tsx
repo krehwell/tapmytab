@@ -20,7 +20,6 @@ export const Due = ({
 
     const hasPassedOrIsToday = dayjs(initialDueDate).isBefore(today, 'day') ||
         dayjs(initialDueDate).isSame(today, 'day')
-    console.log(hasPassedOrIsToday)
 
     const ref = useRef<HTMLInputElement>()
     const color = dueDate ? tc.textActivePrimary : tc.textInactiveSecondary
