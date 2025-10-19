@@ -11,7 +11,7 @@ import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaA
 import { WithMenuOption, WithOptionsMenu } from './WithOptionsMenu.tsx'
 import { createSortableCheat } from '../utils/dndIdManager.ts'
 import { useBoardStore } from '../stores/useBoardStore.ts'
-import genUid from 'light-uid'
+import { genUid } from 'light-uid'
 
 type RegularBoardProps = {
     index: number
@@ -52,7 +52,7 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
                 ...style,
             }}
         >
-            <Flex style={{ justifyContent: 'space-between', marginBottom: '2.4rem', }}>
+            <Flex style={{ justifyContent: 'space-between', marginBottom: '2.4rem' }}>
                 <BoardNameInput
                     value={name}
                     disabled={false}
@@ -148,7 +148,7 @@ const BoardNameInput = ({
     return (
         <TextareaAutosize
             maxRows={2}
-            placeholder={'Type a name...'}
+            placeholder='Type a name...'
             style={{
                 fontSize: 31,
                 fontWeight: '700',
@@ -157,6 +157,7 @@ const BoardNameInput = ({
                 backgroundColor: 'transparent',
                 resize: 'none',
                 textOverflow: 'ellipsis',
+                outline: 'none',
                 ...style,
             }}
             {...props}

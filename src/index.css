@@ -65,6 +65,15 @@ body {
 }
 
 /* Optional: customize the appearance of all scrollbars */
+
+/* Firefox only scroll appearance */
+@-moz-document url-prefix() {
+    * {
+        scrollbar-color: rgba(234, 236, 239, 0.15) transparent;
+        scrollbar-width: thin;
+    }
+}
+
 *::-webkit-scrollbar {
     width: 5px;
     height: 8px;

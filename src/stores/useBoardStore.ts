@@ -1,7 +1,7 @@
 import { TBoard, TCard, TLabel } from '../types.ts'
 import { create } from 'zustand'
 import { arrayMove } from '@dnd-kit/sortable'
-import genUid from 'light-uid'
+import { genUid } from 'light-uid'
 
 type BoardStore = {
     boards: TBoard[]
@@ -32,7 +32,7 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
             id: genUid(8),
             content: '',
             title: 'New Card',
-            label: TLabel.No
+            label: TLabel.No,
         }
         const boards = [...get().boards]
         const board = boards[idx]
