@@ -97,6 +97,7 @@ const CardPopupHeader = () => {
                         resize: 'none',
                         fontSize: '3.1rem',
                         fontWeight: 'bold',
+                        outline: 'none',
                     }}
                 />
                 <WithOptionsMenu
