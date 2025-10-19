@@ -58,7 +58,7 @@ export const Due = ({
                     }}
                 />
             )}
-            <CalendarDots style={{ opacity: dueDate ? 0 : 1 }} size={22} color={color} />
+            {dueDate ? <div style={{ height: 22 }} /> : <CalendarDots size={22} color={color} />}
 
             <span style={{ fontSize: '1.2rem', color }}>
                 {dueDate ? dayjs(dueDate).format('ddd, DD MMM YYYY') : 'Due date'}
