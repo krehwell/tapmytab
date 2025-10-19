@@ -118,7 +118,7 @@ const MainTitle = () => {
                         ),
                 },
                 {
-                    label: 'Star Repo(Open Source) 😉',
+                    label: 'Star Us on Github 😉',
                     onClick: () => globalThis.open('https://github.com/krehwell/tapmytab/', '_blank'),
                 },
             ]}

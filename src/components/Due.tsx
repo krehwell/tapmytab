@@ -17,11 +17,14 @@ export const Due = ({
 
     const today = dayjs()
     const todayStr = today.format('YYYY-MM-DD')
+    const tomorrow = dayjs().add(1, 'day')
 
-    const hasPassedOrIsToday = dayjs(initialDueDate).isBefore(today, 'day') ||
-        dayjs(initialDueDate).isSame(today, 'day')
+    const aboutToPassDue = // either today or one day before due
+        dayjs(initialDueDate).isBefore(today, 'day') ||
+        dayjs(initialDueDate).isSame(today, 'day') ||
+        dayjs(initialDueDate).isSame(tomorrow, 'day')
 
-    const ref = useRef<HTMLInputElement>()
+    const ref = useRef<HTMLInputElement>(null)
     const color = dueDate ? tc.textActivePrimary : tc.textInactiveSecondary
 
     return (
@@ -32,7 +35,7 @@ export const Due = ({
             style={{
                 cursor: !isEditable ? 'default' : 'pointer',
                 marginLeft: 'auto',
-                backgroundColor: hasPassedOrIsToday ? '#cc2936' : '#24272A',
+                backgroundColor: aboutToPassDue ? '#cc2936' : '#24272A',
                 padding: '0.6rem 0.8rem',
                 borderRadius: '0.8rem',
                 gap: '0.6rem',
@@ -46,7 +49,7 @@ export const Due = ({
                     type='date'
                     id='start'
                     name='due'
-                    value={dueDate ?? todayStr}
+                    value={dueDate ?? undefined}
                     min={todayStr}
                     onChange={(e) => {
                         const newDueDate = e.target.value
@@ -55,9 +58,10 @@ export const Due = ({
                     }}
                 />
             )}
-            <CalendarDots size={22} color={color} />
+            {!dueDate && <CalendarDots size={22} color={color} />}
+
             <span style={{ fontSize: '1.2rem', color }}>
-                {dueDate ? dayjs(dueDate).format('DD MMM YYYY') : 'Due date'}
+                {dueDate ? dayjs(dueDate).format('ddd, DD MMM YYYY') : 'Due date'}
             </span>
 
             {dueDate && isEditable && (
