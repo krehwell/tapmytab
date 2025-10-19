@@ -83,7 +83,7 @@ export const Card = ({
                 </p>
                 <FlexRowAlignCenter>
                     {card.label && <Label label={card.label} />}
-                    {card?.dueDate && <Due initialDueDate={card.dueDate} />}
+                    {card?.dueDate && <Due initialDueDate={card.dueDate} key={card.dueDate} />}
                 </FlexRowAlignCenter>
             </FlexColumn>
 
