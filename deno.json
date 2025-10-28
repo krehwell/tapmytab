@@ -5,9 +5,8 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "build:chrome": "deno task build && cp manifest.chrome.json dist/manifest.json",
         "build:firefox": "deno task build && cp manifest.firefox.json dist/manifest.json",
-        "zip:chrome": "deno task build:chrome && cd dist && zip -r ../tapmytab-chrome.zip . && cd ..",
+        "zip": "deno task build && cd dist && zip -r ../tapmytab.zip . && cd ..",
         "zip:firefox": "deno task build:firefox && cd dist && zip -r ../tapmytab-firefox.zip . && cd .."
     },
     "nodeModulesDir": "auto",
