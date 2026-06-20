@@ -51,7 +51,7 @@ const extensions = [
 
 const debouncedOnUpdate = debounce(
     ({ editor, onChange }) => onChange({ content: editor?.getHTML() }),
-    500,
+    100,
 )
 
 export const useEditorInstance = ({
