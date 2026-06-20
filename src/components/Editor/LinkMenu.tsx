@@ -25,6 +25,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
 
     const onSetLink = useCallback(
         ({ url, text }: { url: string; text: string }) => {
+            if (!url.trim()) return // don't save an empty link
             editor
                 .chain()
                 .focus()
