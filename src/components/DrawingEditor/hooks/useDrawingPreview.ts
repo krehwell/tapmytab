@@ -1,6 +1,5 @@
 import { RefObject, useEffect, useRef } from 'react'
 import { TExcalidraw } from '../../../types.ts'
-import '../excalifont.css'
 
 // renders a static svg snapshot of the excalidraw drawing into the returned ref's element.
 export const useDrawingPreview = (content: TExcalidraw): RefObject<HTMLDivElement> => {
@@ -22,8 +21,12 @@ export const useDrawingPreview = (content: TExcalidraw): RefObject<HTMLDivElemen
                     skipInliningFonts: true,
                 })
             )
-            .then((svg) => {
+            .then(async (svg) => {
+                await document.fonts.load('16px Excalifont').catch(() => {})
                 if (cancelled || !ref.current) return
+
+                svg.querySelectorAll('text').forEach((t) => (t.style.fontFamily = "'Excalifont', sans-serif"))
+
                 // svg keeps its viewBox + preserveAspectRatio, so 100%/100% fits without distortion
                 svg.style.width = '100%'
                 svg.style.height = '100%'

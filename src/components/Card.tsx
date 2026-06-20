@@ -16,26 +16,32 @@ import { Due } from './Due.tsx'
 import { useDrawingPreview } from './DrawingEditor/index.ts'
 
 export const CardTitleInput = forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
-    ({ style, onKeyDown, ...props }, ref) => (
-        <input
-            ref={ref}
-            placeholder='Add Title...'
-            maxLength={60}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter') e.currentTarget.blur()
-                onKeyDown?.(e)
-            }}
-            style={{
-                minWidth: 0,
-                backgroundColor: 'transparent',
-                border: 'none',
-                outline: 'none',
-                textOverflow: 'ellipsis',
-                ...style,
-            }}
-            {...props}
-        />
-    ),
+    ({ style, onKeyDown, ...props }, ref) => {
+        const placeholder = 'Add Title...'
+        const size = String(props?.value || placeholder).length / 1.4
+        return (
+            <input
+                ref={ref}
+                placeholder={placeholder}
+                maxLength={60}
+                size={Math.ceil(size)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') e.currentTarget.blur()
+                    onKeyDown?.(e)
+                }}
+                style={{
+                    minWidth: 0,
+                    maxWidth: '100%',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    outline: 'none',
+                    textOverflow: 'ellipsis',
+                    ...style,
+                }}
+                {...props}
+            />
+        )
+    },
 )
 
 export const Card = ({
@@ -94,7 +100,7 @@ export const Card = ({
                         onChange={(e) => updateCard({ sortableCheat, fields: { title: e.target.value } })}
                         onClick={(e) => e.stopPropagation()}
                         onPointerDown={(e) => e.stopPropagation()}
-                        style={{ flex: 1, fontSize: '2rem', fontWeight: 700 }}
+                        style={{ fontSize: '2rem', fontWeight: 700 }}
                     />
                     {hasEmoji(card.title)
                         ? (

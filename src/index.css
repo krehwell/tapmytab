@@ -295,3 +295,12 @@ body {
     font-weight: 400;
     font-style: normal;
 }
+
+/********** FONT: Excalifont (excalidraw hand-drawn, used by the drawing-card preview) **********/
+@font-face {
+    font-family: 'Excalifont';
+    src: url('/fonts/Excalifont-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
