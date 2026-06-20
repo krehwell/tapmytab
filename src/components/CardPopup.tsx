@@ -9,6 +9,7 @@ import { TCard } from '../types.ts'
 import { Label } from './Label.tsx'
 import { Editor, useEditorInstance } from './Editor/Editor.tsx'
 import { Button } from './Button.tsx'
+import { CardTitleInput } from './Card.tsx'
 import { Toolbar } from './Editor/Toolbar/Toolbar.tsx'
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { DotsThree, X } from '@phosphor-icons/react'
@@ -101,7 +102,7 @@ const CardPopupHeader = () => {
     const sortableCheat = useCardPopupStore((s) => s.sortableCheat)
     const closePopup = useCardPopupStore((s) => s.closePopup)
     const updateField = useCardPopupStore((s) => s.updateField)
-    const titleRef = useRef<HTMLTextAreaElement>(null)
+    const titleRef = useRef<HTMLInputElement>(null)
 
     // focus title after MUI Dialog's focus trap settles
     useEffect(() => {
@@ -119,24 +120,11 @@ const CardPopupHeader = () => {
     return (
         <>
             <FlexRowAlignCenter style={{ marginBottom: '0.8rem' }}>
-                <TextareaAutosize
+                <CardTitleInput
                     ref={titleRef}
-                    maxRows={1}
-                    maxLength={60}
                     value={card.title}
-                    placeholder='Add Title...'
                     onChange={(e) => updateField({ fields: { title: e.target.value } })}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') e.currentTarget.blur()
-                    }}
-                    style={{
-                        backgroundColor: 'transparent',
-                        flex: 1,
-                        resize: 'none',
-                        fontSize: '3.1rem',
-                        fontWeight: 'bold',
-                        outline: 'none',
-                    }}
+                    style={{ flex: 1, fontSize: '3.1rem', fontWeight: 'bold' }}
                 />
                 <WithOptionsMenu
                     options={[

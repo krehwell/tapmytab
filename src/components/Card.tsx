@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { TCard } from '../types.ts'
@@ -12,6 +13,29 @@ import type { Editor as TiptapEditor } from '@tiptap/react'
 import { Label } from './Label.tsx'
 import { updateCard } from '../stores/useCardStore.ts'
 import { Due } from './Due.tsx'
+
+export const CardTitleInput = forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
+    ({ style, onKeyDown, ...props }, ref) => (
+        <input
+            ref={ref}
+            placeholder='Add Title...'
+            maxLength={60}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter') e.currentTarget.blur()
+                onKeyDown?.(e)
+            }}
+            style={{
+                minWidth: 0,
+                backgroundColor: 'transparent',
+                border: 'none',
+                outline: 'none',
+                textOverflow: 'ellipsis',
+                ...style,
+            }}
+            {...props}
+        />
+    ),
+)
 
 export const Card = ({
     card,
@@ -68,7 +92,13 @@ export const Card = ({
                 {...listeners}
             >
                 <Flex>
-                    <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>{card.title}</h2>
+                    <CardTitleInput
+                        value={card.title}
+                        onChange={(e) => updateCard({ sortableCheat, fields: { title: e.target.value } })}
+                        onClick={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        style={{ flex: 1, fontSize: '2rem', fontWeight: 700 }}
+                    />
                     {hasEmoji(card.title)
                         ? (
                             <Button radius='3rem' title='Expand' sx={{ marginLeft: 'auto' }}>

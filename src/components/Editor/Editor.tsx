@@ -1,6 +1,5 @@
 import './editor.css'
 
-import Link from '@tiptap/extension-link'
 import { Editor as TiptapEditor, EditorContent, useEditor } from '@tiptap/react'
 import TextAlign from '@tiptap/extension-text-align'
 import TaskItem from '@tiptap/extension-task-item'
@@ -10,6 +9,10 @@ import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import { useEffect, useRef } from 'react'
 import { LinkMenu } from './LinkMenu.tsx'
+import { ImageMenu } from './ImageMenu.tsx'
+import { ImageExtension } from './extensions/image.ts'
+import { LinkExtension } from './extensions/link.ts'
+import { TrailingNode } from './extensions/trailingNode.ts'
 import Box from '@mui/material/Box'
 
 const hasAccent = ({ text }: { text: string }) => {
@@ -27,11 +30,9 @@ const extensions = [
         bulletList: { keepMarks: true, keepAttributes: false },
         orderedList: { keepMarks: true, keepAttributes: false },
     }),
-    Link.extend({ inclusive: false }).configure({
-        openOnClick: false,
-        autolink: true,
-        defaultProtocol: 'https',
-    }),
+    LinkExtension,
+    ImageExtension,
+    TrailingNode,
     Placeholder.configure({
         placeholder: ({ editor }) => {
             if (editor.isActive('heading')) {
@@ -119,6 +120,7 @@ export const Editor = ({
                 }}
             />
             {editor && <LinkMenu editor={editor} />}
+            {editor && <ImageMenu editor={editor} />}
         </>
     )
 }

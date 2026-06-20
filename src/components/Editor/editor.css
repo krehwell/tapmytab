@@ -117,6 +117,20 @@
     margin: 0;
 }
 
+/* Images */
+.tiptap img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0.6rem;
+    margin: 0.8rem auto; /* always centered */
+}
+
+.tiptap img.ProseMirror-selectednode {
+    outline: 2px solid var(--selection);
+    outline-offset: 2px;
+}
+
 /* Links */
 .tiptap a {
     color: var(--link);
