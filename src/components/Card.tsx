@@ -57,6 +57,9 @@ export const Card = ({
         id: card.id,
         data: { card, sortableCheat },
         disabled,
+        // don't animate the layout shift when a card is inserted into a new board —
+        // the intermediate state is what renders as a weird gap (notably on Firefox)
+        animateLayoutChanges: () => false,
     })
 
     const { editor } = useEditorInstance({
@@ -81,7 +84,7 @@ export const Card = ({
             <FlexColumn
                 onClick={() => openPopup({ card, sortableCheat })}
                 style={{
-                    borderRadius: '12px 12px 0 0',
+                    borderRadius: isDragging || disabled ? '12px 12px 12px 12px': '12px 12px 0 0',
                     padding: '1.6rem 1.2rem',
                     paddingBottom: '1.2rem',
                     backgroundColor: tc.surfaceBase,
@@ -134,26 +137,31 @@ export const Card = ({
                 </FlexRowAlignCenter>
             </FlexColumn>
 
-            {/* CARD CONTENT */}
-            <FlexColumn
-                style={{
-                    padding: '0 0.8rem 1.6rem',
-                    backgroundColor: tc.surfaceBase,
-                    borderRadius: '0 0 12px 12px',
-                }}
-            >
-                <Editor
-                    editor={editor as TiptapEditor}
+            {
+                /* CARD CONTENT — unmounted while dragging so the placeholder collapses
+                to just the header consistently (a display:none editor still reserved
+                height after a cross-board remount on Firefox) */
+            }
+            {!(isDragging || disabled) && (
+                <FlexColumn
                     style={{
-                        overflow: 'hidden auto',
-                        backgroundColor: tc.surfaceRaised,
-                        borderRadius: '0.8rem',
-                        display: isDragging || disabled ? 'none' : 'block',
-                        minHeight: '15.8rem',
-                        maxHeight: '40rem',
+                        padding: '0 0.8rem 1.6rem',
+                        backgroundColor: tc.surfaceBase,
+                        borderRadius: '0 0 12px 12px',
                     }}
-                />
-            </FlexColumn>
+                >
+                    <Editor
+                        editor={editor as TiptapEditor}
+                        style={{
+                            overflow: 'hidden auto',
+                            backgroundColor: tc.surfaceRaised,
+                            borderRadius: '0.8rem',
+                            minHeight: '15.8rem',
+                            maxHeight: '40rem',
+                        }}
+                    />
+                </FlexColumn>
+            )}
         </FlexColumn>
     )
 }

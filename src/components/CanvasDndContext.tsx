@@ -7,6 +7,7 @@ import {
     DragOverEvent,
     DragOverlay,
     DragStartEvent,
+    MeasuringStrategy,
     PointerSensor,
     pointerWithin,
     useSensor,
@@ -19,6 +20,10 @@ import { snapCenterToCursor } from '@dnd-kit/modifiers'
 
 const collisionDetection: CollisionDetection = (args) => {
     const pointer = pointerWithin(args)
+    const overCard = pointer.some((hit) =>
+        Boolean(args.droppableContainers.find((d) => d.id === hit.id)?.data?.current?.card)
+    )
+    if (overCard) return closestCorners(args)
     return pointer.length > 0 ? pointer : closestCorners(args)
 }
 
@@ -47,6 +52,7 @@ export const CanvasDndContext = ({
         <DndContext
             sensors={sensors}
             collisionDetection={collisionDetection}
+            measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
             modifiers={[snapCenterToCursor]}
             onDragStart={(e) => {
                 setCurrDraggedCard(e.active.data.current?.card as TCard)
