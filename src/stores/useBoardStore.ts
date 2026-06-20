@@ -11,17 +11,17 @@ type BoardStore = {
     changeBoardName: (props: { idx: number; name: string }) => void
     deleteBoard: (props: { idx: number }) => void
     duplicateBoard: (props: { idx: number }) => void
-    swapCardPos: (
-        props: { boardIdx: number; currIdx: number; newIdx: number },
-    ) => void
-    swapCardSwitchBoard: (
-        props: {
-            currBoardIdx: number
-            currIdx: number
-            newBoardIdx: number
-            newIdx: number
-        },
-    ) => void
+    swapCardPos: (props: {
+        boardIdx: number
+        currIdx: number
+        newIdx: number
+    }) => void
+    swapCardSwitchBoard: (props: {
+        currBoardIdx: number
+        currIdx: number
+        newBoardIdx: number
+        newIdx: number
+    }) => void
 }
 
 export const useBoardStore = create<BoardStore>((set, get) => ({
@@ -50,7 +50,10 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
 
         const newBoard = Object.assign({}, boards[idx])
         newBoard.id = genUid(8)
-        const newCards = newBoard.cards.map((card) => ({ ...card, id: genUid(8) }))
+        const newCards = newBoard.cards.map((card) => ({
+            ...card,
+            id: genUid(8),
+        }))
         newBoard.cards = newCards
 
         boards.splice(idx + 1, 0, newBoard)

@@ -1,98 +1,84 @@
 import { TBoard, TCard, TLabel } from '../types.ts'
 
-const TEMPLATE_CONTENT_A = `
-<h2>🌱 Garden Makeover Plan</h2>
+const link = (href: string, text: string) =>
+    `<a target="_blank" rel="noopener noreferrer nofollow" href="${href}">${text}</a>`
+
+const WEEKEND = `
+<h3>🌄 Weekend adventures</h3>
 <ul data-type="taskList">
-<li data-type="taskItem" data-checked="false">🌸 <strong>Plant new flowers:</strong> Lavender, Roses, and Daisies</li>
-<li data-type="taskItem" data-checked="false">🍀 <em>Weed and mulch the garden beds</em></li>
-<li data-type="taskItem" data-checked="false">🚿 Install a drip irrigation system</li>
+<li data-type="taskItem" data-checked="false">Sunrise hike + coffee from a thermos</li>
+<li data-type="taskItem" data-checked="false">Try the new ramen place downtown 🍜</li>
+<li data-type="taskItem" data-checked="false">Picnic in the park if it's sunny</li>
 </ul>
-<p>Inspiration: <a href="https://example-garden-ideas.com">Garden Ideas</a></p>
-<blockquote>
-<p>“To plant a garden is to believe in tomorrow.”</p>
-</blockquote>
+<p>Ideas: ${link('https://www.atlasobscura.com', 'Atlas Obscura')}</p>
 `
 
-const TEMPLATE_CONTENT_B = `
-<h2>🎨 Home Decor Updates</h2>
-<p><em>Creative tasks for a cozy home:</em></p>
-<ol>
-<li>🛋️ Rearrange living room furniture</li>
-<li>🖼️ Hang new <strong>art pieces</strong> on walls</li>
-<li>🕯️ Add <em>scented candles</em> for ambiance</li>
-</ol>
-<p>DIY Project: Build a rustic bookshelf with reclaimed wood!</p>
-<pre><code class="language-plaintext">Supplies:
-- Wood planks
-- Screws and brackets
-- Sandpaper and paint</code></pre>
-`
-
-const TEMPLATE_CONTENT_C = `
-<h2>📚 Reading Goals</h2>
+const GROCERIES = `
+<h3>🛒 Groceries & meal prep</h3>
 <ul data-type="taskList">
-<li data-type="taskItem" data-checked="true">📖 Finish <em>"Atomic Habits"</em> by James Clear</li>
-<li data-type="taskItem" data-checked="false">📘 Start <strong>"The Power of Now"</strong> by Eckhart Tolle</li>
-<li data-type="taskItem" data-checked="false">🖋️ Write a <em>book review</em> for Goodreads</li>
+<li data-type="taskItem" data-checked="false">🥑 Avocados, eggs, sourdough</li>
+<li data-type="taskItem" data-checked="false">🍝 Pasta night — fresh basil for pesto</li>
+<li data-type="taskItem" data-checked="false">🍪 Bake cookies for the neighbors</li>
 </ul>
-<blockquote>
-<p>“A reader lives a thousand lives before he dies.”</p>
-</blockquote>
+<blockquote><p>Don't shop hungry 😅</p></blockquote>
 `
 
-const TEMPLATE_CONTENT_D = `
-<h2>🍳 Cooking Challenges</h2>
-<p>Try these new recipes this week:</p>
-<ol>
-<li>🥗 Mediterranean quinoa salad</li>
-<li>🍝 Homemade pasta with fresh basil pesto</li>
-<li>🍪 Chocolate chip cookies with a pinch of sea salt</li>
-</ol>
-<p>Don’t forget to take photos for your food journal!</p>
+const FITNESS = `
+<h3>💪 Get moving</h3>
+<ul data-type="taskList">
+<li data-type="taskItem" data-checked="true">Monday yoga 🧘</li>
+<li data-type="taskItem" data-checked="true">Wednesday run — 5k</li>
+<li data-type="taskItem" data-checked="false">Saturday bike ride along the coast 🚲</li>
+</ul>
+<p>Streak: <strong>3 weeks</strong> and counting!</p>
 `
 
-// Card definitions
-export const CARD1: TCard = {
-    id: 'card1',
-    title: 'Garden Makeover 🌸',
-    content: TEMPLATE_CONTENT_A,
-    desc: 'Planning a refreshing garden transformation',
-    label: TLabel.Green,
-}
+const HOBBY = `
+<h3>🎸 Learn guitar</h3>
+<ul data-type="taskList">
+<li data-type="taskItem" data-checked="true">Tune the strings without an app</li>
+<li data-type="taskItem" data-checked="false">Nail the G–C–D chord change</li>
+<li data-type="taskItem" data-checked="false">Play a full song start to finish</li>
+</ul>
+<p>Lessons: ${link('https://www.justinguitar.com', 'JustinGuitar')}</p>
+`
 
-export const CARD2: TCard = {
-    id: 'card2',
-    title: 'Home Decor Updates 🖼️',
-    content: TEMPLATE_CONTENT_B,
-    desc: 'Reimagining the living space',
-    label: TLabel.Blue,
-}
+const WATCHLIST = `
+<h3>🍿 Movie night</h3>
+<ul data-type="taskList">
+<li data-type="taskItem" data-checked="true">Spirited Away</li>
+<li data-type="taskItem" data-checked="true">The Grand Budapest Hotel</li>
+<li data-type="taskItem" data-checked="false">That documentary everyone keeps mentioning</li>
+</ul>
+<blockquote><p>“A reader lives a thousand lives… so does a movie lover 🎬”</p></blockquote>
+`
 
-export const CARD3: TCard = {
-    id: 'card3',
-    title: 'Reading Goals 📚',
-    content: TEMPLATE_CONTENT_C,
-    desc: 'Curated book reading and review goals',
-    label: TLabel.Yellow,
-}
+const READING = `
+<h3>📚 Books I finished</h3>
+<ul data-type="taskList">
+<li data-type="taskItem" data-checked="true"><em>Atomic Habits</em> — James Clear</li>
+<li data-type="taskItem" data-checked="true"><em>The Midnight Library</em> — Matt Haig</li>
+<li data-type="taskItem" data-checked="false">Write a quick review on ${
+    link('https://www.goodreads.com', 'Goodreads')
+}</li>
+</ul>
+`
 
-export const CARD4: TCard = {
-    id: 'card4',
-    title: 'Cooking Challenges 🍳',
-    content: TEMPLATE_CONTENT_D,
-    desc: 'Delicious recipes to try',
-    label: TLabel.Red,
-}
+const card = (
+    id: string,
+    title: string,
+    content: string,
+    desc: string,
+    label: TLabel,
+): TCard => ({ id, title, content, desc, label })
 
-// Board definitions
-export const BOARD1: TBoard = {
-    id: 'board1',
-    cards: [CARD1, CARD2],
-    name: '🚀 To Do',
-}
+export const CARD1 = card('card1', 'Weekend adventures 🌄', WEEKEND, 'Make the most of the days off', TLabel.Green)
+export const CARD2 = card('card2', 'Groceries & meal prep 🛒', GROCERIES, 'Eat well this week', TLabel.Yellow)
+export const CARD3 = card('card3', 'Get moving 💪', FITNESS, 'Keep the streak alive', TLabel.Red)
+export const CARD4 = card('card4', 'Learn guitar 🎸', HOBBY, 'One song at a time', TLabel.Blue)
+export const CARD5 = card('card5', 'Movie night 🍿', WATCHLIST, 'Cozy nights in', TLabel.Blue)
+export const CARD6 = card('card6', 'Books I finished 📚', READING, 'Reading wins', TLabel.Yellow)
 
-export const BOARD2: TBoard = {
-    id: 'board2',
-    cards: [CARD3, CARD4],
-    name: '⚙️ Work in Progress',
-}
+export const BOARD1: TBoard = { id: 'board1', name: '📋 To Do', cards: [CARD1, CARD2] }
+export const BOARD2: TBoard = { id: 'board2', name: '🌟 Doing', cards: [CARD3, CARD4] }
+export const BOARD3: TBoard = { id: 'board3', name: '✅ Done', cards: [CARD5, CARD6] }

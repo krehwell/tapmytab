@@ -9,7 +9,7 @@ import { CardPopup } from '../CardPopup.tsx'
 import { useBoardStore } from '../../stores/useBoardStore.ts'
 import { parseSortableCheat } from '../../utils/dndIdManager.ts'
 import { isInsideExtension, StorageService } from '../../utils/storage.ts'
-import { BOARD1, BOARD2 } from '../../utils/templates.ts'
+import { BOARD1, BOARD2, BOARD3 } from '../../utils/templates.ts'
 import { FirstTimeService } from '../../utils/firstTimeChecker.ts'
 
 useBoardStore.subscribe((store) => {
@@ -27,15 +27,22 @@ const populateInitialBoards = async () => {
         const isFirstTime = await FirstTimeService.isFirstTime()
         if (isFirstTime) {
             useBoardStore.setState({
-                boards: [BOARD1, BOARD2],
+                boards: [BOARD1, BOARD2, BOARD3],
                 isInitialized: true,
             })
         } else {
-            const boards = (await StorageService.loadBoards()) || [BOARD1, BOARD2]
+            const boards = (await StorageService.loadBoards()) || [
+                BOARD1,
+                BOARD2,
+                BOARD3,
+            ]
             useBoardStore.setState({ boards, isInitialized: true })
         }
     } else {
-        useBoardStore.setState({ boards: [BOARD1, BOARD2], isInitialized: true })
+        useBoardStore.setState({
+            boards: [BOARD1, BOARD2, BOARD3],
+            isInitialized: true,
+        })
     }
 }
 
@@ -78,7 +85,9 @@ export const App = () => {
             } else {
                 // empty board leaves empty `over.data.current` somehow. detect id manually instead
                 const ovrBoardId = over.id
-                ovrBoardIdx = boards.findIndex((board) => board.id === ovrBoardId)
+                ovrBoardIdx = boards.findIndex(
+                    (board) => board.id === ovrBoardId,
+                )
             }
 
             if (actBoardIdx === ovrBoardIdx) return
