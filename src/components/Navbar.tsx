@@ -51,15 +51,7 @@ const SocMedInput = ({ style }: { style?: React.CSSProperties }) => {
                 ...style,
             }}
         >
-            <WithOptionsMenu
-                options={SEARCH_OPTIONS}
-                // anchor is the icon + caret button, so center it on the button's
-                // left edge to sit under the icon instead of the icon/caret midpoint
-                menuProps={{
-                    anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
-                    transformOrigin: { vertical: 'top', horizontal: 'left' },
-                }}
-            >
+            <WithOptionsMenu options={SEARCH_OPTIONS}>
                 {({ openMenu }) => (
                     <Button
                         onClick={openMenu}
