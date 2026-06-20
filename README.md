@@ -1,34 +1,34 @@
-<p align="center">
-  <img src="https://i.imgur.com/DviBorP.png" width="700" alt="tapmytab ui">
-</p>
-
 <div align="center">
-<img align="left" width="150" height="150" src="./public/tapmytab.png" alt="tapmytab icon">
+<img align="left" width="150" height="150" src="./public/tapmytab.png" alt="tapmytab logo">
 <img align="right" src="https://deno.land/logo.svg" height="150px" alt="the deno mascot dinosaur standing in the rain">
 
-# tapmytab: Effortless Kanban, drag-and-drop magic—right from your browser tab! 🎨✨
+# tapmytab
 
-[krehwell](https://krehwell.com) 👾, [Hafizh Izzan Zaldi](https://www.linkedin.com/in/hafizh-izzan-zaldi/) 👩🏻‍🎨🖌, [Download](https://chromewebstore.google.com/detail/tapmytab/djfcjmnpjgalklhjilkfngplignmfkim?authuser=0&hl=en) 🚀
+Effortless Kanban, drag-and-drop magic — right from your browser tab! 🎨✨
+
+[krehwell](https://krehwell.com) 👾 · [Hafizh Izzan Zaldi](https://www.linkedin.com/in/hafizh-izzan-zaldi/) 👩🏻‍🎨🖌 · [**Download**](https://chromewebstore.google.com/detail/tapmytab/djfcjmnpjgalklhjilkfngplignmfkim?authuser=0&hl=en) 🚀
 
 </div>
+
+<p align="center">
+  <img src="https://i.imgur.com/DviBorP.png" width="720" alt="tapmytab ui">
+</p>
 
 ## ✨ Features
 
 - 🌟 Open Source
 - ✏️ Scratch anything on your new tab
-- 📋 Instant Kanban board appears on every new browser tab
+- 📋 Instant Kanban on every new browser tab
 - 🎯 Drag-and-drop cards across boards and reorder freely
-- 📝 Full Markdown support for rich text formatting in cards
+- 📝 Full Markdown Rich Text editor support
 - 😀 One-click **Emojify** — auto-add a fitting emoji to any board or card title
 - ♾️ Unlimited local storage — keep as many boards & cards as you like
 - 🔄 Auto-sync across all your tabs
 - 🔒 Local storage for data privacy and offline access
-- ⌨️ `Cmd/Ctrl + Enter` to save & close the card editor instantly
-- 🏷️ Custom labels and tags for better organization
-- ⌨️ Markdown shortcuts for faster formatting
+- 🏷️ Custom tags label
 - 📁 Multiple board support for different projects
-- 📅 Due dates with overdue highlighting
-- 💾 Export / Import your boards as JSON for backup
+- 📅 Due dates 
+- 💾 Export / Import your boards for backup
 - 🦊 Cross-browser — available for both Chrome and Firefox
 
 ## 📦 Installation

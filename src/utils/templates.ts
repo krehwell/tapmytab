@@ -5,6 +5,7 @@ const link = (href: string, text: string) =>
 
 const WELCOME = `
 <h3>👋 Welcome to your new tab!</h3>
+<img src="/tapmytab.png" style="width: 60%">
 <p>This whole page is your board. Try it out:</p>
 <ul data-type="taskList">
 <li data-type="taskItem" data-checked="false">😀 Hit <strong>Emojify</strong> to jazz up a title</li>
@@ -28,28 +29,32 @@ const ERRANDS = `
 
 const HABITS = `
 <h3>💪 Daily habits</h3>
-<ul data-type="taskList">
-<li data-type="taskItem" data-checked="true">🧘 Morning stretch</li>
-<li data-type="taskItem" data-checked="true">💧 8 glasses of water</li>
-<li data-type="taskItem" data-checked="false">🏃 30-min walk</li>
-<li data-type="taskItem" data-checked="false">📖 Read 10 pages</li>
+<ul>
+<li>🧘 Morning stretch</li>
+<li>💧 8 glasses of water</li>
+<li>🏃 30-min walk</li>
+<li>📖 Read 10 pages</li>
 </ul>
 <p><strong>🔥 5-day streak</strong> — keep it going!</p>
 `
 
 const LEARNING = `
-<h3>📚 Learning</h3>
+<h3>🎸 Learn guitar from scratch</h3>
+<p><em>Work through it top to bottom — check each off as it clicks.</em></p>
 <ul data-type="taskList">
-<li data-type="taskItem" data-checked="true">Finish <em>"Atomic Habits"</em></li>
-<li data-type="taskItem" data-checked="false">Practice <strong>G–C–D</strong> chords 🎸</li>
-<li data-type="taskItem" data-checked="false">One Spanish lesson a day 🇪🇸</li>
+<li data-type="taskItem" data-checked="true">Tune up &amp; learn the string names (EADGBE)</li>
+<li data-type="taskItem" data-checked="true">First chords: <strong>Em</strong>, <strong>A</strong>, <strong>D</strong></li>
+<li data-type="taskItem" data-checked="false">Open chords: <strong>G</strong>, <strong>C</strong>, <strong>D</strong></li>
+<li data-type="taskItem" data-checked="false">Clean chord changes &amp; a basic strum</li>
+<li data-type="taskItem" data-checked="false">First song: a 3-chord tune 🎵</li>
+<li data-type="taskItem" data-checked="false">The F barre chord 😤</li>
 </ul>
 <p>Resources: ${link('https://www.justinguitar.com', 'JustinGuitar')}</p>
 `
 
 const JP_ITINERARY = `
 <h2>🗾 12 days in Japan</h2>
-<p style="text-align: center"><em>cherry blossoms, ramen, and a whole lot of walking</em></p>
+<p><em>cherry blossoms, ramen, and a whole lot of walking</em></p>
 <h3>Route</h3>
 <ol>
 <li>🗼 <strong>Tokyo</strong> — Shibuya, teamLab, Akihabara</li>
@@ -57,7 +62,9 @@ const JP_ITINERARY = `
 <li>🦌 <strong>Nara</strong> — feed the deer 🍪</li>
 <li>🍜 <strong>Osaka</strong> — eat everything in Dotonbori</li>
 </ol>
-<blockquote><p>💡 Tip: grab a ${link('https://www.japanrailpass.net', 'JR Pass')} before you fly — it pays for itself by day three.</p></blockquote>
+<blockquote><p>💡 Tip: grab a ${
+    link('https://www.japanrailpass.net', 'JR Pass')
+} before you fly — it pays for itself by day three.</p></blockquote>
 `
 
 const JP_PACKING = `
@@ -98,7 +105,10 @@ export const CARD1 = card('card1', 'Start here', WELCOME, 'A 30-second tour', TL
 export const CARD2 = card('card2', '🛒 Errands', ERRANDS, 'Little things to knock out', TLabel.Yellow)
 export const CARD3 = card('card3', '💪 Daily habits', HABITS, 'Keep the streak alive', TLabel.Red)
 export const CARD4 = card('card4', '📚 Learning', LEARNING, 'Level up a little each day', TLabel.Blue)
-export const CARD5 = { ...card('card5', '🗾 Japan itinerary', JP_ITINERARY, 'Where to go', TLabel.Blue), dueDate: '2027-04-01' }
+export const CARD5 = {
+    ...card('card5', '🗾 Japan itinerary', JP_ITINERARY, 'Where to go', TLabel.Blue),
+    dueDate: '2027-04-01',
+}
 export const CARD6 = card('card6', '🎒 Packing', JP_PACKING, "Don't forget", TLabel.Yellow)
 export const CARD7 = card('card7', '🍣 Must-eat list', JP_EATS, 'Hungry yet?', TLabel.Red)
 
