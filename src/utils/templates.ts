@@ -20,7 +20,7 @@ const WELCOME = `
 const ERRANDS = `
 <h3>🛒 This week's errands</h3>
 <ul data-type="taskList">
-<li data-type="taskItem" data-checked="true">🥑 Groceries — avocados, eggs, sourdough</li>
+<li data-type="taskItem" data-checked="true">🥑 Groceries: avocados, eggs, sourdough</li>
 <li data-type="taskItem" data-checked="false">📮 Drop off the package</li>
 <li data-type="taskItem" data-checked="false">💧 Water the plants 🌿</li>
 <li data-type="taskItem" data-checked="false">📞 Call grandma</li>
@@ -35,12 +35,12 @@ const HABITS = `
 <li>🏃 30-min walk</li>
 <li>📖 Read 10 pages</li>
 </ul>
-<p><strong>🔥 5-day streak</strong> — keep it going!</p>
+<p><strong>🔥 5-day streak</strong></p>
 `
 
 const LEARNING = `
 <h3>🎸 Learn guitar from scratch</h3>
-<p><em>Work through it top to bottom — check each off as it clicks.</em></p>
+<p><em>Check each off as it clicks.</em></p>
 <ul data-type="taskList">
 <li data-type="taskItem" data-checked="true">Tune up &amp; learn the string names (EADGBE)</li>
 <li data-type="taskItem" data-checked="true">First chords: <strong>Em</strong>, <strong>A</strong>, <strong>D</strong></li>
@@ -57,14 +57,12 @@ const JP_ITINERARY = `
 <p><em>cherry blossoms, ramen, and a whole lot of walking</em></p>
 <h3>Route</h3>
 <ol>
-<li>🗼 <strong>Tokyo</strong> — Shibuya, teamLab, Akihabara</li>
-<li>⛩️ <strong>Kyoto</strong> — Fushimi Inari <em>at sunrise</em></li>
-<li>🦌 <strong>Nara</strong> — feed the deer 🍪</li>
-<li>🍜 <strong>Osaka</strong> — eat everything in Dotonbori</li>
+<li>🗼 <strong>Tokyo</strong>: Shibuya, teamLab, Akihabara</li>
+<li>⛩️ <strong>Kyoto</strong>: Fushimi Inari <em>at sunrise</em></li>
+<li>🦌 <strong>Nara</strong>: feed the deer 🍪</li>
+<li>🍜 <strong>Osaka</strong>: eat everything in Dotonbori</li>
 </ol>
-<blockquote><p>💡 Tip: grab a ${
-    link('https://www.japanrailpass.net', 'JR Pass')
-} before you fly — it pays for itself by day three.</p></blockquote>
+<blockquote><p>💡 Tip: grab a ${link('https://www.japanrailpass.net', 'JR Pass')} before flying</p></blockquote>
 `
 
 const JP_PACKING = `
@@ -73,7 +71,7 @@ const JP_PACKING = `
 <li data-type="taskItem" data-checked="true">🚄 JR Pass <strong>printed</strong> + Suica topped up</li>
 <li data-type="taskItem" data-checked="true">🔌 Plug adapter &amp; power bank</li>
 <li data-type="taskItem" data-checked="false">👟 <em>Comfy</em> walking shoes</li>
-<li data-type="taskItem" data-checked="false">💴 Cash — many shops are <code>cash only</code></li>
+<li data-type="taskItem" data-checked="false">💴 Cash: many shops are <code>cash only</code></li>
 </ul>
 <p>Daily budget guess:</p>
 <pre><code>food   ¥4000
@@ -84,7 +82,7 @@ fun    ¥3000</code></pre>
 const JP_EATS = `
 <h3>🍣 Must-eat list</h3>
 <ul>
-<li>🍜 Tonkotsu ramen — ${link('https://www.ichiran.com/', 'Ichiran')}</li>
+<li>🍜 Tonkotsu ramen: ${link('https://www.ichiran.com/', 'Ichiran')}</li>
 <li>🍢 Street food in <strong>Dotonbori</strong></li>
 <li>🍵 Matcha <em>everything</em></li>
 <li>🐟 Tsukiji sushi breakfast</li>
