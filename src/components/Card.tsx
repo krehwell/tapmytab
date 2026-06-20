@@ -59,7 +59,7 @@ export const Card = ({
                     borderRadius: '12px 12px 0 0',
                     padding: '1.6rem 1.2rem',
                     paddingBottom: '1.2rem',
-                    backgroundColor: tc.bgPrimary,
+                    backgroundColor: tc.surfaceBase,
                     gap: '0.4rem',
                     cursor: disabled ? 'grabbing' : 'default',
                 }}
@@ -75,7 +75,7 @@ export const Card = ({
                 <p
                     style={{
                         fontSize: '1.3rem',
-                        color: tc.textActiveSecondary,
+                        color: tc.textSecondary,
                         marginBottom: '0.3rem',
                     }}
                 >
@@ -91,7 +91,7 @@ export const Card = ({
             <FlexColumn
                 style={{
                     padding: '0 0.8rem 1.6rem',
-                    backgroundColor: tc.bgPrimary,
+                    backgroundColor: tc.surfaceBase,
                     borderRadius: '0 0 12px 12px',
                 }}
             >
@@ -99,7 +99,7 @@ export const Card = ({
                     editor={editor as TiptapEditor}
                     style={{
                         overflow: 'hidden auto',
-                        backgroundColor: '#2C3034',
+                        backgroundColor: tc.surfaceRaised,
                         borderRadius: '0.8rem',
                         display: isDragging || disabled ? 'none' : 'block',
                         minHeight: '15.8rem',

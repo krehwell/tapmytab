@@ -6,6 +6,7 @@ import { ToolbarBtn } from './ToolbarBtn.tsx'
 import { ToolbarLinkOptions } from './ToolbarLinkOptions.tsx'
 import { ToolbarListOptions } from './ToolbarListOptions.tsx'
 import { ToolbarTextAlignOptions } from './ToolbarTextAlignOptions.tsx'
+import { tc } from '../../../utils/themeColors.ts'
 import { ToolbarHeadingOptions } from './ToolbarHeadingOptions.tsx'
 
 export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
@@ -14,7 +15,7 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
     return (
         <FlexRowAlignCenter
             style={{
-                backgroundColor: '#24272A',
+                backgroundColor: tc.surfaceOverlay,
                 borderRadius: '0rem 0rem 0.8rem 0.8rem',
                 gap: '0.8rem',
                 padding: '0.4rem 0.8rem',

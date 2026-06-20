@@ -25,7 +25,7 @@ export const Due = ({
         dayjs(initialDueDate).isSame(tomorrow, 'day')
 
     const ref = useRef<HTMLInputElement>(null)
-    const color = dueDate ? tc.textActivePrimary : tc.textInactiveSecondary
+    const color = dueDate ? tc.textPrimary : tc.textDisabledSecondary
 
     return (
         <FlexRowAlignCenter
@@ -35,7 +35,7 @@ export const Due = ({
             style={{
                 cursor: !isEditable ? 'default' : 'pointer',
                 marginLeft: 'auto',
-                backgroundColor: aboutToPassDue ? '#cc2936' : '#24272A',
+                backgroundColor: aboutToPassDue ? tc.danger : tc.surfaceOverlay,
                 padding: '0.6rem 0.8rem',
                 borderRadius: '0.8rem',
                 gap: '0.6rem',

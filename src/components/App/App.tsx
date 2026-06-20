@@ -152,7 +152,7 @@ export const App = () => {
                 style={{
                     height: 'calc(100vh - var(--navbar-height))',
                     padding: '0 3.2rem',
-                    backgroundColor: tc.bgSecondary,
+                    backgroundColor: tc.surfaceRaised,
                     overflowX: 'auto',
                 }}
             >

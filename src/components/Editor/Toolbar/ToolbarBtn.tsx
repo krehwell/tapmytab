@@ -19,9 +19,9 @@ export const ToolbarBtn = ({
             onClick={onClick}
             style={{ boxShadow: !onClick ? 'none' : undefined, ...style }}
             sx={{
-                backgroundColor: isActive ? tc.bgSecondary : 'transparent',
+                backgroundColor: isActive ? tc.surfaceRaised : 'transparent',
                 '& svg': {
-                    fill: isActive ? tc.textActivePrimary : undefined,
+                    fill: isActive ? tc.textPrimary : undefined,
                 },
                 ...sx,
             }}

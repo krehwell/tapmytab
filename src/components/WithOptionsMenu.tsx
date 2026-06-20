@@ -1,7 +1,7 @@
 import Menu, { MenuProps } from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import React, { useCallback } from 'react'
 import { tc } from '../utils/themeColors.ts'
-import Box, { BoxProps } from '@mui/material/Box'
 
 export type WithMenuOption =
     | null
@@ -61,20 +61,21 @@ export const WithOptionsMenu = (
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'center' }}
                 transitionDuration={0}
+                marginThreshold={0}
                 {...menuProps}
                 sx={{
-                    // opinionated styles since we don't want shadow by default
                     '& .MuiPaper-root': { boxShadow: 'none' },
                     '& .MuiList-padding': { paddingTop: 0, paddingBottom: 0 },
-                    borderRadius: '888px',
                     ...menuProps?.sx,
                 }}
                 slotProps={{
                     paper: {
                         sx: {
                             borderRadius: '8px',
-                            backgroundColor: 'transparent',
-                            ...menuProps?.slotProps?.paper?.sx,
+                            overflow: 'hidden',
+                            // darker than the board/editor so the menu reads as a distinct surface
+                            backgroundColor: tc.surfaceOverlay,
+                            border: `1px solid ${tc.surfaceStrong}`,
                         },
                     },
                 }}
@@ -84,22 +85,22 @@ export const WithOptionsMenu = (
 
                     return (
                         <MenuItem
+                            disableRipple
                             sx={{
-                                height: '3.3rem',
-                                alignContent: 'center',
                                 position: 'relative',
+                                minHeight: '3.3rem',
                                 textOverflow: 'ellipsis',
                                 cursor: !option.disabled ? 'pointer' : 'default',
-                                backgroundColor: tc.textActiveSecondary,
-                                color: tc.tokenGrey,
+                                backgroundColor: 'transparent',
+                                color: tc.textSecondary,
                                 '& svg': {
-                                    fill: tc.tokenGrey,
+                                    fill: tc.textSecondary,
                                 },
                                 '&:hover': {
-                                    backgroundColor: tc.tokenGrey,
-                                    color: tc.textActiveSecondary,
+                                    backgroundColor: tc.surfaceStrong,
+                                    color: tc.textSecondary,
                                     '& svg': {
-                                        fill: tc.textActiveSecondary,
+                                        fill: tc.textSecondary,
                                     },
                                 },
                                 fontFamily: 'Rumiko Sans',
@@ -122,8 +123,4 @@ export const WithOptionsMenu = (
             </Menu>
         </>
     )
-}
-
-const MenuItem = ({ sx, children, ...props }: BoxProps<'li'>) => {
-    return <Box component='li' sx={sx} {...props}>{children}</Box>
 }

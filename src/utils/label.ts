@@ -1,4 +1,5 @@
 import { TLabel } from '../types.ts'
+import { tc } from './themeColors.ts'
 
 export const LABELS = [
     TLabel.Red,
@@ -11,13 +12,13 @@ export const LABELS = [
 export const getColorFromLabel = ({ label }: { label: TLabel }) => {
     switch (label) {
         case TLabel.Red:
-            return '#FFAEAD'
+            return tc.labelRed
         case TLabel.Green:
-            return '#CAFFBF'
+            return tc.labelGreen
         case TLabel.Blue:
-            return '#9BF6FF'
+            return tc.labelBlue
         case TLabel.Yellow:
-            return '#FED7A5'
+            return tc.labelOrange
         case TLabel.No:
             return 'transparent'
     }

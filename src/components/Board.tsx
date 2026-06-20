@@ -206,7 +206,7 @@ const BoardOptions = ({ index }: { index: number }) => {
                 return (
                     <Button
                         radius='2.8rem'
-                        style={{ backgroundColor: tc.bgPrimary, marginTop: '0.7rem' }}
+                        style={{ backgroundColor: tc.surfaceBase, marginTop: '0.7rem' }}
                         onClick={openMenu}
                     >
                         <DotsThree

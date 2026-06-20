@@ -51,7 +51,7 @@ export const CardPopup = () => {
                 <Box
                     component={FlexColumn}
                     style={{
-                        backgroundColor: tc.bgPrimary,
+                        backgroundColor: tc.surfaceBase,
                         borderRadius: '1.2rem',
                         padding: '1.6rem',
                         width: '62.4rem',
@@ -131,7 +131,7 @@ const CardPopupHeader = () => {
                     backgroundColor: 'transparent',
                     resize: 'none',
                     fontSize: '1.6rem',
-                    color: 'rgba(248, 249, 250, 0.80)',
+                    color: tc.textSecondary,
                 }}
             />
             <FlexRowAlignCenter>
@@ -203,7 +203,7 @@ const CardPopupEditor = () => {
                 editor={editor}
                 style={{
                     overflow: 'hidden auto',
-                    backgroundColor: '#2C3034',
+                    backgroundColor: tc.surfaceRaised,
                     borderRadius: '0.8rem 0.8rem 0rem 0rem',
                     minHeight: '21.2rem',
                     maxHeight: '55rem',
@@ -233,7 +233,7 @@ const CardPopupActions = () => {
                     closePopup()
                 }}
                 sx={{
-                    backgroundColor: '#4C5257',
+                    backgroundColor: tc.surfaceStrong,
                     width: '6.8rem',
                     height: '3.3rem',
                     borderRadius: '0.8rem',

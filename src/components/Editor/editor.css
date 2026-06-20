@@ -116,25 +116,25 @@
 
 /* Links */
 .tiptap a {
-    color: #99c8ff;
+    color: var(--link);
     text-decoration: underline;
     cursor: pointer;
 }
 
 .tiptap a:hover {
-    color: #4d9fff;
+    color: var(--link-hover);
 }
 
 /* Blockquotes */
 .tiptap blockquote {
-    border-left: 3px solid var(--color-bg-primary);
+    border-left: 3px solid var(--surface-base);
     padding-left: 1.2rem;
     margin: 1.2rem 0;
 }
 
 /* Code */
 .tiptap pre {
-    background: var(--color-bg-primary);
+    background: var(--surface-base);
     border-radius: 0.4rem;
     padding: 1rem 1.2rem;
     margin: 1.2rem 0;
@@ -143,7 +143,7 @@
 }
 
 .tiptap code {
-    background: var(--color-bg-primary);
+    background: var(--surface-base);
     border-radius: 0.4rem;
     padding: 0.2rem 0.4rem;
     font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
@@ -158,7 +158,7 @@
 /* Horizontal rule */
 .tiptap hr {
     border: none;
-    border-top: 2px solid var(--color-bg-primary);
+    border-top: 2px solid var(--surface-base);
     margin: 1.6rem 0;
 }
 
@@ -176,7 +176,7 @@
 }
 
 .tiptap mark {
-    background-color: #fef08a;
+    background-color: var(--highlight);
     border-radius: 0.2rem;
     padding: 0 0.2rem;
 }
@@ -185,7 +185,7 @@
 .tiptap .is-editor-empty:first-child::before {
     content: attr(data-placeholder);
     float: left;
-    color: #9ca3af;
+    color: var(--text-placeholder);
     pointer-events: none;
     height: 0;
     font-size: 1.3rem;
@@ -194,5 +194,5 @@
 
 /* Selection */
 .tiptap ::selection {
-    background: rgba(202, 255, 191, 0.6);
+    background: var(--selection);
 }

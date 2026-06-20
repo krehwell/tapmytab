@@ -20,7 +20,7 @@ export const Label = ({
                 width: '5.1rem',
                 height: '1.8rem',
                 padding: '0.4rem',
-                backgroundColor: tc.tokenGrey,
+                backgroundColor: tc.surfaceStrong,
                 borderRadius: '4px',
                 boxShadow: !onClick ? 'none' : undefined,
                 cursor: onClick ? 'pointer' : 'default',

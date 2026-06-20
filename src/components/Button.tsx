@@ -1,4 +1,5 @@
 import Box, { BoxProps } from '@mui/material/Box'
+import { tc } from '../utils/themeColors.ts'
 
 export const Button = (
     { children, radius, sx, disabled, ...props }:
@@ -17,8 +18,8 @@ export const Button = (
                     height: radius,
                     borderRadius: '9999px',
                     justifyContent: 'center',
-                    '&:hover': !disabled ? { boxShadow: 'inset 0 0 0 10em rgba(0, 0, 0, 0.4)' } : null,
-                    '&:active': !disabled ? { boxShadow: 'inset 0 0 0 10em rgba(0, 0, 0, 0.55)' } : null,
+                    '&:hover': !disabled ? { boxShadow: `inset 0 0 0 10em ${tc.overlayHover}` } : null,
+                    '&:active': !disabled ? { boxShadow: `inset 0 0 0 10em ${tc.overlayActive}` } : null,
                     display: 'flex',
                     alignItems: 'center',
                     cursor: 'pointer',

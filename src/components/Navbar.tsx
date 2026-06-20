@@ -6,6 +6,7 @@ import { WithOptionsMenu } from './WithOptionsMenu.tsx'
 import { Button } from './Button.tsx'
 import { useLocalStorage } from 'react-use'
 import { StorageService } from '../utils/storage.ts'
+import { tc } from '../utils/themeColors.ts'
 
 enum SearchOption {
     Youtube,
@@ -41,16 +42,24 @@ const SocMedInput = ({ style }: { style?: React.CSSProperties }) => {
     return (
         <FlexRowAlignCenter
             style={{
-                backgroundColor: '#2B2F32',
+                backgroundColor: tc.surfaceMuted,
                 borderRadius: '12px',
-                color: '#ffffff',
+                color: tc.textPrimary,
                 height: '4rem',
                 padding: '0 0.8rem',
                 gap: '1.2rem',
                 ...style,
             }}
         >
-            <WithOptionsMenu options={SEARCH_OPTIONS}>
+            <WithOptionsMenu
+                options={SEARCH_OPTIONS}
+                // anchor is the icon + caret button, so center it on the button's
+                // left edge to sit under the icon instead of the icon/caret midpoint
+                menuProps={{
+                    anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
+                    transformOrigin: { vertical: 'top', horizontal: 'left' },
+                }}
+            >
                 {({ openMenu }) => (
                     <Button
                         onClick={openMenu}
@@ -128,7 +137,7 @@ const MainTitle = () => {
                     onClick={openMenu}
                     style={{
                         cursor: 'pointer',
-                        color: '#5F6061',
+                        color: tc.textMuted,
                         fontFamily: 'Rumiko Sans',
                         fontSize: '2.4rem',
                         fontWeight: '600',
@@ -149,7 +158,7 @@ export const Navbar = () => {
                 height: 'var(--navbar-height)',
                 padding: '0px 3.2rem',
                 justifyContent: 'space-between',
-                backgroundColor: '#2F3336',
+                backgroundColor: tc.surfaceInput,
             }}
         >
             <MainTitle />
