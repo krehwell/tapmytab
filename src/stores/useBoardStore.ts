@@ -72,32 +72,23 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
     },
     swapCardPos: ({ boardIdx, currIdx, newIdx }) => {
         const boards = [...get().boards]
-        const newBoard = boards[boardIdx]
-        let newCards = newBoard.cards
-        newCards = arrayMove(newCards, currIdx, newIdx)
-
-        newBoard.cards = newCards
-        boards[boardIdx] = newBoard
-
-        set({ boards: boards })
+        const cards = arrayMove(boards[boardIdx].cards, currIdx, newIdx)
+        boards[boardIdx] = { ...boards[boardIdx], cards }
+        set({ boards })
     },
     swapCardSwitchBoard: ({ currBoardIdx, currIdx, newBoardIdx, newIdx }) => {
         const boards = [...get().boards]
 
-        const currBoard = boards[currBoardIdx]
-        const newBoard = boards[newBoardIdx]
+        const card = boards[currBoardIdx].cards[currIdx]
+        if (!card) return
 
-        let currCards = currBoard.cards
-        let newCards = newBoard.cards
+        // clone both card arrays — never mutate state in place
+        const currCards = boards[currBoardIdx].cards.filter((_, i) => i !== currIdx)
+        const newCards = [...boards[newBoardIdx].cards]
+        newCards.splice(newIdx, 0, card) // splice clamps out-of-range to the end
 
-        const currCard = currCards[currIdx]
-        currCards = currCards.filter((_, i) => i !== currIdx)
-
-        newCards.unshift(currCard)
-        newCards = arrayMove(newCards, 0, newIdx)
-
-        currBoard.cards = currCards
-        newBoard.cards = newCards
+        boards[currBoardIdx] = { ...boards[currBoardIdx], cards: currCards }
+        boards[newBoardIdx] = { ...boards[newBoardIdx], cards: newCards }
 
         set({ boards })
     },

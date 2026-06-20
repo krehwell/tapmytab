@@ -1,12 +1,14 @@
 import React from 'react'
 import {
     closestCorners,
+    CollisionDetection,
     DndContext,
     DragEndEvent,
     DragOverEvent,
     DragOverlay,
     DragStartEvent,
     PointerSensor,
+    pointerWithin,
     useSensor,
     useSensors,
 } from '@dnd-kit/core'
@@ -14,6 +16,11 @@ import { useState } from 'react'
 import { Card } from './Card.tsx'
 import { TCard } from '../types.ts'
 import { snapCenterToCursor } from '@dnd-kit/modifiers'
+
+const collisionDetection: CollisionDetection = (args) => {
+    const pointer = pointerWithin(args)
+    return pointer.length > 0 ? pointer : closestCorners(args)
+}
 
 export const CanvasDndContext = ({
     children,
@@ -39,7 +46,7 @@ export const CanvasDndContext = ({
     return (
         <DndContext
             sensors={sensors}
-            collisionDetection={closestCorners}
+            collisionDetection={collisionDetection}
             modifiers={[snapCenterToCursor]}
             onDragStart={(e) => {
                 setCurrDraggedCard(e.active.data.current?.card as TCard)
