@@ -26,8 +26,7 @@
 - ⌨️ Markdown shortcuts for faster formatting
 - 📁 Multiple board support for different projects
 - 📅 Due date
-- 💾 Export/Import functionality for backup (_maybe coming_)
-- 🎨 Customizable board themes and layouts (_maybe coming_)
+- 💾 Export/Import functionality for backup 
 
 ## 📦 Installation
 

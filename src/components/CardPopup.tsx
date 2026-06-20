@@ -17,6 +17,7 @@ import TextareaAutosize from '@mui/material/TextareaAutosize'
 import { LABELS } from '../utils/label.ts'
 import { deleteCard, updateCard } from '../stores/useCardStore.ts'
 import { Due } from './Due.tsx'
+import { emojify, hasEmoji } from '../utils/emojify.ts'
 
 export const useCardPopupStore = create<{
     isOpen: boolean
@@ -109,7 +110,7 @@ const CardPopupHeader = () => {
                 <TextareaAutosize
                     maxRows={1}
                     maxLength={60}
-                    defaultValue={card?.title}
+                    value={card.title}
                     placeholder='Add Title...'
                     onChange={(e) => updateField({ fields: { title: e.target.value } })}
                     onKeyDown={(e) => {
@@ -126,6 +127,11 @@ const CardPopupHeader = () => {
                 />
                 <WithOptionsMenu
                     options={[
+                        {
+                            label: 'Emojify',
+                            hide: hasEmoji(card.title),
+                            onClick: () => updateField({ fields: { title: emojify(card.title, 'end') } }),
+                        },
                         {
                             label: 'Delete Card',
                             onClick: () => {

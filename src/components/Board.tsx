@@ -6,10 +6,11 @@ import { TBoard } from '../types.ts'
 import { Flex, FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
 import { Button } from './Button.tsx'
 import { tc } from '../utils/themeColors.ts'
-import { Copy, DotsThree, Plus, Trash } from '@phosphor-icons/react'
+import { Copy, DotsThree, Plus, Smiley, Trash } from '@phosphor-icons/react'
 import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
 import { WithMenuOption, WithOptionsMenu } from './WithOptionsMenu.tsx'
 import { createSortableCheat } from '../utils/dndIdManager.ts'
+import { emojify, hasEmoji } from '../utils/emojify.ts'
 import { useBoardStore } from '../stores/useBoardStore.ts'
 import { genUid } from 'light-uid'
 
@@ -39,6 +40,13 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
     const resetBoard = () => {
         setName('')
         setHasEdited(false)
+    }
+
+    const emojifyName = () => {
+        const next = emojify(name)
+        if (next === name) return
+        setName(next)
+        changeBoardName({ name: next, idx: index })
     }
 
     return (
@@ -81,7 +89,7 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
                         }
                     }}
                 />
-                {!isPlaceholder && <BoardOptions index={index} />}
+                {!isPlaceholder && <BoardOptions index={index} name={name} onEmojify={emojifyName} />}
             </Flex>
 
             {/* CARD LIST */}
@@ -165,7 +173,9 @@ const BoardNameInput = ({
     )
 }
 
-const BoardOptions = ({ index }: { index: number }) => {
+const BoardOptions = (
+    { index, name, onEmojify }: { index: number; name: string; onEmojify: () => void },
+) => {
     const addNewCard = useBoardStore((s) => s.addNewCard)
     const deleteBoard = useBoardStore((s) => s.deleteBoard)
     const duplicateBoard = useBoardStore((s) => s.duplicateBoard)
@@ -177,6 +187,16 @@ const BoardOptions = ({ index }: { index: number }) => {
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
                     <Plus size={12} /> Add Card
+                </FlexRowAlignCenter>
+            ),
+        },
+        {
+            label: 'Emojify',
+            hide: hasEmoji(name),
+            onClick: onEmojify,
+            node: (
+                <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
+                    <Smiley size={12} /> Emojify
                 </FlexRowAlignCenter>
             ),
         },

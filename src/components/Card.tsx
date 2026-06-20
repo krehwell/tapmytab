@@ -6,7 +6,8 @@ import { Editor, useEditorInstance } from './Editor/index.ts'
 import { tc } from '../utils/themeColors.ts'
 import { useCardPopupStore } from './CardPopup.tsx'
 import { Button } from './Button.tsx'
-import { ArrowsOutSimple } from '@phosphor-icons/react'
+import { ArrowsOutSimple, Smiley } from '@phosphor-icons/react'
+import { emojify, hasEmoji } from '../utils/emojify.ts'
 import type { Editor as TiptapEditor } from '@tiptap/react'
 import { Label } from './Label.tsx'
 import { updateCard } from '../stores/useCardStore.ts'
@@ -68,9 +69,25 @@ export const Card = ({
             >
                 <Flex>
                     <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>{card.title}</h2>
-                    <Button radius='3rem' sx={{ marginLeft: 'auto' }}>
-                        <ArrowsOutSimple size={18} />
-                    </Button>
+                    {hasEmoji(card.title)
+                        ? (
+                            <Button radius='3rem' title='Expand' sx={{ marginLeft: 'auto' }}>
+                                <ArrowsOutSimple size={18} />
+                            </Button>
+                        )
+                        : (
+                            <Button
+                                radius='3rem'
+                                title='Emojify title'
+                                sx={{ marginLeft: 'auto' }}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    updateCard({ sortableCheat, fields: { title: emojify(card.title, 'end') } })
+                                }}
+                            >
+                                <Smiley size={18} />
+                            </Button>
+                        )}
                 </Flex>
                 <p
                     style={{
