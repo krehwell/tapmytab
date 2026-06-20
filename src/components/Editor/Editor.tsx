@@ -107,7 +107,6 @@ export const Editor = ({
                 style={{
                     cursor: 'text',
                     fontSize: '1.3rem',
-                    lineHeight: '1',
                     padding: '1.6rem 0.8rem',
                     wordBreak: 'break-word',
                     ...style,

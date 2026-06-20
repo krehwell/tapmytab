@@ -1,51 +1,62 @@
-.tiptap :first-child {
-    margin-top: 0;
-}
+/* Editor content styles.
+   Root font-size is 62.5% (1rem = 10px). Body text is 1.3rem (13px) set on
+   the editor container; cards are ~30rem wide, so headings and spacing are
+   kept compact to fit. */
 
-/* Basic editor styles */
 .tiptap {
     outline: none;
-    line-height: 1.2;
+    line-height: 1.45;
     min-height: 100px;
+}
+
+.tiptap:focus {
+    outline: none;
 }
 
 .tiptap *:first-child {
     margin-top: 0;
 }
 
+/* Paragraphs */
 .tiptap p {
-    margin: 1.2rem 0;
+    margin: 0.8rem 0;
 }
 
+/* Headings — sized to sit between body (1.3rem) and the card title (2rem) */
 .tiptap h1,
 .tiptap h2,
 .tiptap h3,
 .tiptap h4,
 .tiptap h5,
 .tiptap h6 {
-    line-height: 1.1;
+    line-height: 1.25;
     font-weight: 600;
+    margin: 1.4rem 0 0.6rem;
 }
 
 .tiptap h1 {
-    font-size: 2.4rem;
-    margin: 2rem 0 1.2rem;
+    font-size: 1.8rem;
 }
 
 .tiptap h2 {
-    font-size: 2rem;
-    margin: 1.8rem 0 1rem;
+    font-size: 1.6rem;
 }
 
 .tiptap h3 {
-    font-size: 1.8rem;
-    margin: 1.6rem 0 0.8rem;
+    font-size: 1.4rem;
 }
 
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+    font-size: 1.3rem;
+}
+
+/* Lists */
 .tiptap ul,
 .tiptap ol {
-    padding: 0 1.8rem;
-    margin: 1.2rem 0;
+    padding-left: 1.8rem;
+    margin: 0.8rem 0;
 }
 
 .tiptap ol {
@@ -57,40 +68,37 @@
 }
 
 .tiptap li {
-    margin: 0.5rem 0;
+    margin: 0.3rem 0;
 }
 
 .tiptap li p {
     margin: 0.2rem 0;
 }
 
-.tiptap ul,
-.tiptap ol {
-    padding: 0 1rem;
-    margin: 1.25rem 1rem 1.25rem 0.4rem;
+/* Nested lists */
+.tiptap ul ul,
+.tiptap ol ol,
+.tiptap ul ol,
+.tiptap ol ul {
+    margin: 0.2rem 0;
 }
 
-.tiptap ul li p,
-.tiptap ol li p {
-    margin-top: 0.25em;
-    margin-bottom: 0.25em;
-}
-
-/* Task list specific styles */
+/* Task lists */
 .tiptap ul[data-type='taskList'] {
     list-style: none;
-    margin-left: 0;
     padding: 0;
+    margin: 0.8rem 0;
 }
 
 .tiptap ul[data-type='taskList'] li {
-    align-items: flex-start;
     display: flex;
+    align-items: flex-start;
+    margin: 0.3rem 0;
 }
 
 .tiptap ul[data-type='taskList'] li > label {
     flex: 0 0 auto;
-    margin-right: 0.5rem;
+    margin-right: 0.6rem;
     user-select: none;
 }
 
@@ -106,15 +114,7 @@
     margin: 0;
 }
 
-/* Nested lists */
-.tiptap ul ul,
-.tiptap ol ol,
-.tiptap ul ol,
-.tiptap ol ul {
-    margin: 0.2rem 0;
-}
-
-/* Links - from Link extension */
+/* Links */
 .tiptap a {
     color: #99c8ff;
     text-decoration: underline;
@@ -128,17 +128,18 @@
 /* Blockquotes */
 .tiptap blockquote {
     border-left: 3px solid var(--color-bg-primary);
-    padding-left: 1.6rem;
-    margin: 2rem 0;
+    padding-left: 1.2rem;
+    margin: 1.2rem 0;
 }
 
-/* Code blocks */
+/* Code */
 .tiptap pre {
     background: var(--color-bg-primary);
     border-radius: 0.4rem;
-    padding: 1.2rem;
+    padding: 1rem 1.2rem;
     margin: 1.2rem 0;
     overflow-x: auto;
+    font-size: 1.2rem;
 }
 
 .tiptap code {
@@ -149,11 +150,35 @@
     font-size: 0.9em;
 }
 
+.tiptap pre code {
+    padding: 0;
+    background: none;
+}
+
 /* Horizontal rule */
 .tiptap hr {
     border: none;
     border-top: 2px solid var(--color-bg-primary);
-    margin: 2rem 0;
+    margin: 1.6rem 0;
+}
+
+/* Inline marks */
+.tiptap strong {
+    font-weight: 600;
+}
+
+.tiptap em {
+    font-style: italic;
+}
+
+.tiptap s {
+    text-decoration: line-through;
+}
+
+.tiptap mark {
+    background-color: #fef08a;
+    border-radius: 0.2rem;
+    padding: 0 0.2rem;
 }
 
 /* Placeholder */
@@ -167,46 +192,7 @@
     font-weight: 400;
 }
 
-/* Mark */
-.tiptap mark {
-    background-color: #fef08a;
-    border-radius: 0.2rem;
-    padding: 0 0.2rem;
-}
-
-/* Bold */
-.tiptap strong {
-    font-weight: 600;
-}
-
-/* Italic */
-.tiptap em {
-    font-style: italic;
-}
-
-/* Strike */
-.tiptap s {
-    text-decoration: line-through;
-}
-
-/* Selection styles */
+/* Selection */
 .tiptap ::selection {
     background: rgba(202, 255, 191, 0.6);
-}
-
-/* Focus styles */
-.tiptap:focus {
-    outline: none;
-}
-
-/* Optional: Adding a subtle border when focused */
-.tiptap-wrapper {
-    border: 1px solid #e5e7eb;
-    border-radius: 0.4rem;
-    padding: 1.6rem;
-}
-
-.tiptap-wrapper:focus-within {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
