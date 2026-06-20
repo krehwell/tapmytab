@@ -11,7 +11,7 @@ Effortless Kanban, drag-and-drop magic — right from your browser tab! 🎨✨
 </div>
 
 <p align="center">
-  <img src="https://i.imgur.com/DviBorP.png" width="720" alt="tapmytab ui">
+  <img src="https://i.imgur.com/8dgYdJH.png" width="720" alt="tapmytab ui">
 </p>
 
 ## ✨ Features
@@ -21,12 +21,10 @@ Effortless Kanban, drag-and-drop magic — right from your browser tab! 🎨✨
 - 📋 Instant Kanban on every new browser tab
 - 🎯 Drag-and-drop cards across boards and reorder freely
 - 📝 Full Markdown Rich Text editor support
-- 😀 One-click **Emojify** — auto-add a fitting emoji to any board or card title
 - ♾️ Unlimited local storage — keep as many boards & cards as you like
-- 🔄 Auto-sync across all your tabs
+- 🔄 Sync across tabs
 - 🔒 Local storage for data privacy and offline access
 - 🏷️ Custom tags label
-- 📁 Multiple board support for different projects
 - 📅 Due dates 
 - 💾 Export / Import your boards for backup
 - 🦊 Cross-browser — available for both Chrome and Firefox
