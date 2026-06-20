@@ -20,6 +20,8 @@
         ]
     },
     "imports": {
+        "@excalidraw/excalidraw": "npm:@excalidraw/excalidraw@^0.18.1",
+        "@excalidraw/excalidraw/index.css": "./node_modules/@excalidraw/excalidraw/dist/prod/index.css",
         "@std/collections": "jsr:@std/collections@^1.0.9",
         "@dnd-kit/core": "npm:@dnd-kit/core@6.1.0",
         "@dnd-kit/modifiers": "npm:@dnd-kit/modifiers@^7.0.0",

@@ -5,12 +5,12 @@ import Dialog from '@mui/material/Dialog'
 import { FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
 import { tc } from '../utils/themeColors.ts'
 import Box from '@mui/material/Box'
-import { TCard } from '../types.ts'
+import { isExcalidraw, TCard, TExcalidraw } from '../types.ts'
 import { Label } from './Label.tsx'
-import { Editor, useEditorInstance } from './Editor/Editor.tsx'
+import { HTMLEditor, useHTMLEditorInstance } from './HTMLEditor/index.ts'
 import { Button } from './Button.tsx'
 import { CardTitleInput } from './Card.tsx'
-import { Toolbar } from './Editor/Toolbar/Toolbar.tsx'
+import { Toolbar } from './HTMLEditor/Toolbar/Toolbar.tsx'
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { DotsThree, X } from '@phosphor-icons/react'
 import { WithOptionsMenu } from './WithOptionsMenu.tsx'
@@ -19,6 +19,7 @@ import { LABELS } from '../utils/label.ts'
 import { deleteCard, updateCard } from '../stores/useCardStore.ts'
 import { Due } from './Due.tsx'
 import { emojify, hasEmoji } from '../utils/emojify.ts'
+import { DrawingEditor } from './DrawingEditor/index.ts'
 
 export const useCardPopupStore = create<{
     isOpen: boolean
@@ -54,6 +55,7 @@ const saveAndClose = () => {
 
 export const CardPopup = () => {
     const isOpen = useCardPopupStore((s) => s.isOpen)
+    const isDrawing = useCardPopupStore((s) => !!s.card && isExcalidraw(s.card.content))
 
     useKey(
         (e) => (e.metaKey || e.ctrlKey) && e.key === 'Enter',
@@ -68,9 +70,10 @@ export const CardPopup = () => {
         <Dialog
             open={isOpen}
             transitionDuration={0}
-            onClose={(_e, reason) => {
-                // only let a backdrop click dismiss when there are no unsaved edits
-                if (reason === 'backdropClick' && useCardPopupStore.getState().isDirty) return
+            disableEnforceFocus={isDrawing}
+            onClose={() => {
+                // backdrop click and Esc both dismiss — but only when there are no unsaved edits
+                if (useCardPopupStore.getState().isDirty) return
                 useCardPopupStore.getState().closePopup()
             }}
             PaperComponent={({ children, style, ...props }) => (
@@ -80,7 +83,8 @@ export const CardPopup = () => {
                         backgroundColor: tc.surfaceBase,
                         borderRadius: '1.2rem',
                         padding: '1.6rem',
-                        width: '62.4rem',
+                        width: isDrawing ? '90vw' : '62.4rem',
+                        maxWidth: isDrawing ? '90rem' : undefined,
                         ...style,
                     }}
                     {...props}
@@ -185,12 +189,7 @@ const CardPopupOptionsLabel = ({ card }: { card: TCard }) => {
     return (
         <WithOptionsMenu
             menuProps={{
-                sx: {
-                    '.MuiList-root': {
-                        display: 'flex',
-                        flexDirection: 'row',
-                    },
-                },
+                sx: { '.MuiList-root': { display: 'flex', flexDirection: 'row' } },
                 anchorOrigin: { vertical: 'center', horizontal: 'right' },
                 transformOrigin: { vertical: 'center', horizontal: 'left' },
             }}
@@ -218,10 +217,33 @@ const CardPopupOptionsLabel = ({ card }: { card: TCard }) => {
 
 const CardPopupEditor = () => {
     const card = useCardPopupStore((s) => s.card)
+    if (!card) return null
+
+    if (isExcalidraw(card.content)) {
+        return <ExcalidrawPopupEditor />
+    }
+
+    return <HTMLPopupEditor />
+}
+
+const ExcalidrawPopupEditor = () => {
+    const card = useCardPopupStore((s) => s.card)
     const updateField = useCardPopupStore((s) => s.updateField)
 
-    const { editor } = useEditorInstance({
-        content: card?.content || '',
+    return (
+        <DrawingEditor
+            data={(card as NonNullable<TCard>).content as TExcalidraw}
+            onChange={(content) => updateField({ fields: { content } })}
+        />
+    )
+}
+
+const HTMLPopupEditor = () => {
+    const card = useCardPopupStore((s) => s.card)
+    const updateField = useCardPopupStore((s) => s.updateField)
+
+    const { editor } = useHTMLEditorInstance({
+        content: (card?.content as string) || '',
         onChange: ({ content }) => updateField({ fields: { content } }),
         shouldRerenderOnTransaction: true,
     })
@@ -230,7 +252,7 @@ const CardPopupEditor = () => {
 
     return (
         <>
-            <Editor
+            <HTMLEditor
                 editor={editor}
                 style={{
                     overflow: 'hidden auto',
@@ -259,12 +281,7 @@ const CardPopupActions = () => {
             </Button>
             <Button
                 onClick={saveAndClose}
-                sx={{
-                    backgroundColor: tc.surfaceStrong,
-                    width: '6.8rem',
-                    height: '3.3rem',
-                    borderRadius: '0.8rem',
-                }}
+                sx={{ backgroundColor: tc.surfaceStrong, width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}
             >
                 Save
             </Button>

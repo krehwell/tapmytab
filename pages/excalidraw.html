@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Excalidraw</title>
+        <style>
+            html,
+            body,
+            #root {
+                margin: 0;
+                height: 100%;
+                background: #111111;
+            }
+            /* I just want a simpler feature.  so, hide these */
+            .excalidraw .help-icon,
+            .excalidraw .sidebar-trigger,
+            .excalidraw .default-sidebar-trigger,
+            .excalidraw .library-menu-browse-button,
+            [data-testid='help-menu-item'],
+            [aria-controls$='-content-library'] {
+                display: none !important;
+            }
+            .excalidraw :has(> [data-testid='canvas-background-label']) {
+                display: none !important;
+            }
+            .excalidraw div:has(+ div:has(> [data-testid='canvas-background-label'])) {
+                display: none !important;
+            }
+            .excalidraw fieldset:has([data-testid^='font-family']) {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="./excalidraw.tsx"></script>
+    </body>
+</html>

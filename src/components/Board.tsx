@@ -6,7 +6,7 @@ import { TBoard } from '../types.ts'
 import { Flex, FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
 import { Button } from './Button.tsx'
 import { tc } from '../utils/themeColors.ts'
-import { Copy, DotsThree, Plus, Smiley, Trash } from '@phosphor-icons/react'
+import { Copy, DotsThree, PencilSimpleLine, Plus, Smiley, Trash } from '@phosphor-icons/react'
 import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
 import { WithMenuOption, WithOptionsMenu } from './WithOptionsMenu.tsx'
 import { createSortableCheat } from '../utils/dndIdManager.ts'
@@ -187,6 +187,15 @@ const BoardOptions = (
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
                     <Plus size={12} /> Add Card
+                </FlexRowAlignCenter>
+            ),
+        },
+        {
+            label: 'Add Excalidraw Card',
+            onClick: () => addNewCard({ idx: index, excalidraw: true }),
+            node: (
+                <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
+                    <PencilSimpleLine size={12} /> Add Excalidraw Card
                 </FlexRowAlignCenter>
             ),
         },

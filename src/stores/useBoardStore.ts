@@ -6,7 +6,7 @@ import { genUid } from 'light-uid'
 type BoardStore = {
     boards: TBoard[]
     isInitialized: boolean
-    addNewCard: (props: { idx: number }) => void
+    addNewCard: (props: { idx: number; excalidraw?: boolean }) => void
     addNewBoard: (props: { id: string; name: string; idx: number }) => void
     changeBoardName: (props: { idx: number; name: string }) => void
     deleteBoard: (props: { idx: number }) => void
@@ -27,11 +27,11 @@ type BoardStore = {
 export const useBoardStore = create<BoardStore>((set, get) => ({
     boards: [],
     isInitialized: false,
-    addNewCard: ({ idx }) => {
+    addNewCard: ({ idx, excalidraw }) => {
         const newCard: TCard = {
             id: genUid(8),
-            content: '',
-            title: 'New Card',
+            content: excalidraw ? { elements: [], files: {} } : '',
+            title: excalidraw ? 'New Drawing' : 'New Card',
             label: TLabel.No,
         }
         const boards = [...get().boards]

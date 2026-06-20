@@ -1,9 +1,9 @@
 import { forwardRef } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { TCard } from '../types.ts'
-import { Flex, FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
-import { Editor, useEditorInstance } from './Editor/index.ts'
+import { isExcalidraw, TCard, TExcalidraw } from '../types.ts'
+import { Flex, FlexColumn, FlexColumnJustifyCenter, FlexRowAlignCenter } from './Flex/index.tsx'
+import { HTMLEditor, useHTMLEditorInstance } from './HTMLEditor/index.ts'
 import { tc } from '../utils/themeColors.ts'
 import { useCardPopupStore } from './CardPopup.tsx'
 import { Button } from './Button.tsx'
@@ -13,6 +13,7 @@ import type { Editor as TiptapEditor } from '@tiptap/react'
 import { Label } from './Label.tsx'
 import { updateCard } from '../stores/useCardStore.ts'
 import { Due } from './Due.tsx'
+import { useDrawingPreview } from './DrawingEditor/index.ts'
 
 export const CardTitleInput = forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
     ({ style, onKeyDown, ...props }, ref) => (
@@ -62,13 +63,6 @@ export const Card = ({
         animateLayoutChanges: () => false,
     })
 
-    const { editor } = useEditorInstance({
-        content: card.content,
-        shouldRerenderOnTransaction: true,
-        onChange: ({ content }) => {
-            updateCard({ sortableCheat, fields: { content } })
-        },
-    })
     const openPopup = useCardPopupStore((s) => s.openPopup)
 
     return (
@@ -84,7 +78,7 @@ export const Card = ({
             <FlexColumn
                 onClick={() => openPopup({ card, sortableCheat })}
                 style={{
-                    borderRadius: isDragging || disabled ? '12px 12px 12px 12px': '12px 12px 0 0',
+                    borderRadius: isDragging || disabled ? '12px 12px 12px 12px' : '12px 12px 0 0',
                     padding: '1.6rem 1.2rem',
                     paddingBottom: '1.2rem',
                     backgroundColor: tc.surfaceBase,
@@ -122,13 +116,7 @@ export const Card = ({
                             </Button>
                         )}
                 </Flex>
-                <p
-                    style={{
-                        fontSize: '1.3rem',
-                        color: tc.textSecondary,
-                        marginBottom: '0.3rem',
-                    }}
-                >
+                <p style={{ fontSize: '1.3rem', color: tc.textSecondary, marginBottom: '0.3rem' }}>
                     {card.desc}
                 </p>
                 <FlexRowAlignCenter>
@@ -137,31 +125,65 @@ export const Card = ({
                 </FlexRowAlignCenter>
             </FlexColumn>
 
-            {
-                /* CARD CONTENT — unmounted while dragging so the placeholder collapses
-                to just the header consistently (a display:none editor still reserved
-                height after a cross-board remount on Firefox) */
-            }
             {!(isDragging || disabled) && (
                 <FlexColumn
+                    onClick={isExcalidraw(card.content) ? () => openPopup({ card, sortableCheat }) : undefined}
                     style={{
                         padding: '0 0.8rem 1.6rem',
                         backgroundColor: tc.surfaceBase,
                         borderRadius: '0 0 12px 12px',
+                        cursor: isExcalidraw(card.content) ? 'pointer' : undefined,
                     }}
                 >
-                    <Editor
-                        editor={editor as TiptapEditor}
-                        style={{
-                            overflow: 'hidden auto',
-                            backgroundColor: tc.surfaceRaised,
-                            borderRadius: '0.8rem',
-                            minHeight: '15.8rem',
-                            maxHeight: '40rem',
-                        }}
-                    />
+                    {isExcalidraw(card.content)
+                        ? <CardDrawingEditor content={card.content} />
+                        : <CardHTMLEditor content={card.content} sortableCheat={sortableCheat} />}
                 </FlexColumn>
             )}
         </FlexColumn>
+    )
+}
+
+const CardDrawingEditor = ({ content }: { content: TExcalidraw }) => {
+    const ref = useDrawingPreview(content)
+
+    return (
+        <FlexColumnJustifyCenter
+            ref={ref}
+            style={{
+                width: '100%',
+                height: '15.8rem',
+                overflow: 'hidden',
+                borderRadius: '0.8rem',
+                backgroundColor: '#111111',
+                cursor: 'default',
+                alignItems: 'center',
+                fontSize: '1.2rem',
+                padding: '0.2rem',
+            }}
+            // deno-lint-ignore jsx-no-children-prop
+            children={!content.elements.length ? 'click to draw' : undefined}
+        />
+    )
+}
+
+const CardHTMLEditor = ({ content, sortableCheat }: { content: string; sortableCheat: string }) => {
+    const { editor } = useHTMLEditorInstance({
+        content,
+        shouldRerenderOnTransaction: true,
+        onChange: ({ content }) => updateCard({ sortableCheat, fields: { content } }),
+    })
+
+    return (
+        <HTMLEditor
+            editor={editor as TiptapEditor}
+            style={{
+                overflow: 'hidden auto',
+                backgroundColor: tc.surfaceRaised,
+                borderRadius: '0.8rem',
+                minHeight: '15.8rem',
+                maxHeight: '40rem',
+            }}
+        />
     )
 }

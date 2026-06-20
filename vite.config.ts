@@ -10,6 +10,7 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 welcome: 'pages/iframe.html',
+                excalidraw: 'pages/excalidraw.html',
             },
         },
     },

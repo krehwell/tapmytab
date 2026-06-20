@@ -1,11 +1,18 @@
+export type TExcalidraw = {
+    elements: readonly unknown[]
+    files: Record<string, unknown>
+}
+
 export type TCard = {
     id: string
     title: string
     desc?: string
-    content: string
+    content: string | TExcalidraw
     label: TLabel
     dueDate?: null | string
 }
+
+export const isExcalidraw = (content: TCard['content']): content is TExcalidraw => typeof content !== 'string'
 
 export type TBoard = {
     id: string
