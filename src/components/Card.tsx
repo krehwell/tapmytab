@@ -161,7 +161,7 @@ const CardDrawingEditor = ({ content }: { content: TExcalidraw }) => {
                 height: '15.8rem',
                 overflow: 'hidden',
                 borderRadius: '0.8rem',
-                backgroundColor: '#111111',
+                backgroundColor: '#161718',
                 cursor: 'default',
                 alignItems: 'center',
                 fontSize: '1.2rem',

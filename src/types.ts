@@ -1,6 +1,10 @@
 export type TExcalidraw = {
     elements: readonly unknown[]
     files: Record<string, unknown>
+
+    // cached <svg> markup of the scene (generated in the editor iframe). lets the card render a
+    // thumbnail without loading excalidraw in the main app. absent until the card is opened/edited.
+    preview?: string
 }
 
 export type TCard = {

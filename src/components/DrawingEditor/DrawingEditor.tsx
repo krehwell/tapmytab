@@ -9,7 +9,10 @@ export const DrawingEditor = memo(
     ({ data, onChange }: { data: TExcalidraw; onChange: (next: TExcalidraw) => void }) => {
         const onChangeRef = useRef(onChange)
         onChangeRef.current = onChange
-        const dataRef = useRef(data)
+
+        // the latest scene we've reported up — merged so the cached `preview` (sent separately from
+        // the elements/files change) isn't dropped from either message.
+        const sceneRef = useRef<TExcalidraw>(data)
         const iframeRef = useRef<HTMLIFrameElement>(null)
 
         useEffect(() => {
@@ -17,11 +20,15 @@ export const DrawingEditor = memo(
                 if (e.source !== iframeRef.current?.contentWindow) return
                 if (e.data?.type === 'excalidraw:ready') {
                     iframeRef.current?.contentWindow?.postMessage(
-                        { type: 'excalidraw:init', data: dataRef.current },
+                        { type: 'excalidraw:init', data: sceneRef.current },
                         '*',
                     )
                 } else if (e.data?.type === 'excalidraw:change') {
-                    onChangeRef.current(e.data.data)
+                    sceneRef.current = { ...sceneRef.current, ...e.data.data }
+                    onChangeRef.current(sceneRef.current)
+                } else if (e.data?.type === 'excalidraw:preview') {
+                    sceneRef.current = { ...sceneRef.current, preview: e.data.preview }
+                    onChangeRef.current(sceneRef.current)
                 }
             }
             globalThis.addEventListener('message', onMessage)
@@ -39,7 +46,7 @@ export const DrawingEditor = memo(
                     border: 'none',
                     borderRadius: '0.8rem',
                     display: 'block',
-                    backgroundColor: '#111111',
+                    backgroundColor: '#161718',
                 }}
             />
         )
