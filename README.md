@@ -11,12 +11,11 @@ Effortless Kanban, drag-and-drop magic — right from your browser tab! 🎨✨
 </div>
 
 <p align="center">
-  <img src="https://i.imgur.com/8dgYdJH.png" width="720" alt="tapmytab ui">
+  <img src="https://i.imgur.com/r0FJ67F.png" width="720" alt="tapmytab ui">
 </p>
 
 ## ✨ Features
 
-- 🪶 Super light, ~1mb
 - 🌟 Open Source
 - ✏️ Scratch anything on your new tab
 - 📋 Instant Kanban on every new browser tab
@@ -56,7 +55,7 @@ Bump the version first on: `deno.json`, `manifest.json`, and `manifest.firefox.j
 deno task zip 
 ```
 
-**Chrome Web Store**: upload `tapmytab-chrome.zip` at [Chrome Developer Dashboard](https://chrome.google.com/webstore/devconsole) 
+**Chrome Web Store**: upload `tapmytab-chrome.zip` at [chrome developer dashboard](https://chrome.google.com/webstore/devconsole) 
 
 **Firefox Add-ons (AMO)**: upload `tapmytab-firefox.zip` at [addons.mozilla.org/developers](https://addons.mozilla.org/developers/) 
 

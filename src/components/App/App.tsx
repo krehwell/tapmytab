@@ -8,7 +8,7 @@ import { tc } from '../../utils/themeColors.ts'
 import { CardPopup } from '../CardPopup.tsx'
 import { useBoardStore } from '../../stores/useBoardStore.ts'
 import { isInsideExtension, StorageService } from '../../utils/storage.ts'
-import { BOARD1, BOARD2, BOARD3 } from '../../utils/templates.ts'
+import { BOARD1, BOARD2, BOARD3, BOARD4 } from '../../utils/templates.ts'
 import { FirstTimeService } from '../../utils/firstTimeChecker.ts'
 
 useBoardStore.subscribe((store) => {
@@ -26,7 +26,7 @@ const populateInitialBoards = async () => {
         const isFirstTime = await FirstTimeService.isFirstTime()
         if (isFirstTime) {
             useBoardStore.setState({
-                boards: [BOARD1, BOARD2, BOARD3],
+                boards: [BOARD1, BOARD2, BOARD3, BOARD4],
                 isInitialized: true,
             })
         } else {
@@ -34,12 +34,13 @@ const populateInitialBoards = async () => {
                 BOARD1,
                 BOARD2,
                 BOARD3,
+                BOARD4,
             ]
             useBoardStore.setState({ boards, isInitialized: true })
         }
     } else {
         useBoardStore.setState({
-            boards: [BOARD1, BOARD2, BOARD3],
+            boards: [BOARD1, BOARD2, BOARD3, BOARD4],
             isInitialized: true,
         })
     }

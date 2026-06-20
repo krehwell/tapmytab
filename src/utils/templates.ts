@@ -1,4 +1,4 @@
-import { TBoard, TCard, TLabel } from '../types.ts'
+import { TBoard, TCard, TExcalidraw, TLabel } from '../types.ts'
 
 const link = (href: string, text: string) =>
     `<a target="_blank" rel="noopener noreferrer nofollow" href="${href}">${text}</a>`
@@ -99,6 +99,102 @@ const card = (
     label: TLabel,
 ): TCard => ({ id, title, content, desc, label })
 
+// --- example excalidraw drawing (a little "idea → plan → ship" flow) ---
+// hand-authored elements; excalidraw fills any remaining defaults via restore() on load.
+let elSeed = 1000
+const el = (over: Record<string, unknown>) => ({
+    angle: 0,
+    strokeColor: '#1e1e1e',
+    backgroundColor: 'transparent',
+    fillStyle: 'solid',
+    strokeWidth: 2,
+    strokeStyle: 'solid',
+    roughness: 1,
+    opacity: 100,
+    groupIds: [],
+    frameId: null,
+    roundness: { type: 3 },
+    seed: ++elSeed * 7,
+    version: 1,
+    versionNonce: ++elSeed * 13,
+    isDeleted: false,
+    boundElements: [],
+    updated: 1,
+    link: null,
+    locked: false,
+    ...over,
+})
+
+const box = (id: string, x: number, bg: string) =>
+    el({ id, type: 'rectangle', x, y: 110, width: 150, height: 80, backgroundColor: bg })
+
+const label = (id: string, x: number, text: string) =>
+    el({
+        id,
+        type: 'text',
+        x,
+        y: 138,
+        width: text.length * 16,
+        height: 30,
+        text,
+        fontSize: 24,
+        fontFamily: 5, // Excalifont (hand-drawn)
+        textAlign: 'center',
+        verticalAlign: 'top',
+        containerId: null,
+        originalText: text,
+        lineHeight: 1.25,
+        roundness: null,
+    })
+
+const flowArrow = (id: string, x: number) =>
+    el({
+        id,
+        type: 'arrow',
+        x,
+        y: 150,
+        width: 50,
+        height: 0,
+        points: [[0, 0], [50, 0]],
+        lastCommittedPoint: null,
+        startBinding: null,
+        endBinding: null,
+        startArrowhead: null,
+        endArrowhead: 'arrow',
+        roundness: { type: 2 },
+    })
+
+const FLOW_DRAWING: TExcalidraw = {
+    elements: [
+        el({
+            id: 'd-title',
+            type: 'text',
+            x: 40,
+            y: 30,
+            width: 470,
+            height: 45,
+            text: 'from idea to ship 🚀',
+            fontSize: 36,
+            fontFamily: 5,
+            textAlign: 'left',
+            verticalAlign: 'top',
+            containerId: null,
+            originalText: 'from idea to ship 🚀',
+            lineHeight: 1.25,
+            roundness: null,
+        }),
+        box('d-box1', 40, '#a5d8ff'),
+        box('d-box2', 260, '#b2f2bb'),
+        box('d-box3', 480, '#ffc9c9'),
+        label('d-l1', 75, 'Idea'),
+        label('d-l2', 295, 'Plan'),
+        label('d-l3', 515, 'Ship'),
+        flowArrow('d-a1', 200),
+        flowArrow('d-a2', 420),
+    ],
+    files: {},
+}
+
 export const CARD1 = card('card1', 'Start here', WELCOME, 'A 30-second tour', TLabel.Green)
 export const CARD2 = card('card2', 'Errands 🛒', ERRANDS, 'Little things to knock out', TLabel.Yellow)
 export const CARD3 = card('card3', 'Daily habits 💪', HABITS, 'Keep the streak alive', TLabel.Red)
@@ -110,6 +206,16 @@ export const CARD5 = {
 export const CARD6 = card('card6', 'Packing 🎒', JP_PACKING, "Don't forget", TLabel.Yellow)
 export const CARD7 = card('card7', 'Must-eat list 🍣', JP_EATS, 'Hungry yet?', TLabel.Red)
 
+// excalidraw card: content is the scene object instead of html
+export const CARD8: TCard = {
+    id: 'card8',
+    title: 'Flow sketch ✏️',
+    content: FLOW_DRAWING,
+    desc: 'Click to draw — an Excalidraw card',
+    label: TLabel.Green,
+}
+
 export const BOARD1: TBoard = { id: 'board1', name: '📋 To Do', cards: [CARD1, CARD2] }
 export const BOARD2: TBoard = { id: 'board2', name: '🌟 Doing', cards: [CARD3, CARD4] }
 export const BOARD3: TBoard = { id: 'board3', name: '✈️ Trip to Japan', cards: [CARD5, CARD6, CARD7] }
+export const BOARD4: TBoard = { id: 'board4', name: '🎨 Sketches', cards: [CARD8] }
