@@ -120,7 +120,7 @@ export const Card = ({
                         borderRadius: '0.8rem',
                         display: isDragging || disabled ? 'none' : 'block',
                         minHeight: '15.8rem',
-                        maxHeight: '36rem',
+                        maxHeight: '40rem',
                     }}
                 />
             </FlexColumn>

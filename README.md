@@ -16,17 +16,20 @@
 
 - 🌟 Open Source
 - ✏️ Scratch anything on your new tab
-- 📋 Instant Kanban board appears on every new Chrome tab
-- 🎯 Drag-and-drop (DND) functionality for smooth task management
+- 📋 Instant Kanban board appears on every new browser tab
+- 🎯 Drag-and-drop cards across boards and reorder freely
 - 📝 Full Markdown support for rich text formatting in cards
-- 🔄 Auto-sync across all Chrome tabs
+- 😀 One-click **Emojify** — auto-add a fitting emoji to any board or card title
+- ♾️ Unlimited local storage — keep as many boards & cards as you like
+- 🔄 Auto-sync across all your tabs
 - 🔒 Local storage for data privacy and offline access
-- ⚡ Quick-add edit tasks
+- ⌨️ `Cmd/Ctrl + Enter` to save & close the card editor instantly
 - 🏷️ Custom labels and tags for better organization
 - ⌨️ Markdown shortcuts for faster formatting
 - 📁 Multiple board support for different projects
-- 📅 Due date
-- 💾 Export/Import functionality for backup 
+- 📅 Due dates with overdue highlighting
+- 💾 Export / Import your boards as JSON for backup
+- 🦊 Cross-browser — available for both Chrome and Firefox
 
 ## 📦 Installation
 
@@ -47,9 +50,20 @@ deno task dev
 
 ### 🚢 Build & Publish
 
+Bump the version first — it must match in all three files: `deno.json`, `manifest.json`, and `manifest.firefox.json`.
+
+Then build a clean, per-browser zip:
+
 ```
-deno task build
-zip -r tapmytab dist/
+deno task zip:chrome     # → tapmytab-chrome.zip
+deno task zip:firefox    # → tapmytab-firefox.zip
+deno task zip            # → both
 ```
 
-Now you can publish it to chrome webstore dev console. [See Instruction](https://chrome.google.com/webstore/devconsole)
+Each task rebuilds `dist/` from scratch and overwrites its zip (no stale files carried over).
+
+**Chrome Web Store** — upload `tapmytab-chrome.zip` in the [Developer Dashboard](https://chrome.google.com/webstore/devconsole) → your item → _Package_ → _Upload new package_, then submit for review.
+
+**Firefox Add-ons (AMO)** — upload `tapmytab-firefox.zip` at [addons.mozilla.org/developers](https://addons.mozilla.org/developers/) → your add-on → _Upload New Version_. The Gecko id and `strict_min_version` live in `manifest.firefox.json` under `browser_specific_settings`.
+
+> Note: the Firefox build swaps in `manifest.firefox.json` after the Chrome build, so always produce the Firefox zip with `zip:firefox` (not by hand) to get the right manifest.
