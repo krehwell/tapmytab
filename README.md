@@ -16,6 +16,7 @@ Effortless Kanban, drag-and-drop magic — right from your browser tab! 🎨✨
 
 ## ✨ Features
 
+- 🪶 Super light, ~1mb
 - 🌟 Open Source
 - ✏️ Scratch anything on your new tab
 - 📋 Instant Kanban on every new browser tab
@@ -48,20 +49,15 @@ deno task dev
 
 ### 🚢 Build & Publish
 
-Bump the version first — it must match in all three files: `deno.json`, `manifest.json`, and `manifest.firefox.json`.
+Bump the version first on: `deno.json`, `manifest.json`, and `manifest.firefox.json` then
 
-Then build a clean, per-browser zip:
-
-```
-deno task zip:chrome     # → tapmytab-chrome.zip
-deno task zip:firefox    # → tapmytab-firefox.zip
-deno task zip            # → both
+```bash
+# build for chrome & firefox
+deno task zip 
 ```
 
-Each task rebuilds `dist/` from scratch and overwrites its zip (no stale files carried over).
+**Chrome Web Store**: upload `tapmytab-chrome.zip` at [Chrome Developer Dashboard](https://chrome.google.com/webstore/devconsole) 
 
-**Chrome Web Store** — upload `tapmytab-chrome.zip` in the [Developer Dashboard](https://chrome.google.com/webstore/devconsole) → your item → _Package_ → _Upload new package_, then submit for review.
-
-**Firefox Add-ons (AMO)** — upload `tapmytab-firefox.zip` at [addons.mozilla.org/developers](https://addons.mozilla.org/developers/) → your add-on → _Upload New Version_. The Gecko id and `strict_min_version` live in `manifest.firefox.json` under `browser_specific_settings`.
+**Firefox Add-ons (AMO)**: upload `tapmytab-firefox.zip` at [addons.mozilla.org/developers](https://addons.mozilla.org/developers/) 
 
 > Note: the Firefox build swaps in `manifest.firefox.json` after the Chrome build, so always produce the Firefox zip with `zip:firefox` (not by hand) to get the right manifest.
