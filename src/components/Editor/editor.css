@@ -100,6 +100,9 @@
     flex: 0 0 auto;
     margin-right: 0.6rem;
     user-select: none;
+    display: flex;
+    align-items: center;
+    min-height: 1.6em;
 }
 
 .tiptap ul[data-type='taskList'] li > div {
