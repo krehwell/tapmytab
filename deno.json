@@ -3,7 +3,7 @@
     "private": true,
     "tasks": {
         "dev": "vite",
-        "build": "vite build",
+        "build": "rm -rf dist/ && vite build",
         "preview": "vite preview",
         "build:chrome": "deno task build",
         "build:firefox": "deno task build && cp manifest.firefox.json dist/manifest.json",

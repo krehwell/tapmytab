@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Excalidraw, exportToSvg, getSceneVersion } from '@excalidraw/excalidraw'
 import '@excalidraw/excalidraw/index.css' // runs in the iframe's OWN realm: default 16px root (so excalidraw's rem UI is full size) and
- // listeners bind to this window (so pointer mapping is exact). scene
+// listeners bind to this window (so pointer mapping is exact). scene
 // data is exchanged with the parent over postMessage.
 // fonts come from the extension root.
 // deno-lint-ignore no-explicit-any
@@ -63,6 +63,7 @@ const App = () => {
                 // deno-lint-ignore no-explicit-any
                 files: scene.files as any,
                 scrollToContent: true,
+                appState: { viewBackgroundColor: 'transparent' },
             }}
             onChange={(elements, _appState, files) => {
                 const version = getSceneVersion(elements)
