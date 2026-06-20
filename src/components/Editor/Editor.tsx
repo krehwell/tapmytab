@@ -27,7 +27,7 @@ const extensions = [
         bulletList: { keepMarks: true, keepAttributes: false },
         orderedList: { keepMarks: true, keepAttributes: false },
     }),
-    Link.configure({
+    Link.extend({ inclusive: false }).configure({
         openOnClick: false,
         autolink: true,
         defaultProtocol: 'https',

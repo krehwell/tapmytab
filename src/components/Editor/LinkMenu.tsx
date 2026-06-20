@@ -139,7 +139,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
         >
             <FlexRowAlignCenter
                 style={{
-                    display: url ? 'flex' : 'none',
+                    display: url || isEditLink ? 'flex' : 'none',
                     backgroundColor: tc.surfaceStrong,
                     fontSize: '1.3rem',
                     padding: '0.5rem 0.8rem',
