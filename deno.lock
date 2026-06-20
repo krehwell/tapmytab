@@ -40,10 +40,9 @@
     "npm:dayjs@1.11.18": "1.11.18",
     "npm:light-uid@1.1.0": "1.1.0",
     "npm:lodash@4.17.21": "4.17.21",
-    "npm:react-dom@*": "18.3.1_react@18.3.1",
+    "npm:react-dom@18.3.1": "18.3.1_react@18.3.1",
     "npm:react-use@^17.6.0": "17.6.0_react@18.3.1_react-dom@18.3.1__react@18.3.1_tslib@2.8.1",
-    "npm:react@*": "18.3.1",
-    "npm:react@^18.3.0": "18.3.1",
+    "npm:react@18.3.1": "18.3.1",
     "npm:vite-bundle-visualizer@*": "1.2.1",
     "npm:vite@5.4.11": "5.4.11_@types+node@22.5.4",
     "npm:zustand@5.0.1": "5.0.1_@types+react@18.3.12_react@18.3.1"
@@ -2646,9 +2645,9 @@
       "npm:dayjs@1.11.18",
       "npm:light-uid@1.1.0",
       "npm:lodash@4.17.21",
-      "npm:react-dom@*",
+      "npm:react-dom@18.3.1",
       "npm:react-use@^17.6.0",
-      "npm:react@*",
+      "npm:react@18.3.1",
       "npm:vite@5.4.11",
       "npm:zustand@5.0.1"
     ]

@@ -5,6 +5,7 @@ import manifest from './manifest.json'
 
 export default defineConfig({
     plugins: [react(), crx({ manifest })],
+    resolve: { dedupe: ['react', 'react-dom'] },
     build: {
         rollupOptions: {
             input: {

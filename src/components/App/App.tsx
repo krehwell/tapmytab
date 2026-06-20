@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { DragEndEvent, DragOverEvent } from '@dnd-kit/core'
 import { Board } from '../Board.tsx'
 import { CanvasDndContext } from '../CanvasDndContext.tsx'
@@ -54,6 +54,11 @@ export const App = () => {
     const swapCardPos = useBoardStore((s) => s.swapCardPos)
     const swapCardSwitchBoard = useBoardStore((s) => s.swapCardSwitchBoard)
 
+    // moving a card in onDragOver re-lays out the board, which makes dnd-kit
+    // re-measure and synchronously re-fire onDragOver. Without a guard, rapid
+    // back-and-forth drags cascade into "Maximum update depth exceeded".
+    const isMovingRef = useRef(false)
+
     const handleCardSwitchBoard = useCallback(
         (event: DragOverEvent) => {
             const { active, over } = event
@@ -73,6 +78,13 @@ export const App = () => {
                 ovrCardIdx = ovrBoardIdx === -1 ? -1 : boards[ovrBoardIdx].cards.findIndex((c) => c.id === overId)
             }
             if (ovrBoardIdx === -1 || actBoardIdx === ovrBoardIdx) return
+
+            // one cross-board move per frame — skips the synchronous re-fires that cause the loop
+            if (isMovingRef.current) return
+            isMovingRef.current = true
+            requestAnimationFrame(() => {
+                isMovingRef.current = false
+            })
 
             // over a card → insert at its slot; over an empty board → append
             const newIdx = ovrCardIdx === -1 ? boards[ovrBoardIdx].cards.length : ovrCardIdx

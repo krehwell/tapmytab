@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import './index.css'
 import { App } from './components/App/App.tsx'
 
@@ -12,7 +12,7 @@ const buildRoot = () => {
 
 const root = buildRoot()
 
-ReactDOM.createRoot(root).render(
+createRoot(root).render(
     <React.StrictMode>
         <App />
     </React.StrictMode>,
