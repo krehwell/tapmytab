@@ -1,3 +1,4 @@
+import { useKey } from 'react-use'
 import { create } from 'zustand'
 import Dialog from '@mui/material/Dialog'
 import { FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
@@ -22,12 +23,14 @@ export const useCardPopupStore = create<{
     openPopup: (props: { card: TCard; sortableCheat: string }) => void
     sortableCheat: string | null
     card: TCard | null
+    isDirty: boolean
     updateField: (props: { fields: Partial<TCard> }) => void
     editor: TiptapEditor | null
 }>((set, get) => ({
     isOpen: false,
     sortableCheat: null,
     card: null,
+    isDirty: false,
     editor: null,
     closePopup: () => set({ isOpen: false, card: null }),
     updateField: ({ fields }) => {
@@ -35,18 +38,38 @@ export const useCardPopupStore = create<{
         for (const key in fields) {
             card[key] = fields[key]
         }
-        set({ card })
+        set({ card, isDirty: true })
     },
-    openPopup: ({ card, sortableCheat }) => set({ isOpen: true, card, sortableCheat }),
+    openPopup: ({ card, sortableCheat }) => set({ isOpen: true, card, sortableCheat, isDirty: false }),
 }))
+
+const saveAndClose = () => {
+    const { card, sortableCheat, closePopup } = useCardPopupStore.getState()
+    if (card && sortableCheat) updateCard({ sortableCheat, fields: card })
+    closePopup()
+}
 
 export const CardPopup = () => {
     const isOpen = useCardPopupStore((s) => s.isOpen)
+
+    useKey(
+        (e) => (e.metaKey || e.ctrlKey) && e.key === 'Enter',
+        (e) => {
+            if (!useCardPopupStore.getState().isOpen) return
+            e.preventDefault()
+            saveAndClose()
+        },
+    )
 
     return (
         <Dialog
             open={isOpen}
             transitionDuration={0}
+            onClose={(_e, reason) => {
+                // only let a backdrop click dismiss when there are no unsaved edits
+                if (reason === 'backdropClick' && useCardPopupStore.getState().isDirty) return
+                useCardPopupStore.getState().closePopup()
+            }}
             PaperComponent={({ children, style, ...props }) => (
                 <Box
                     component={FlexColumn}
@@ -215,8 +238,6 @@ const CardPopupEditor = () => {
 }
 
 const CardPopupActions = () => {
-    const sortableCheat = useCardPopupStore((s) => s.sortableCheat)
-    const card = useCardPopupStore((s) => s.card)
     const closePopup = useCardPopupStore((s) => s.closePopup)
 
     return (
@@ -228,10 +249,7 @@ const CardPopupActions = () => {
                 Cancel
             </Button>
             <Button
-                onClick={() => {
-                    updateCard({ sortableCheat: sortableCheat!, fields: card! })
-                    closePopup()
-                }}
+                onClick={saveAndClose}
                 sx={{
                     backgroundColor: tc.surfaceStrong,
                     width: '6.8rem',
