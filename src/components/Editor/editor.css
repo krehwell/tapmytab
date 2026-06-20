@@ -126,7 +126,7 @@
     margin: 0.8rem auto; /* always centered */
 }
 
-.tiptap img.ProseMirror-selectednode {
+.tiptap.ProseMirror-focused img.ProseMirror-selectednode {
     outline: 2px solid var(--selection);
     outline-offset: 2px;
 }

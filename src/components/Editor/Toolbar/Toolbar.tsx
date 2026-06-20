@@ -1,5 +1,14 @@
+import { useRef } from 'react'
 import { FlexRowAlignCenter } from '../../Flex/index.tsx'
-import { ArrowUUpLeft, ArrowUUpRight, BracketsCurly, Code, TextBolder, TextItalic } from '@phosphor-icons/react'
+import {
+    ArrowUUpLeft,
+    ArrowUUpRight,
+    BracketsCurly,
+    Code,
+    Image as ImageIcon,
+    TextBolder,
+    TextItalic,
+} from '@phosphor-icons/react'
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { useTextmenuStates } from './useTextmenuStates.ts'
 import { ToolbarBtn } from './ToolbarBtn.tsx'
@@ -11,6 +20,16 @@ import { ToolbarHeadingOptions } from './ToolbarHeadingOptions.tsx'
 
 export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
     const { isBold, isItalic, isCode, isCodeBlock } = useTextmenuStates(editor)
+    const fileInput = useRef<HTMLInputElement>(null)
+
+    const onPickImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        e.target.value = ''
+        if (!file) return
+        const reader = new FileReader()
+        reader.onload = () => editor.chain().focus().setImage({ src: String(reader.result) }).run()
+        reader.readAsDataURL(file)
+    }
 
     return (
         <FlexRowAlignCenter
@@ -67,7 +86,19 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                     editor.chain().focus().toggleCodeBlock().run()
                 }}
             />
+            <ToolbarBtn
+                title='Image'
+                Icon={ImageIcon}
+                onClick={() => fileInput.current?.click()}
+            />
             <ToolbarLinkOptions editor={editor} />
+            <input
+                ref={fileInput}
+                type='file'
+                accept='image/*'
+                hidden
+                onChange={onPickImage}
+            />
         </FlexRowAlignCenter>
     )
 }
