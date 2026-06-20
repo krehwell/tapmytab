@@ -37,10 +37,10 @@ const extensions = [
             if (editor.isActive('heading')) {
                 return ''
             }
-            return `Start typing (supports markdown). try:
+            return `try type here:
 
-## title 
-desc
+# title 
+**bold description text**
 
 - list one
 - list two

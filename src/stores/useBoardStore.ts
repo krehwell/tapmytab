@@ -40,7 +40,8 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
         set({ boards })
     },
     addNewBoard: ({ id, name, idx }) => {
-        const newBoard: TBoard = { id, name, cards: [] }
+        const newCard: TCard = { id: genUid(8), content: '', title: 'click to edit in full mode', label: TLabel.No }
+        const newBoard: TBoard = { id, name, cards: [newCard] }
         const boards = [...get().boards]
         boards.splice(idx + 1, 0, newBoard)
         set({ boards })
