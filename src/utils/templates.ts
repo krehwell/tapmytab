@@ -102,15 +102,15 @@ const card = (
 ): TCard => ({ id, title, content, desc, label })
 
 export const CARD1 = card('card1', 'Start here', WELCOME, 'A 30-second tour', TLabel.Green)
-export const CARD2 = card('card2', '🛒 Errands', ERRANDS, 'Little things to knock out', TLabel.Yellow)
-export const CARD3 = card('card3', '💪 Daily habits', HABITS, 'Keep the streak alive', TLabel.Red)
-export const CARD4 = card('card4', '📚 Learning', LEARNING, 'Level up a little each day', TLabel.Blue)
+export const CARD2 = card('card2', 'Errands 🛒', ERRANDS, 'Little things to knock out', TLabel.Yellow)
+export const CARD3 = card('card3', 'Daily habits 💪', HABITS, 'Keep the streak alive', TLabel.Red)
+export const CARD4 = card('card4', 'Learning 📚', LEARNING, 'Level up a little each day', TLabel.Blue)
 export const CARD5 = {
-    ...card('card5', '🗾 Japan itinerary', JP_ITINERARY, 'Where to go', TLabel.Blue),
+    ...card('card5', 'Japan itinerary 🗾', JP_ITINERARY, 'Where to go', TLabel.Blue),
     dueDate: '2027-04-01',
 }
-export const CARD6 = card('card6', '🎒 Packing', JP_PACKING, "Don't forget", TLabel.Yellow)
-export const CARD7 = card('card7', '🍣 Must-eat list', JP_EATS, 'Hungry yet?', TLabel.Red)
+export const CARD6 = card('card6', 'Packing 🎒', JP_PACKING, "Don't forget", TLabel.Yellow)
+export const CARD7 = card('card7', 'Must-eat list 🍣', JP_EATS, 'Hungry yet?', TLabel.Red)
 
 export const BOARD1: TBoard = { id: 'board1', name: '📋 To Do', cards: [CARD1, CARD2] }
 export const BOARD2: TBoard = { id: 'board2', name: '🌟 Doing', cards: [CARD3, CARD4] }
