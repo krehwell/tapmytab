@@ -16,6 +16,7 @@ export const ToolbarBtn = ({
     return (
         <Button
             radius='2.8rem'
+            tabIndex={-1}
             onClick={onClick}
             style={{ boxShadow: !onClick ? 'none' : undefined, ...style }}
             sx={{

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useKey } from 'react-use'
 import { create } from 'zustand'
 import Dialog from '@mui/material/Dialog'
@@ -100,6 +101,18 @@ const CardPopupHeader = () => {
     const sortableCheat = useCardPopupStore((s) => s.sortableCheat)
     const closePopup = useCardPopupStore((s) => s.closePopup)
     const updateField = useCardPopupStore((s) => s.updateField)
+    const titleRef = useRef<HTMLTextAreaElement>(null)
+
+    // focus title after MUI Dialog's focus trap settles
+    useEffect(() => {
+        const id = setTimeout(() => {
+            const el = titleRef.current
+            if (!el) return
+            el.focus()
+            el.setSelectionRange(el.value.length, el.value.length)
+        }, 0)
+        return () => clearTimeout(id)
+    }, [])
 
     if (!card) return null
 
@@ -107,6 +120,7 @@ const CardPopupHeader = () => {
         <>
             <FlexRowAlignCenter style={{ marginBottom: '0.8rem' }}>
                 <TextareaAutosize
+                    ref={titleRef}
                     maxRows={1}
                     maxLength={60}
                     value={card.title}
@@ -250,6 +264,7 @@ const CardPopupActions = () => {
         <FlexRowAlignCenter style={{ gap: '1.2rem', marginLeft: 'auto' }}>
             <Button
                 onClick={closePopup}
+                tabIndex={-1}
                 style={{ width: '6.8rem', height: '3.3rem', borderRadius: '0.8rem' }}
             >
                 Cancel

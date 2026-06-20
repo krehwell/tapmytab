@@ -45,6 +45,7 @@ export const Due = ({
             {isEditable && (
                 <input
                     ref={ref}
+                    tabIndex={-1}
                     style={{ position: 'absolute', width: 1, left: '0', zIndex: -1 }}
                     type='date'
                     id='start'
