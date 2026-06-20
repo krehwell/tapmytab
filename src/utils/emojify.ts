@@ -43,8 +43,23 @@ const KEYWORD_EMOJI: [RegExp, string][] = [
     [/\b(art|paint|draw|craft)/i, '🖌️'],
     [/\b(photo|camera|picture|shoot)/i, '📸'],
 ]
-// random smiley from the emoticons block (U+1F600–U+1F64F) — densely assigned, no tofu
-const randomEmoji = () => String.fromCodePoint(0x1f600 + Math.floor(Math.random() * (0x1f64f - 0x1f600 + 1)))
+
+const EMOJI_RANGES: [number, number][] = [
+    [0x1f300, 0x1f5ff], // misc symbols & pictographs (weather, animals, food, places…)
+    [0x1f600, 0x1f64f], // emoticons (faces, gestures)
+    [0x1f680, 0x1f6c5], // transport & map
+    [0x1f90c, 0x1f9ff], // supplemental symbols & pictographs
+    [0x1fa70, 0x1faf8], // symbols & pictographs extended-A
+]
+const FLAG_CODEPOINTS = [0x1f3c1, 0x1f3f3, 0x1f3f4, 0x1f6a9] // 🏁 🏳 🏴 🚩
+
+const randomEmoji = (): string => {
+    while (true) {
+        const [lo, hi] = EMOJI_RANGES[Math.floor(Math.random() * EMOJI_RANGES.length)]
+        const cp = lo + Math.floor(Math.random() * (hi - lo + 1))
+        if (FLAG_CODEPOINTS.indexOf(cp) === -1) return String.fromCodePoint(cp)
+    }
+}
 
 const PLACEHOLDER_TITLE = 'Untitled'
 
