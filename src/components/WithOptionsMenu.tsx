@@ -66,7 +66,9 @@ export const WithOptionsMenu = (
                 sx={{
                     '& .MuiPaper-root': { boxShadow: 'none' },
                     '& .MuiList-padding': { paddingTop: 0, paddingBottom: 0 },
-                    marginLeft: '-0.5rem',
+                    listStyleType: 'none',
+                    listStyle: 'none',
+                    marginLeft: '-1rem',
                     ...menuProps?.sx,
                 }}
                 slotProps={{
