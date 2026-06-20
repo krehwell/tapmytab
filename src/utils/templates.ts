@@ -47,23 +47,43 @@ const LEARNING = `
 <p>Resources: ${link('https://www.justinguitar.com', 'JustinGuitar')}</p>
 `
 
-const WATCHLIST = `
-<h3>🍿 Watchlist</h3>
-<ul data-type="taskList">
-<li data-type="taskItem" data-checked="true">Spirited Away</li>
-<li data-type="taskItem" data-checked="true">The Grand Budapest Hotel</li>
-<li data-type="taskItem" data-checked="false">That show everyone keeps recommending</li>
-</ul>
+const JP_ITINERARY = `
+<h2>🗾 12 days in Japan</h2>
+<p style="text-align: center"><em>cherry blossoms, ramen, and a whole lot of walking</em></p>
+<h3>Route</h3>
+<ol>
+<li>🗼 <strong>Tokyo</strong> — Shibuya, teamLab, Akihabara</li>
+<li>⛩️ <strong>Kyoto</strong> — Fushimi Inari <em>at sunrise</em></li>
+<li>🦌 <strong>Nara</strong> — feed the deer 🍪</li>
+<li>🍜 <strong>Osaka</strong> — eat everything in Dotonbori</li>
+</ol>
+<blockquote><p>💡 Tip: grab a ${link('https://www.japanrailpass.net', 'JR Pass')} before you fly — it pays for itself by day three.</p></blockquote>
 `
 
-const SOMEDAY = `
-<h3>🪣 Someday</h3>
+const JP_PACKING = `
+<h3>🎒 Don't-forget list</h3>
 <ul data-type="taskList">
-<li data-type="taskItem" data-checked="false">🗾 See cherry blossoms in Japan</li>
-<li data-type="taskItem" data-checked="false">🏺 Take a pottery class</li>
-<li data-type="taskItem" data-checked="false">✍️ Start a blog</li>
-<li data-type="taskItem" data-checked="false">🏔️ Hike a famous trail</li>
+<li data-type="taskItem" data-checked="true">🚄 JR Pass <strong>printed</strong> + Suica topped up</li>
+<li data-type="taskItem" data-checked="true">🔌 Plug adapter &amp; power bank</li>
+<li data-type="taskItem" data-checked="false">👟 <em>Comfy</em> walking shoes</li>
+<li data-type="taskItem" data-checked="false">💴 Cash — many shops are <code>cash only</code></li>
 </ul>
+<p>Daily budget guess:</p>
+<pre><code>food   ¥4000
+trains ¥1500
+fun    ¥3000</code></pre>
+`
+
+const JP_EATS = `
+<h3>🍣 Must-eat list</h3>
+<ul>
+<li>🍜 Tonkotsu ramen — ${link('https://www.ichiran.com/', 'Ichiran')}</li>
+<li>🍢 Street food in <strong>Dotonbori</strong></li>
+<li>🍵 Matcha <em>everything</em></li>
+<li>🐟 Tsukiji sushi breakfast</li>
+</ul>
+<p>Phrases to know:</p>
+<p>👉 <code>itadakimasu</code> before eating · <code>gochisousama</code> after</p>
 `
 
 const card = (
@@ -78,9 +98,10 @@ export const CARD1 = card('card1', 'Start here', WELCOME, 'A 30-second tour', TL
 export const CARD2 = card('card2', '🛒 Errands', ERRANDS, 'Little things to knock out', TLabel.Yellow)
 export const CARD3 = card('card3', '💪 Daily habits', HABITS, 'Keep the streak alive', TLabel.Red)
 export const CARD4 = card('card4', '📚 Learning', LEARNING, 'Level up a little each day', TLabel.Blue)
-export const CARD5 = card('card5', '🍿 Watchlist', WATCHLIST, 'For cozy nights in', TLabel.Blue)
-export const CARD6 = card('card6', '🪣 Someday', SOMEDAY, 'Big dreams, no rush', TLabel.Green)
+export const CARD5 = { ...card('card5', '🗾 Japan itinerary', JP_ITINERARY, 'Where to go', TLabel.Blue), dueDate: '2027-04-01' }
+export const CARD6 = card('card6', '🎒 Packing', JP_PACKING, "Don't forget", TLabel.Yellow)
+export const CARD7 = card('card7', '🍣 Must-eat list', JP_EATS, 'Hungry yet?', TLabel.Red)
 
 export const BOARD1: TBoard = { id: 'board1', name: '📋 To Do', cards: [CARD1, CARD2] }
 export const BOARD2: TBoard = { id: 'board2', name: '🌟 Doing', cards: [CARD3, CARD4] }
-export const BOARD3: TBoard = { id: 'board3', name: '💡 Ideas', cards: [CARD5, CARD6] }
+export const BOARD3: TBoard = { id: 'board3', name: '✈️ Trip to Japan', cards: [CARD5, CARD6, CARD7] }

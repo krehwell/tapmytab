@@ -59,7 +59,7 @@ export const Due = ({
                     }}
                 />
             )}
-            {dueDate ? <div style={{ height: 22 }} /> : <CalendarDots size={22} color={color} />}
+            {dueDate && !isEditable ? null : <CalendarDots size={22} color={color} />}
 
             <span style={{ fontSize: '1.2rem', color }}>
                 {dueDate ? dayjs(dueDate).format('ddd, DD MMM YYYY') : 'Due date'}
