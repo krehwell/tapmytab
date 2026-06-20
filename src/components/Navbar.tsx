@@ -6,6 +6,7 @@ import { WithOptionsMenu } from './WithOptionsMenu.tsx'
 import { Button } from './Button.tsx'
 import { useLocalStorage } from 'react-use'
 import { StorageService } from '../utils/storage.ts'
+import { useBoardStore } from '../stores/useBoardStore.ts'
 import { tc } from '../utils/themeColors.ts'
 
 enum SearchOption {
@@ -109,6 +110,17 @@ const MainTitle = () => {
                 {
                     label: 'Export Boards',
                     onClick: () => StorageService.exportBoards(),
+                },
+                {
+                    label: 'Import Boards',
+                    onClick: async () => {
+                        const ok = globalThis.confirm(
+                            'Importing replaces all your current boards. Make a backup with "Export Boards" first.\n\nContinue?',
+                        )
+                        if (!ok) return
+                        const boards = await StorageService.importBoards()
+                        if (boards) useBoardStore.setState({ boards })
+                    },
                 },
                 {
                     label: 'Submit Issue/Suggestion',

@@ -42,6 +42,27 @@ export const StorageService = {
         }
     },
 
+    importBoards: (): Promise<TBoard[] | null> => {
+        return new Promise((resolve) => {
+            const input = document.createElement('input')
+            input.type = 'file'
+            input.accept = 'application/json'
+            input.onchange = async () => {
+                try {
+                    const file = input.files?.[0]
+                    if (!file) return resolve(null)
+                    const boards = JSON.parse(await file.text())
+                    if (!Array.isArray(boards)) throw new Error('Expected an array of boards')
+                    resolve(boards)
+                } catch (error) {
+                    console.error('Error importing boards:', error)
+                    resolve(null)
+                }
+            }
+            input.click()
+        })
+    },
+
     clearBoards: async () => {
         try {
             await extensionAPI.storage.local.remove('boards')
