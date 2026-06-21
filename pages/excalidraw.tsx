@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Excalidraw, exportToSvg, getSceneVersion } from '@excalidraw/excalidraw'
-import '@excalidraw/excalidraw/index.css' 
-
-// listeners bind to this window (so pointer mapping is exact). 
-// scene data is exchanged with the parent over postMessage.
+import '@excalidraw/excalidraw/index.css' // listeners bind to this window (so pointer mapping is exact).
+ // scene data is exchanged with the parent over postMessage.
 // fonts come from the extension root.
 // deno-lint-ignore no-explicit-any
 ;(globalThis as any).EXCALIDRAW_ASSET_PATH = '/'
@@ -30,8 +28,8 @@ const postPreview = async (elements: readonly unknown[], files: Record<string, u
 const App = () => {
     const [scene, setScene] = useState<Scene | null>(null)
 
-    // excalidraw's onChange fires for non-edits too (load, selection, scroll). 
-    // track the scene version so we only notify the parent on real element mutations 
+    // excalidraw's onChange fires for non-edits too (load, selection, scroll).
+    // track the scene version so we only notify the parent on real element mutations
     // keeps its dirty flag honest.
     const versionRef = useRef<number | null>(null)
     const previewTimer = useRef<number | undefined>(undefined)
@@ -62,12 +60,14 @@ const App = () => {
     return (
         <Excalidraw
             theme='dark'
+            excalidrawAPI={(api) => {
+                setTimeout(() => api.scrollToContent(undefined, { fitToContent: true }), 10)
+            }}
             initialData={{
                 // deno-lint-ignore no-explicit-any
                 elements: scene.elements as any,
                 // deno-lint-ignore no-explicit-any
                 files: scene.files as any,
-                scrollToContent: true,
                 appState: { viewBackgroundColor: 'transparent' },
             }}
             onChange={(elements, _appState, files) => {

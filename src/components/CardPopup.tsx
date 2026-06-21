@@ -112,7 +112,8 @@ const CardPopupHeader = () => {
     useEffect(() => {
         const id = setTimeout(() => {
             const el = titleRef.current
-            if (!el) return
+            if (!el || !card) return
+            if (isExcalidraw(card.content)) return
             el.focus()
             el.setSelectionRange(el.value.length, el.value.length)
         }, 0)
