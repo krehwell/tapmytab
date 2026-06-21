@@ -7,6 +7,7 @@ import { Button } from './Button.tsx'
 import { useLocalStorage } from 'react-use'
 import { StorageService } from '../utils/storage.ts'
 import { useBoardStore } from '../stores/useBoardStore.ts'
+import { BOARD1, BOARD2, BOARD3, BOARD4 } from '../utils/templates.ts'
 import { tc } from '../utils/themeColors.ts'
 
 enum SearchOption {
@@ -120,6 +121,17 @@ const MainTitle = () => {
                         if (!ok) return
                         const boards = await StorageService.importBoards()
                         if (boards) useBoardStore.setState({ boards })
+                    },
+                },
+                {
+                    label: 'Reset Board',
+                    onClick: async () => {
+                        const ok = globalThis.confirm(
+                            'Resetting replaces all your current boards with the default template. We\'ll export a backup of your current boards first.\n\nContinue?',
+                        )
+                        if (!ok) return
+                        await StorageService.exportBoards()
+                        useBoardStore.setState({ boards: [BOARD1, BOARD2, BOARD3, BOARD4] })
                     },
                 },
                 {

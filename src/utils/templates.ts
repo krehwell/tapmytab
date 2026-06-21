@@ -215,7 +215,7 @@ export const CARD8: TCard = {
     label: TLabel.Green,
 }
 
-export const BOARD1: TBoard = { id: 'board1', name: '📋 To Do', cards: [CARD1, CARD2] }
+export const BOARD1: TBoard = { id: 'board1', name: '📋 TODO', cards: [CARD1, CARD2] }
 export const BOARD2: TBoard = { id: 'board2', name: '🌟 Doing', cards: [CARD3, CARD4] }
 export const BOARD3: TBoard = { id: 'board3', name: '✈️ Trip to Japan', cards: [CARD5, CARD6, CARD7] }
 export const BOARD4: TBoard = { id: 'board4', name: '🎨 Sketches', cards: [CARD8] }
