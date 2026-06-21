@@ -80,7 +80,6 @@ export const App = () => {
             }
             if (ovrBoardIdx === -1 || actBoardIdx === ovrBoardIdx) return
 
-            // one cross-board move per frame — skips the synchronous re-fires that cause the loop
             if (isMovingRef.current) return
             isMovingRef.current = true
             requestAnimationFrame(() => {

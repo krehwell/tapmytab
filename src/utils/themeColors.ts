@@ -1,9 +1,3 @@
-/**
- * JS mirror of the color tokens defined in `index.css` (`:root`).
- * CSS is the single source of truth — only add a key here when a color is
- * needed in JS/`sx`. CSS-only tokens (link, highlight, scrollbar, selection…)
- * stay in index.css.
- */
 export const tc = {
     // surfaces
     surfaceOverlay: 'var(--surface-overlay)',

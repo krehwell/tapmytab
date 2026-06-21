@@ -4,7 +4,7 @@
 
 # tapmytab
 
-Effortless Kanban, drag-and-drop magic — right from your browser tab! 🎨✨
+Effortless Kanban, drag-and-drop magic right from your browser tab! 🎨✨
 
 [krehwell](https://krehwell.com) 👾 · [Hafizh Izzan Zaldi](https://www.linkedin.com/in/hafizh-izzan-zaldi/) 👩🏻‍🎨🖌 · [**Download**](https://chromewebstore.google.com/detail/tapmytab/djfcjmnpjgalklhjilkfngplignmfkim?authuser=0&hl=en) 🚀
 
@@ -21,13 +21,13 @@ Effortless Kanban, drag-and-drop magic — right from your browser tab! 🎨✨
 - 📋 Instant Kanban on every new browser tab
 - 🎯 Drag-and-drop cards across boards and reorder freely
 - 📝 Full Markdown Rich Text editor support
-- ♾️ Unlimited local storage — keep as many boards & cards as you like
+- ♾️ Unlimited local storage:  keep as many boards & cards as you like
 - 🔄 Sync across tabs
 - 🔒 Local storage for data privacy and offline access
 - 🏷️ Custom tags label
 - 📅 Due dates 
 - 💾 Export / Import your boards for backup
-- 🦊 Cross-browser — available for both Chrome and Firefox
+- 🦊 Cross-browser:  available for both Chrome and Firefox
 
 ## 📦 Installation
 

@@ -72,7 +72,6 @@ export const CardPopup = () => {
             transitionDuration={0}
             disableEnforceFocus={isDrawing}
             onClose={() => {
-                // backdrop click and Esc both dismiss — but only when there are no unsaved edits
                 if (useCardPopupStore.getState().isDirty) return
                 useCardPopupStore.getState().closePopup()
             }}

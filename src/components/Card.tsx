@@ -63,7 +63,7 @@ export const Card = ({
         id: card.id,
         data: { card, sortableCheat },
         disabled,
-        // don't animate the layout shift when a card is inserted into a new board —
+        // don't animate the layout shift when a card is inserted into a new board
         // the intermediate state is what renders as a weird gap (notably on Firefox)
         animateLayoutChanges: () => false,
     })

@@ -83,7 +83,6 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
         const card = boards[currBoardIdx].cards[currIdx]
         if (!card) return
 
-        // clone both card arrays — never mutate state in place
         const currCards = boards[currBoardIdx].cards.filter((_, i) => i !== currIdx)
         const newCards = [...boards[newBoardIdx].cards]
         newCards.splice(newIdx, 0, card) // splice clamps out-of-range to the end

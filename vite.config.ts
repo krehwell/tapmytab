@@ -9,7 +9,7 @@ export default defineConfig({
     resolve: {
         dedupe: ['react', 'react-dom'],
         alias: {
-            // drop excalidraw's mermaid feature (mermaid + katex + cytoscape, ~2.5MB) — see the stub
+            // drop excalidraw's mermaid feature (mermaid + katex + cytoscape, ~2.5MB) (checkout ./src/stubs/)
             '@excalidraw/mermaid-to-excalidraw': fileURLToPath(
                 new URL('./src/stubs/mermaid-to-excalidraw.ts', import.meta.url),
             ),
