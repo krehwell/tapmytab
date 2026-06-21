@@ -8,7 +8,6 @@ import Placeholder from '@tiptap/extension-placeholder'
 import { useEffect } from 'react'
 import { ImageExtension } from '../extensions/image.ts'
 import { LinkExtension } from '../extensions/link.ts'
-import { TrailingNode } from '../extensions/trailingNode.ts'
 
 const extensions = [
     TaskList,
@@ -16,13 +15,15 @@ const extensions = [
     TextAlign.configure({
         types: ['heading', 'paragraph'],
     }),
+    // StarterKit v3 ships TrailingNode (default: no trailing after a paragraph) and a Link
+    // we override with LinkExtension below, so disable its built-in Link to avoid a dupe.
     StarterKit.configure({
         bulletList: { keepMarks: true, keepAttributes: false },
         orderedList: { keepMarks: true, keepAttributes: false },
+        link: false,
     }),
     LinkExtension,
     ImageExtension,
-    TrailingNode,
     Placeholder.configure({
         placeholder: ({ editor }) => {
             if (editor.isActive('heading')) {

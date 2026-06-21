@@ -1,4 +1,5 @@
-import { BubbleMenu, Editor as TiptapEditor } from '@tiptap/react'
+import { Editor as TiptapEditor } from '@tiptap/react'
+import { BubbleMenu } from '@tiptap/react/menus'
 import { tc } from '../../utils/themeColors.ts'
 import { Button } from '../Button.tsx'
 import { FlexRowAlignCenter } from '../Flex/index.tsx'
@@ -11,7 +12,7 @@ export const ImageMenu = ({ editor }: { editor: TiptapEditor }) => {
             pluginKey='imageMenu'
             shouldShow={({ editor }) => editor.isActive('image')}
             updateDelay={0}
-            tippyOptions={{ offset: [0, 8] }}
+            options={{ offset: 8 }}
         >
             <FlexRowAlignCenter
                 style={{

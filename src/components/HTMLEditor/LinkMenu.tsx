@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
-import { BubbleMenu as BaseBubbleMenu, Editor as TiptapEditor } from '@tiptap/react'
+import { Editor as TiptapEditor } from '@tiptap/react'
+import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react/menus'
 import { ArrowUpRight, KeyReturn, Pencil, Trash, XCircle } from '@phosphor-icons/react'
 import { tc } from '../../utils/themeColors.ts'
 import { Button } from '../Button.tsx'
@@ -126,12 +127,10 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
             pluginKey='textMenu'
             shouldShow={shouldShow}
             updateDelay={0}
-            tippyOptions={{
-                offset: [0, 1],
-                popperOptions: {
-                    modifiers: [{ name: 'flip', enabled: false }],
-                },
-                onHidden: () => {
+            options={{
+                offset: 1,
+                flip: false,
+                onHide: () => {
                     setIsEditLink(false)
                     setText('')
                     setUrl('')
