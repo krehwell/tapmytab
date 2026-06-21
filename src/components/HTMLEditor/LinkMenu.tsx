@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { Editor as TiptapEditor } from '@tiptap/react'
 import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react/menus'
 import { ArrowUpRight, KeyReturn, Pencil, Trash, XCircle } from '@phosphor-icons/react'
@@ -6,7 +6,7 @@ import { tc } from '../../utils/themeColors.ts'
 import { Button } from '../Button.tsx'
 import { FlexColumn, FlexRowAlignCenter } from '../Flex/index.tsx'
 
-export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
+export const LinkMenu = memo(({ editor }: { editor: TiptapEditor }) => {
     const [url, setUrl] = useState('')
     const [text, setText] = useState('')
     const [isEditLink, setIsEditLink] = useState(false)
@@ -45,6 +45,19 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
     const onUnsetLink = useCallback(() => {
         editor.chain().focus().extendMarkRange('link').unsetLink().run()
     }, [editor])
+
+    const bubbleOptions = useMemo(
+        () => ({
+            offset: 1,
+            flip: false,
+            onHide: () => {
+                setIsEditLink(false)
+                setText('')
+                setUrl('')
+            },
+        }),
+        [],
+    )
 
     const renderPreviewLink = () => {
         return (
@@ -127,15 +140,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
             pluginKey='textMenu'
             shouldShow={shouldShow}
             updateDelay={0}
-            options={{
-                offset: 1,
-                flip: false,
-                onHide: () => {
-                    setIsEditLink(false)
-                    setText('')
-                    setUrl('')
-                },
-            }}
+            options={bubbleOptions}
         >
             <FlexRowAlignCenter
                 style={{
@@ -152,7 +157,7 @@ export const LinkMenu = ({ editor }: { editor: TiptapEditor }) => {
             </FlexRowAlignCenter>
         </BaseBubbleMenu>
     )
-}
+})
 
 export const UrlInput = ({
     onConfirm,

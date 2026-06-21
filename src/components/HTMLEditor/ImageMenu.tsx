@@ -1,16 +1,22 @@
-import { Editor as TiptapEditor } from '@tiptap/react'
+import { memo } from 'react'
+import { Editor as TiptapEditor, useEditorState } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import { tc } from '../../utils/themeColors.ts'
 import { Button } from '../Button.tsx'
 import { FlexRowAlignCenter } from '../Flex/index.tsx'
 import { IMAGE_SIZES } from './extensions/image.ts'
 
-export const ImageMenu = ({ editor }: { editor: TiptapEditor }) => {
+export const ImageMenu = memo(({ editor }: { editor: TiptapEditor }) => {
+    const activeWidth = useEditorState({
+        editor,
+        selector: ({ editor }) => editor.getAttributes('image').width as string | undefined,
+    })
+
     return (
         <BubbleMenu
             editor={editor}
             pluginKey='imageMenu'
-            shouldShow={({ editor }) => editor.isActive('image')}
+            shouldShow={({ editor }: { editor: TiptapEditor }) => editor.isActive('image')}
             updateDelay={0}
             options={{ offset: 8 }}
         >
@@ -25,26 +31,23 @@ export const ImageMenu = ({ editor }: { editor: TiptapEditor }) => {
                     width: 'fit-content',
                 }}
             >
-                {IMAGE_SIZES.map((size) => {
-                    const active = editor.getAttributes('image').width === size
-                    return (
-                        <Button
-                            key={size}
-                            title={`Resize to ${size}`}
-                            onClick={() => editor.chain().focus().updateAttributes('image', { width: size }).run()}
-                            sx={{
-                                padding: '0.4rem 0.7rem',
-                                borderRadius: '0.4rem',
-                                fontSize: '1.2rem',
-                                color: tc.textSecondary,
-                                backgroundColor: active ? tc.surfaceOverlay : 'transparent',
-                            }}
-                        >
-                            {parseInt(size)}
-                        </Button>
-                    )
-                })}
+                {IMAGE_SIZES.map((size) => (
+                    <Button
+                        key={size}
+                        title={`Resize to ${size}`}
+                        onClick={() => editor.chain().focus().updateAttributes('image', { width: size }).run()}
+                        sx={{
+                            padding: '0.4rem 0.7rem',
+                            borderRadius: '0.4rem',
+                            fontSize: '1.2rem',
+                            color: tc.textSecondary,
+                            backgroundColor: activeWidth === size ? tc.surfaceOverlay : 'transparent',
+                        }}
+                    >
+                        {parseInt(size)}
+                    </Button>
+                ))}
             </FlexRowAlignCenter>
         </BubbleMenu>
     )
-}
+})

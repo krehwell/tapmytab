@@ -12,11 +12,7 @@ import { LinkExtension } from '../extensions/link.ts'
 const extensions = [
     TaskList,
     TaskItem.configure({ nested: true }),
-    TextAlign.configure({
-        types: ['heading', 'paragraph'],
-    }),
-    // StarterKit v3 ships TrailingNode (default: no trailing after a paragraph) and a Link
-    // we override with LinkExtension below, so disable its built-in Link to avoid a dupe.
+    TextAlign.configure({ types: ['heading', 'paragraph'] }),
     StarterKit.configure({
         bulletList: { keepMarks: true, keepAttributes: false },
         orderedList: { keepMarks: true, keepAttributes: false },
