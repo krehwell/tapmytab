@@ -18,13 +18,7 @@ const WELCOME = `
 `
 
 const ERRANDS = `
-<h3>🛒 This week's errands</h3>
-<ul data-type="taskList">
-<li data-type="taskItem" data-checked="true">🥑 Groceries: avocados, eggs, sourdough</li>
-<li data-type="taskItem" data-checked="false">📮 Drop off the package</li>
-<li data-type="taskItem" data-checked="false">💧 Water the plants 🌿</li>
-<li data-type="taskItem" data-checked="false">📞 Call grandma</li>
-</ul>
+<h3>🛒 This week's errands</h3><ul data-type="taskList"><li data-checked="true" data-type="taskItem"><label><input type="checkbox" checked="checked"><span></span></label><div><p>🥑 Groceries: avocados, eggs, sourdough</p></div></li><li data-checked="false" data-type="taskItem"><label><input type="checkbox"><span></span></label><div><p>📮 Drop off the package</p></div></li><li data-checked="false" data-type="taskItem"><label><input type="checkbox"><span></span></label><div><p>💧 Water the plants 🌿</p></div></li><li data-checked="false" data-type="taskItem"><label><input type="checkbox"><span></span></label><div><p>📞 Call grandma</p></div></li></ul><p></p>
 `
 
 const HABITS = `
@@ -53,30 +47,13 @@ const LEARNING = `
 `
 
 const JP_ITINERARY = `
-<h2>🗾 12 days in Japan</h2>
-<p><em>cherry blossoms, ramen, and a whole lot of walking</em></p>
-<h3>Route</h3>
-<ol>
-<li>🗼 <strong>Tokyo</strong>: Shibuya, teamLab, Akihabara</li>
-<li>⛩️ <strong>Kyoto</strong>: Fushimi Inari <em>at sunrise</em></li>
-<li>🦌 <strong>Nara</strong>: feed the deer 🍪</li>
-<li>🍜 <strong>Osaka</strong>: eat everything in Dotonbori</li>
-</ol>
-<blockquote><p>💡 Tip: grab a ${link('https://www.japanrailpass.net', 'JR Pass')} before flying</p></blockquote>
+<h2>🗾 12 days in Japan</h2><p><em>cherry blossoms, ramen, and a whole lot of walking</em></p><h3>Route</h3><ol><li><p>🗼 <strong>Tokyo</strong>: Shibuya, teamLab, Akihabara</p></li><li><p>⛩️ <strong>Kyoto</strong>: Fushimi Inari <em>at sunrise</em></p></li><li><p>🦌 <strong>Nara</strong>: feed the deer 🍪</p></li><li><p>🍜 <strong>Osaka</strong>: eat everything in Dotonbori</p></li></ol><blockquote><p>💡 Tip: grab a <a target="_blank" rel="noopener noreferrer nofollow" href="https://www.japanrailpass.net">JR Pass</a> before flying</p></blockquote><p></p>
 `
 
 const JP_PACKING = `
-<h3>🎒 Don't-forget list</h3>
-<ul data-type="taskList">
-<li data-type="taskItem" data-checked="true">🚄 JR Pass <strong>printed</strong> + Suica topped up</li>
-<li data-type="taskItem" data-checked="true">🔌 Plug adapter &amp; power bank</li>
-<li data-type="taskItem" data-checked="false">👟 <em>Comfy</em> walking shoes</li>
-<li data-type="taskItem" data-checked="false">💴 Cash: many shops are <code>cash only</code></li>
-</ul>
-<p>Daily budget guess:</p>
-<pre><code>food   ¥4000
+<h3>🎒 Don't-forget list</h3><ul data-type="taskList"><li data-checked="true" data-type="taskItem"><label><input type="checkbox" checked="checked"><span></span></label><div><p>🚄 JR Pass <strong>printed</strong> + Suica topped up</p></div></li><li data-checked="true" data-type="taskItem"><label><input type="checkbox" checked="checked"><span></span></label><div><p>🔌 Plug adapter &amp; power bank</p></div></li><li data-checked="false" data-type="taskItem"><label><input type="checkbox"><span></span></label><div><p>👟 <em>Comfy</em> walking shoes</p></div></li><li data-checked="false" data-type="taskItem"><label><input type="checkbox"><span></span></label><div><p>💴 Cash: many shops are <code>cash only</code></p></div></li></ul><p>Daily budget guess:</p><pre><code>food   ¥4000
 trains ¥1500
-fun    ¥3000</code></pre>
+fun    ¥3000</code></pre><p></p>
 `
 
 const JP_EATS = `

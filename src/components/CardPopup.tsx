@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useKey } from 'react-use'
+import { useEffectOnce, useKey } from 'react-use'
 import { create } from 'zustand'
 import Dialog from '@mui/material/Dialog'
 import { FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
@@ -107,17 +107,15 @@ const CardPopupHeader = () => {
     const updateField = useCardPopupStore((s) => s.updateField)
     const titleRef = useRef<HTMLInputElement>(null)
 
-    // focus title after MUI Dialog's focus trap settles
-    useEffect(() => {
-        const id = setTimeout(() => {
+    useEffectOnce(() => {
+        setTimeout(() => {
             const el = titleRef.current
             if (!el || !card) return
             if (isExcalidraw(card.content)) return
             el.focus()
             el.setSelectionRange(el.value.length, el.value.length)
-        }, 0)
-        return () => clearTimeout(id)
-    }, [])
+        }, 100)
+    })
 
     if (!card) return null
 
