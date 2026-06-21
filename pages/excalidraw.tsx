@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
-import { createRoot } from 'react-dom/client'
-import { Excalidraw, exportToSvg, getSceneVersion } from '@excalidraw/excalidraw'
-import '@excalidraw/excalidraw/index.css' // listeners bind to this window (so pointer mapping is exact).
- // scene data is exchanged with the parent over postMessage.
+// listeners bind to this window (so pointer mapping is exact).
+// scene data is exchanged with the parent over postMessage.
 // fonts come from the extension root.
 // deno-lint-ignore no-explicit-any
 ;(globalThis as any).EXCALIDRAW_ASSET_PATH = '/'
 
+import { useEffect, useRef, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Excalidraw, exportToSvg, getSceneVersion } from '@excalidraw/excalidraw'
+import '@excalidraw/excalidraw/index.css'
 type Scene = { elements: readonly unknown[]; files: Record<string, unknown> }
 
 const post = (message: unknown) => globalThis.parent?.postMessage(message, '*')
