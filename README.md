@@ -11,7 +11,7 @@ Effortless Kanban, drag-and-drop magic right from your browser tab! 🎨✨
 </div>
 
 <p align="center">
-  <img src="https://i.imgur.com/r0FJ67F.png" width="720" alt="tapmytab ui">
+  <img src="https://i.imgur.com/e4oGRUM.jpeg" width="720" alt="tapmytab ui">
 </p>
 
 ## ✨ Features
