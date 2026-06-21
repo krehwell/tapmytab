@@ -18,7 +18,7 @@ import { useDrawingPreview } from './DrawingEditor/index.ts'
 export const CardTitleInput = forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
     ({ style, onKeyDown, ...props }, ref) => {
         const placeholder = 'Add Title...'
-        const size = String(props?.value || placeholder).length / 1.4
+        const size = String(props?.value || placeholder).length / 1.1
         return (
             <input
                 ref={ref}

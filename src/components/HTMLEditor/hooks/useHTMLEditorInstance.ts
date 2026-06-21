@@ -28,7 +28,7 @@ const extensions = [
             if (editor.isActive('heading')) {
                 return ''
             }
-            return `try type here:
+            return `try type:
 
 # title
 **bold description text**

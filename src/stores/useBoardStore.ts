@@ -2,6 +2,7 @@ import { TBoard, TCard, TLabel } from '../types.ts'
 import { create } from 'zustand'
 import { arrayMove } from '@dnd-kit/sortable'
 import { genUid } from 'light-uid'
+import { emojify } from '../utils/emojify.ts'
 
 type BoardStore = {
     boards: TBoard[]
@@ -40,7 +41,7 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
         set({ boards })
     },
     addNewBoard: ({ id, name, idx }) => {
-        const newCard: TCard = { id: genUid(8), content: '', title: 'click to edit in full mode', label: TLabel.No }
+        const newCard: TCard = { id: genUid(8), content: '', title: 'New card', label: TLabel.No }
         const newBoard: TBoard = { id, name, cards: [newCard] }
         const boards = [...get().boards]
         boards.splice(idx + 1, 0, newBoard)

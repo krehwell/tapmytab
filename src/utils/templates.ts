@@ -44,7 +44,7 @@ const LEARNING = `
 <ul data-type="taskList">
 <li data-type="taskItem" data-checked="true">Tune up &amp; learn the string names (EADGBE)</li>
 <li data-type="taskItem" data-checked="true">First chords: <strong>Em</strong>, <strong>A</strong>, <strong>D</strong></li>
-<li data-type="taskItem" data-checked="false">Open chords: <strong>G</strong>, <strong>C</strong>, <strong>D</strong></li>
+<li data-type="taskItem" data-checked="true">Open chords: <strong>G</strong>, <strong>C</strong>, <strong>D</strong></li>
 <li data-type="taskItem" data-checked="false">Clean chord changes &amp; a basic strum</li>
 <li data-type="taskItem" data-checked="false">First song: a 3-chord tune 🎵</li>
 <li data-type="taskItem" data-checked="false">The F barre chord 😤</li>
@@ -211,7 +211,7 @@ export const CARD8: TCard = {
     id: 'card8',
     title: 'Flow sketch ✏️',
     content: FLOW_DRAWING,
-    desc: 'Click to draw — an Excalidraw card',
+    desc: 'Draw an Excalidraw card',
     label: TLabel.Green,
 }
 
