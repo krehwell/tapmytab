@@ -14,8 +14,10 @@ const hasAccent = ({ text }: { text: string }) => {
 export const HTMLEditor = ({
     editor,
     style,
-}: { editor: TiptapEditor; style: React.CSSProperties }) => {
+}: { editor: TiptapEditor | null; style: React.CSSProperties }) => {
     const ref = useRef<HTMLDivElement>(null)
+
+    if (!editor) return null
 
     const contentHasAccent = hasAccent({ text: editor.getText() })
     const fontFamily = contentHasAccent ? 'Poppins' : 'Rumiko Clear'

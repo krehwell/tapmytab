@@ -57,6 +57,7 @@ export const useHTMLEditorInstance = ({
             extensions,
             content,
             shouldRerenderOnTransaction,
+            immediatelyRender: false,
             onUpdate: ({ editor }) => debouncedOnUpdate({ editor, onChange }),
         },
         [],

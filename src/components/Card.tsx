@@ -9,7 +9,6 @@ import { useCardPopupStore } from './CardPopup.tsx'
 import { Button } from './Button.tsx'
 import { ArrowsOutSimple, Smiley } from '@phosphor-icons/react'
 import { emojify, hasEmoji } from '../utils/emojify.ts'
-import type { Editor as TiptapEditor } from '@tiptap/react'
 import { Label } from './Label.tsx'
 import { updateCard } from '../stores/useCardStore.ts'
 import { Due } from './Due.tsx'
@@ -182,7 +181,7 @@ const CardHTMLEditor = ({ content, sortableCheat }: { content: string; sortableC
 
     return (
         <HTMLEditor
-            editor={editor as TiptapEditor}
+            editor={editor}
             style={{
                 overflow: 'hidden auto',
                 backgroundColor: tc.surfaceRaised,
