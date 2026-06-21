@@ -1,5 +1,6 @@
 import { TBoard } from '../types.ts'
 import { extensionAPI } from './extensionAPI.ts'
+import { useBoardStore } from '../stores/useBoardStore.ts'
 
 export const StorageService = {
     saveBoards: async (boards: TBoard[]) => {
@@ -24,10 +25,10 @@ export const StorageService = {
         }
     },
 
-    exportBoards: async () => {
+    exportBoards: () => {
         try {
-            const boards = await StorageService.loadBoards()
-            if (boards) {
+            const boards = useBoardStore.getState().boards
+            if (boards.length) {
                 const json = JSON.stringify(boards, null, 2)
                 const blob = new Blob([json], { type: 'application/json' })
                 const url = URL.createObjectURL(blob)
