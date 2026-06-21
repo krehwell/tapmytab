@@ -68,7 +68,7 @@ export const WithOptionsMenu = (
                     '& .MuiList-padding': { paddingTop: 0, paddingBottom: 0 },
                     listStyleType: 'none',
                     listStyle: 'none',
-                    marginLeft: '-1rem',
+                    marginLeft: '-0.6rem',
                     ...menuProps?.sx,
                 }}
                 slotProps={{

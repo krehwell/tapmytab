@@ -4,20 +4,20 @@ import { TExcalidraw } from '../../types.ts'
 const SRC = '/pages/excalidraw.html'
 
 // excalidraw can't be sized inside the app: rem is relative to the app's 62.5% root.
-// zoom/scale won't help.  so we render it in iframe instead lol
+// zoom/scale won't help.  so we render it in iframe instead haha :D.  
+// how this communicates with I frame is by "../../../pages/excalidraw.tsx"  browser postMessage.
 export const DrawingEditor = memo(
     ({ data, onChange }: { data: TExcalidraw; onChange: (next: TExcalidraw) => void }) => {
         const onChangeRef = useRef(onChange)
         onChangeRef.current = onChange
 
-        // the latest scene we've reported up — merged so the cached `preview` (sent separately from
-        // the elements/files change) isn't dropped from either message.
         const sceneRef = useRef<TExcalidraw>(data)
         const iframeRef = useRef<HTMLIFrameElement>(null)
 
         useEffect(() => {
             const onMessage = (e: MessageEvent) => {
                 if (e.source !== iframeRef.current?.contentWindow) return
+
                 if (e.data?.type === 'excalidraw:ready') {
                     iframeRef.current?.contentWindow?.postMessage(
                         { type: 'excalidraw:init', data: sceneRef.current },
@@ -31,6 +31,7 @@ export const DrawingEditor = memo(
                     onChangeRef.current(sceneRef.current)
                 }
             }
+
             globalThis.addEventListener('message', onMessage)
             return () => globalThis.removeEventListener('message', onMessage)
         }, [])
