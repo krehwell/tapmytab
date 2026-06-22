@@ -68,6 +68,7 @@ export const Due = ({
             {dueDate && isEditable && (
                 <Button
                     radius='2rem'
+                    title='Clear due date'
                     onClick={(e) => {
                         e.stopPropagation()
                         onChange?.({ dueDate: null })

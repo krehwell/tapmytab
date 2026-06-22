@@ -73,6 +73,8 @@ export const Card = ({
     return (
         <FlexColumn
             ref={setNodeRef}
+            data-testid='card'
+            data-card-title={card.title}
             style={{
                 transform: CSS.Transform.toString(transform),
                 transition,
@@ -81,6 +83,7 @@ export const Card = ({
         >
             {/* CARD HEADER */}
             <FlexColumn
+                data-testid='card-header'
                 onClick={() => openPopup({ card, sortableCheat })}
                 style={{
                     borderRadius: isDragging || disabled ? '12px 12px 12px 12px' : '12px 12px 0 0',

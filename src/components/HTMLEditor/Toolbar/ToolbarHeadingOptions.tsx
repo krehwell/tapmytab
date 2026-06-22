@@ -27,21 +27,21 @@ export const ToolbarHeadingOptions = ({ editor }: { editor: TiptapEditor }) => {
                             .run(),
                 },
                 {
-                    label: 'Ordered List',
+                    label: 'H2',
                     node: <ToolbarBtn isActive={isH2} Icon={TextHTwo} />,
                     onClick: () =>
                         editor.chain().focus().lift('taskItem').liftListItem('listItem').setHeading({ level: 2 })
                             .run(),
                 },
                 {
-                    label: 'Task List',
+                    label: 'H3',
                     node: <ToolbarBtn isActive={isH3} Icon={TextHThree} />,
                     onClick: () =>
                         editor.chain().focus().lift('taskItem').liftListItem('listItem').setHeading({ level: 3 })
                             .run(),
                 },
                 {
-                    label: 'Task List',
+                    label: 'H4',
                     node: <ToolbarBtn isActive={isH4} Icon={TextHFour} />,
                     onClick: () =>
                         editor.chain().focus().lift('taskItem').liftListItem('listItem').setHeading({ level: 4 })
@@ -51,7 +51,7 @@ export const ToolbarHeadingOptions = ({ editor }: { editor: TiptapEditor }) => {
         >
             {({ openMenu }) => (
                 <ToolbarBtn
-                    title='Lists'
+                    title='Headings'
                     Icon={isH1 ? TextHOne : isH2 ? TextHTwo : isH3 ? TextHThree : isH4 ? TextHFour : Paragraph}
                     onClick={openMenu}
                 />

@@ -51,6 +51,8 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
 
     return (
         <FlexColumn
+            data-testid={isPlaceholder ? 'board-placeholder' : 'board'}
+            data-board-name={name}
             style={{
                 width: '30rem',
                 padding: '1.2rem',
@@ -235,6 +237,7 @@ const BoardOptions = (
                 return (
                     <Button
                         radius='2.8rem'
+                        title='Board options'
                         style={{ backgroundColor: tc.surfaceBase, marginTop: '0.7rem' }}
                         onClick={openMenu}
                     >

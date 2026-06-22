@@ -9,7 +9,9 @@
         "build:firefox": "deno task build && cp manifest.firefox.json dist/manifest.json",
         "zip:chrome": "deno task build:chrome && rm -f tapmytab-chrome.zip && cd dist && zip -r ../tapmytab-chrome.zip . -x '.vite/*' && cd ..",
         "zip:firefox": "deno task build:firefox && rm -f tapmytab-firefox.zip && cd dist && zip -r ../tapmytab-firefox.zip . -x '.vite/*' && cd ..",
-        "zip": "deno task zip:chrome && deno task zip:firefox"
+        "zip": "deno task zip:chrome && deno task zip:firefox",
+        "test": "npx playwright test",
+        "test:ui": "npx playwright test --ui"
     },
     "nodeModulesDir": "auto",
     "compilerOptions": {
@@ -53,7 +55,8 @@
         "vite": "npm:vite@5.4.11",
         "@types/lodash": "npm:@types/lodash@4.17.13",
         "lodash": "npm:lodash@4.17.21",
-        "dayjs": "npm:dayjs@1.11.18"
+        "dayjs": "npm:dayjs@1.11.18",
+        "@playwright/test": "npm:@playwright/test@^1.49.0"
     },
     "fmt": {
         "useTabs": false,

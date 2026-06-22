@@ -145,12 +145,12 @@ const CardPopupHeader = () => {
                     ]}
                 >
                     {({ openMenu }) => (
-                        <Button radius='3.2rem' onClick={openMenu} tabIndex={-1}>
+                        <Button radius='3.2rem' title='Card options' onClick={openMenu} tabIndex={-1}>
                             <DotsThree size={22} weight='bold' style={{ flexShrink: 0 }} />
                         </Button>
                     )}
                 </WithOptionsMenu>
-                <Button radius='3.2rem' onClick={closePopup} tabIndex={-1}>
+                <Button radius='3.2rem' title='Close' onClick={closePopup} tabIndex={-1}>
                     <X size={22} />
                 </Button>
             </FlexRowAlignCenter>

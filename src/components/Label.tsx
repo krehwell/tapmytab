@@ -16,6 +16,7 @@ export const Label = ({
         <Button
             tabIndex={-1}
             onClick={onClick}
+            data-label={label}
             style={{
                 width: '5.1rem',
                 height: '1.8rem',
