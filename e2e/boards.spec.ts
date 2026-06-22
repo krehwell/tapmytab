@@ -3,7 +3,7 @@ import { boardByName, boardMenu, cardsIn, createBoard, gotoApp } from './helpers
 
 test.beforeEach(async ({ page }) => await gotoApp(page))
 
-test('create a board — it appears with one default card', async ({ page }) => {
+test('create a board: it appears with one default card', async ({ page }) => {
     const board = await createBoard(page, 'Groceries')
     await expect(cardsIn(board)).toHaveCount(1)
 })

@@ -1,5 +1,21 @@
 import { TBoard, TCard, TExcalidraw, TLabel } from '../types.ts'
 
+// useful for testing
+// example:  http://localhost:5173/?perf=40x20
+export const perfBoards = (spec: string): TBoard[] => {
+    const [b, c] = spec.split('x').map((n) => parseInt(n, 10) || 0)
+    return Array.from({ length: b }, (_, i) => ({
+        id: `pb${i}`,
+        name: `Perf ${i + 1}`,
+        cards: Array.from({ length: c }, (_, j) => ({
+            id: `pc${i}-${j}`,
+            title: `Card ${j + 1}`,
+            content: `<p>card ${j + 1} on board ${i + 1}</p>`,
+            label: TLabel.No,
+        })),
+    }))
+}
+
 const link = (href: string, text: string) =>
     `<a target="_blank" rel="noopener noreferrer nofollow" href="${href}">${text}</a>`
 

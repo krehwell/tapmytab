@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useProgressiveMount } from '../hooks/useProgressiveMount.ts'
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { Card } from './Card.tsx'
@@ -106,6 +107,8 @@ const SortableCardList = (
     const { setNodeRef } = useDroppable({ id: board.id, disabled: false })
     const cards = board.cards
 
+    const { data: visibleCards } = useProgressiveMount(cards, { initial: 5, step: 8 })
+
     return (
         <SortableContext
             id={board.id}
@@ -124,7 +127,7 @@ const SortableCardList = (
                     paddingBottom: '2.4rem',
                 }}
             >
-                {cards.map((card, i) => {
+                {visibleCards.map((card, i) => {
                     const boardId = board.id
                     const boardIdx = index
                     const cardId = card.id

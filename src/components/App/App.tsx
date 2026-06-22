@@ -1,4 +1,5 @@
 import React, { useCallback, useRef } from 'react'
+import { useProgressiveMount } from '../../hooks/useProgressiveMount.ts'
 import { DragEndEvent, DragOverEvent } from '@dnd-kit/core'
 import { Board } from '../Board.tsx'
 import { CanvasDndContext } from '../CanvasDndContext.tsx'
@@ -8,7 +9,7 @@ import { tc } from '../../utils/themeColors.ts'
 import { CardPopup } from '../CardPopup.tsx'
 import { useBoardStore } from '../../stores/useBoardStore.ts'
 import { isInsideExtension, StorageService } from '../../utils/storage.ts'
-import { BOARD1, BOARD2, BOARD3, BOARD4 } from '../../utils/templates.ts'
+import { BOARD1, BOARD2, BOARD3, BOARD4, perfBoards } from '../../utils/templates.ts'
 import { FirstTimeService } from '../../utils/firstTimeChecker.ts'
 
 useBoardStore.subscribe((store) => {
@@ -39,8 +40,9 @@ const populateInitialBoards = async () => {
             useBoardStore.setState({ boards, isInitialized: true })
         }
     } else {
+        const perf = new URLSearchParams(globalThis.location?.search).get('perf')
         useBoardStore.setState({
-            boards: [BOARD1, BOARD2, BOARD3, BOARD4],
+            boards: perf ? perfBoards(perf) : [BOARD1, BOARD2, BOARD3, BOARD4],
             isInitialized: true,
         })
     }
@@ -59,6 +61,8 @@ export const App = () => {
     // re-measure and synchronously re-fire onDragOver. Without a guard, rapid
     // back-and-forth drags cascade into "Maximum update depth exceeded".
     const isMovingRef = useRef(false)
+
+    const { data: visibleBoards } = useProgressiveMount(boards, { initial: 7, step: 6 })
 
     const handleCardSwitchBoard = useCallback(
         (event: DragOverEvent) => {
@@ -136,7 +140,7 @@ export const App = () => {
                     onDragOver={handleCardSwitchBoard}
                     onDragEnd={handleCardSwapPos}
                 >
-                    {boards.map((board, i) => {
+                    {visibleBoards.map((board, i) => {
                         return <Board key={board.id} index={i} board={board} />
                     })}
                 </CanvasDndContext>
