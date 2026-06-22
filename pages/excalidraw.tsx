@@ -61,6 +61,7 @@ const App = () => {
     return (
         <Excalidraw
             theme='dark'
+            autoFocus
             excalidrawAPI={(api) => {
                 setTimeout(() => api.scrollToContent(undefined, { fitToContent: true }), 10)
             }}
