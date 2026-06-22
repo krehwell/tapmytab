@@ -25,12 +25,12 @@ test('insert a link', async ({ page }) => {
     const [dialog, editor] = await openEditor(page, 'Link')
     await editor.click()
     await dialog.getByTitle('Link', { exact: true }).click()
-    await dialog.getByPlaceholder('link text').fill('Anthropic')
-    await dialog.getByPlaceholder('url').fill('https://anthropic.com')
+    await dialog.getByPlaceholder('link text').fill('Youtube')
+    await dialog.getByPlaceholder('url').fill('https://youtube.com')
     await dialog.getByPlaceholder('url').press('Enter')
 
-    const link = editor.locator('a', { hasText: 'Anthropic' })
-    await expect(link).toHaveAttribute('href', 'https://anthropic.com')
+    const link = editor.locator('a', { hasText: 'Youtube' })
+    await expect(link).toHaveAttribute('href', 'https://youtube.com')
 })
 
 test('make a bullet list', async ({ page }) => {
