@@ -98,7 +98,6 @@ const card = (
 ): TCard => ({ id, title, content, desc, label })
 
 // --- example excalidraw drawing (a little "idea → plan → ship" flow) ---
-// hand-authored elements; excalidraw fills any remaining defaults via restore() on load.
 let elSeed = 1000
 const el = (over: Record<string, unknown>) => ({
     angle: 0,
@@ -124,14 +123,14 @@ const el = (over: Record<string, unknown>) => ({
 })
 
 const box = (id: string, x: number, bg: string) =>
-    el({ id, type: 'rectangle', x, y: 110, width: 150, height: 80, backgroundColor: bg })
+    el({ id, type: 'rectangle', x, y: 150, width: 150, height: 80, backgroundColor: bg })
 
 const label = (id: string, x: number, text: string) =>
     el({
         id,
         type: 'text',
         x,
-        y: 138,
+        y: 178,
         width: text.length * 16,
         height: 30,
         text,
@@ -150,7 +149,7 @@ const flowArrow = (id: string, x: number) =>
         id,
         type: 'arrow',
         x,
-        y: 150,
+        y: 190,
         width: 50,
         height: 0,
         points: [[0, 0], [50, 0]],
@@ -171,13 +170,30 @@ const FLOW_DRAWING: TExcalidraw = {
             y: 30,
             width: 470,
             height: 45,
-            text: 'from idea to ship',
+            text: 'from idea to production',
             fontSize: 36,
             fontFamily: 5,
             textAlign: 'center',
             verticalAlign: 'top',
             containerId: null,
-            originalText: 'from idea to ship',
+            originalText: 'from idea to production',
+            lineHeight: 1.25,
+            roundness: null,
+        }),
+        el({
+            id: 'd-subtitle',
+            type: 'text',
+            x: 100,
+            y: 78,
+            width: 470,
+            height: 25,
+            text: '(click to draw)',
+            fontSize: 26,
+            fontFamily: 5,
+            textAlign: 'center',
+            verticalAlign: 'top',
+            containerId: null,
+            originalText: '(click to draw)',
             lineHeight: 1.25,
             roundness: null,
         }),
