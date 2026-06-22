@@ -32,8 +32,8 @@ const WELCOME = `
 <li data-type="taskItem" data-checked="false">😀 Hit <strong>Emojify</strong> to jazz up a title</li>
 <li data-type="taskItem" data-checked="false">✏️ <strong>Click</strong> a card to open and edit it</li>
 <li data-type="taskItem" data-checked="false">🖐️ <strong>Drag</strong> cards between boards</li>
-<li data-type="taskItem" data-checked="false">➕ Use the <strong>⋮ menu</strong> to add cards or boards</li>
-<li data-type="taskItem" data-checked="false">🧭 Click the <strong>tapmytab</strong> logo for import/export &amp; more</li>
+<li data-type="taskItem" data-checked="false">➕ Use the <strong>⋮ menu</strong> to add cards, drawings, or boards</li>
+<li data-type="taskItem" data-checked="false">🧭 Click the <strong>tapmytab</strong> logo (in navbar) for import/export &amp; more</li>
 </ul>
 <p>Like it? ${link('https://github.com/krehwell/tapmytab', '⭐ Star us on GitHub')}</p>
 `
