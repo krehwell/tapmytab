@@ -1,8 +1,9 @@
 {
     "manifest_version": 3,
     "name": "tapmytab",
-    "version": "1.7.1",
+    "version": "1.7.2",
     "action": {
+        "default_popup": "pages/popup.html",
         "default_icon": {
             "16": "favicon-16x16.png",
             "32": "favicon-32x32.png",
