@@ -11,6 +11,7 @@ import { useBoardStore } from '../../stores/useBoardStore.ts'
 import { isInsideExtension, StorageService } from '../../utils/storage.ts'
 import { BOARD1, BOARD2, BOARD3, BOARD4, perfBoards } from '../../utils/templates.ts'
 import { FirstTimeService } from '../../utils/firstTimeChecker.ts'
+import { isVersionOutdated, markVersionSeen, withIntroCard } from '../../utils/version.ts'
 
 useBoardStore.subscribe((store) => {
     if (!store.isInitialized) return
@@ -22,7 +23,6 @@ useBoardStore.subscribe((store) => {
 })
 
 const populateInitialBoards = async () => {
-    // if this app is an extension. load the boards
     if (isInsideExtension()) {
         const isFirstTime = await FirstTimeService.isFirstTime()
         if (isFirstTime) {
@@ -31,14 +31,11 @@ const populateInitialBoards = async () => {
                 isInitialized: true,
             })
         } else {
-            const boards = (await StorageService.loadBoards()) || [
-                BOARD1,
-                BOARD2,
-                BOARD3,
-                BOARD4,
-            ]
+            let boards = (await StorageService.loadBoards()) || [BOARD1, BOARD2, BOARD3, BOARD4]
+            if (await isVersionOutdated()) boards = withIntroCard(boards)
             useBoardStore.setState({ boards, isInitialized: true })
         }
+        await markVersionSeen()
     } else {
         const perf = new URLSearchParams(globalThis.location?.search).get('perf')
         useBoardStore.setState({

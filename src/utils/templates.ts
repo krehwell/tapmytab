@@ -1,4 +1,8 @@
 import { TBoard, TCard, TExcalidraw, TLabel } from '../types.ts'
+import manifest from '../../manifest.json'
+
+// local to the welcome card text; version state/logic lives in ./version.ts
+const VERSION = manifest.version
 
 // useful for testing
 // example:  http://localhost:5173/?perf=40x20
@@ -22,6 +26,7 @@ const link = (href: string, text: string) =>
 const WELCOME = `
 <h3>👋 Welcome to your new tab!</h3>
 <img src="/tapmytab.png" style="width: 60%">
+<p style="text-align: center"><strong>v${VERSION}</strong></p>
 <p>This whole page is your board. Try it out:</p>
 <ul data-type="taskList">
 <li data-type="taskItem" data-checked="false">😀 Hit <strong>Emojify</strong> to jazz up a title</li>

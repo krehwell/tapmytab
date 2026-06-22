@@ -1,7 +1,9 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@std/assert@1": "1.0.19",
     "jsr:@std/collections@^1.0.9": "1.2.0",
+    "jsr:@std/internal@^1.0.12": "1.0.14",
     "npm:@crxjs/vite-plugin@1.0.14": "1.0.14_vite@5.4.11",
     "npm:@dnd-kit/core@6.1.0": "6.1.0_react@18.3.1_react-dom@18.3.1__react@18.3.1",
     "npm:@dnd-kit/modifiers@7": "7.0.0_@dnd-kit+core@6.1.0__react@18.3.1__react-dom@18.3.1___react@18.3.1_react@18.3.1_react-dom@18.3.1__react@18.3.1",
@@ -37,8 +39,17 @@
     "npm:zustand@5.0.1": "5.0.1_@types+react@18.3.31_react@18.3.1"
   },
   "jsr": {
+    "@std/assert@1.0.19": {
+      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
     "@std/collections@1.2.0": {
       "integrity": "47627a21d3a13138b77fd0e4d790ba9d2e603c3510b686cde6b132fe9aa98a88"
+    },
+    "@std/internal@1.0.14": {
+      "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
     }
   },
   "npm": {

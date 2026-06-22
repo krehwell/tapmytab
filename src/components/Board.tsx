@@ -196,11 +196,11 @@ const BoardOptions = (
             ),
         },
         {
-            label: 'Add Excalidraw Card',
+            label: 'Add Drawing Card',
             onClick: () => addNewCard({ idx: index, excalidraw: true }),
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
-                    <PencilSimpleLine size={12} /> Add Excalidraw Card
+                    <PencilSimpleLine size={12} /> Add Drawing Card
                 </FlexRowAlignCenter>
             ),
         },
