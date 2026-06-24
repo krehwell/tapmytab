@@ -26,7 +26,7 @@ test('add a card via the board menu', async ({ page }) => {
 
 test('add an excalidraw card shows the draw placeholder', async ({ page }) => {
     const board = await createBoard(page, 'Sketches')
-    await boardMenu(board, 'Add Excalidraw Card')
+    await boardMenu(board, 'Add Drawing Card')
     await expect(board.getByText('click to draw')).toBeVisible()
 })
 

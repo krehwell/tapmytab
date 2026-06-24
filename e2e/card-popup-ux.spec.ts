@@ -34,7 +34,7 @@ test('cmd+enter saves and closes the popup', async ({ page }) => {
 
 test('drawing popup auto-focuses the excalidraw canvas', async ({ page }) => {
     const board = await createBoard(page, 'UX-Draw')
-    await boardMenu(board, 'Add Excalidraw Card')
+    await boardMenu(board, 'Add Drawing Card')
 
     const dialog = await openCard(cardsIn(board).first())
     await expect(dialog.getByTitle('Excalidraw')).toBeFocused()
