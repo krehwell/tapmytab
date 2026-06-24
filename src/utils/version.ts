@@ -11,10 +11,13 @@ const getSeenVersion = async (): Promise<string | null> => {
     return result.seenVersion || null
 }
 
-/** check if the last-seen version is older than this build */
+/** the intro card only ships for users coming from before this version */
+const INTRO_VERSION = '1.7.3'
+
+/** check if the last-seen version is below the intro-card cutoff */
 export const isVersionOutdated = async (): Promise<boolean> => {
     const seen = await getSeenVersion()
-    return (seen ?? '0').localeCompare(VERSION, undefined, { numeric: true }) < 0
+    return (seen ?? '0').localeCompare(INTRO_VERSION, undefined, { numeric: true }) < 0
 }
 
 export const markVersionSeen = async () => {
