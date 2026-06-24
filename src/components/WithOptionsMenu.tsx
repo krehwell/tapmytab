@@ -69,6 +69,7 @@ export const WithOptionsMenu = (
                     listStyleType: 'none',
                     listStyle: 'none',
                     marginLeft: '-0.6rem',
+                    marginTop: anchorEl?.tagName === 'BUTTON' ? 0 : '0.8rem',
                     ...menuProps?.sx,
                 }}
                 slotProps={{

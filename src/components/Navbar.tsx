@@ -9,6 +9,7 @@ import { StorageService } from '../utils/storage.ts'
 import { useBoardStore } from '../stores/useBoardStore.ts'
 import { BOARD1, BOARD2, BOARD3, BOARD4 } from '../utils/templates.ts'
 import { tc } from '../utils/themeColors.ts'
+import { Logo } from './Logo.tsx'
 
 enum SearchOption {
     Youtube,
@@ -151,15 +152,9 @@ const MainTitle = () => {
             {({ openMenu }) => (
                 <h1
                     onClick={openMenu}
-                    style={{
-                        cursor: 'pointer',
-                        color: tc.textMuted,
-                        fontFamily: 'Rumiko Sans',
-                        fontSize: '2.4rem',
-                        fontWeight: '600',
-                    }}
+                    style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', margin: 0 }}
                 >
-                    tapmytab
+                    <Logo height={27} />
                 </h1>
             )}
         </WithOptionsMenu>
