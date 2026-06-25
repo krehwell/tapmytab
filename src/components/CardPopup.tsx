@@ -30,16 +30,13 @@ export const useCardPopupStore = create<{
     isDirty: boolean
     updateField: (props: { fields: Partial<TCard> }) => void
     editor: TiptapEditor | null
-    isDrawingFullscreen: boolean
-    toggleDrawingFullscreen: () => void
 }>((set, get) => ({
     isOpen: false,
     sortableCheat: null,
     card: null,
     isDirty: false,
     editor: null,
-    isDrawingFullscreen: false,
-    closePopup: () => set({ isOpen: false, card: null, isDrawingFullscreen: false }),
+    closePopup: () => set({ isOpen: false, card: null }),
     updateField: ({ fields }) => {
         const card = Object.assign({}, get().card)
         for (const key in fields) {
@@ -47,9 +44,7 @@ export const useCardPopupStore = create<{
         }
         set({ card, isDirty: true })
     },
-    openPopup: ({ card, sortableCheat }) =>
-        set({ isOpen: true, card, sortableCheat, isDirty: false, isDrawingFullscreen: false }),
-    toggleDrawingFullscreen: () => set({ isDrawingFullscreen: !get().isDrawingFullscreen }),
+    openPopup: ({ card, sortableCheat }) => set({ isOpen: true, card, sortableCheat, isDirty: false }),
 }))
 
 const saveAndClose = () => {
@@ -61,7 +56,6 @@ const saveAndClose = () => {
 export const CardPopup = () => {
     const isOpen = useCardPopupStore((s) => s.isOpen)
     const isDrawing = useCardPopupStore((s) => !!s.card && isExcalidraw(s.card.content))
-    const isDrawingFullscreen = useCardPopupStore((s) => s.isDrawingFullscreen) && isDrawing
 
     useKey(
         (e) => (e.metaKey || e.ctrlKey) && e.key === 'Enter',
@@ -76,13 +70,8 @@ export const CardPopup = () => {
         <Dialog
             open={isOpen}
             transitionDuration={0}
-            fullScreen={isDrawingFullscreen}
             disableEnforceFocus={isDrawing}
-            onClose={(_e, reason) => {
-                if (reason === 'escapeKeyDown' && useCardPopupStore.getState().isDrawingFullscreen) {
-                    useCardPopupStore.getState().toggleDrawingFullscreen()
-                    return
-                }
+            onClose={() => {
                 if (useCardPopupStore.getState().isDirty) return
                 useCardPopupStore.getState().closePopup()
             }}
@@ -91,11 +80,10 @@ export const CardPopup = () => {
                     component={FlexColumn}
                     style={{
                         backgroundColor: tc.surfaceBase,
-                        borderRadius: isDrawingFullscreen ? 0 : '1.2rem',
+                        borderRadius: '1.2rem',
                         padding: '1.6rem',
-                        width: isDrawingFullscreen ? '100%' : isDrawing ? '90vw' : '62.4rem',
-                        height: isDrawingFullscreen ? '100%' : undefined,
-                        maxWidth: isDrawingFullscreen ? 'none' : isDrawing ? '90rem' : undefined,
+                        width: isDrawing ? '90vw' : '62.4rem',
+                        maxWidth: isDrawing ? '90rem' : undefined,
                         ...style,
                     }}
                     {...props}
@@ -106,12 +94,8 @@ export const CardPopup = () => {
         >
             <CardPopupHeader />
             <CardPopupEditor key={String(isOpen)} />
-            {!isDrawingFullscreen && (
-                <>
-                    <div style={{ marginBottom: '2rem' }} />
-                    <CardPopupActions />
-                </>
-            )}
+            <div style={{ marginBottom: '2rem' }} />
+            <CardPopupActions />
         </Dialog>
     )
 }
@@ -121,7 +105,6 @@ const CardPopupHeader = () => {
     const sortableCheat = useCardPopupStore((s) => s.sortableCheat)
     const closePopup = useCardPopupStore((s) => s.closePopup)
     const updateField = useCardPopupStore((s) => s.updateField)
-    const isDrawingFullscreen = useCardPopupStore((s) => s.isDrawingFullscreen)
     const titleRef = useRef<HTMLInputElement>(null)
 
     useEffectOnce(() => {
@@ -145,61 +128,55 @@ const CardPopupHeader = () => {
                     onChange={(e) => updateField({ fields: { title: e.target.value } })}
                     style={{ flex: 1, fontSize: '3.1rem', fontWeight: 'bold' }}
                 />
-                {!isDrawingFullscreen && (
-                    <WithOptionsMenu
-                        options={[
-                            {
-                                label: 'Emojify',
-                                hide: hasEmoji(card.title),
-                                onClick: () => updateField({ fields: { title: emojify(card.title, 'end') } }),
+                <WithOptionsMenu
+                    options={[
+                        {
+                            label: 'Emojify',
+                            hide: hasEmoji(card.title),
+                            onClick: () => updateField({ fields: { title: emojify(card.title, 'end') } }),
+                        },
+                        {
+                            label: 'Delete Card',
+                            onClick: () => {
+                                deleteCard({ sortableCheat: sortableCheat! })
+                                closePopup()
                             },
-                            {
-                                label: 'Delete Card',
-                                onClick: () => {
-                                    deleteCard({ sortableCheat: sortableCheat! })
-                                    closePopup()
-                                },
-                            },
-                        ]}
-                    >
-                        {({ openMenu }) => (
-                            <Button radius='3.2rem' title='Card options' onClick={openMenu} tabIndex={-1}>
-                                <DotsThree size={22} weight='bold' style={{ flexShrink: 0 }} />
-                            </Button>
-                        )}
-                    </WithOptionsMenu>
-                )}
+                        },
+                    ]}
+                >
+                    {({ openMenu }) => (
+                        <Button radius='3.2rem' title='Card options' onClick={openMenu} tabIndex={-1}>
+                            <DotsThree size={22} weight='bold' style={{ flexShrink: 0 }} />
+                        </Button>
+                    )}
+                </WithOptionsMenu>
                 <Button radius='3.2rem' title='Close' onClick={closePopup} tabIndex={-1}>
                     <X size={22} />
                 </Button>
             </FlexRowAlignCenter>
-            {!isDrawingFullscreen && (
-                <>
-                    <TextareaAutosize
-                        maxRows={2}
-                        maxLength={128}
-                        defaultValue={card?.desc}
-                        placeholder='Add description...'
-                        onChange={(e) => updateField({ fields: { desc: e.target.value } })}
-                        style={{
-                            backgroundColor: 'transparent',
-                            resize: 'none',
-                            fontSize: '1.6rem',
-                            color: tc.textSecondary,
-                        }}
-                    />
-                    <FlexRowAlignCenter>
-                        <CardPopupOptionsLabel card={card} />
-                        <Due
-                            initialDueDate={card?.dueDate || null}
-                            onChange={({ dueDate }) => {
-                                updateField({ fields: { dueDate } })
-                            }}
-                        />
-                    </FlexRowAlignCenter>
-                    <div style={{ marginBottom: '2rem' }} />
-                </>
-            )}
+            <TextareaAutosize
+                maxRows={2}
+                maxLength={128}
+                defaultValue={card?.desc}
+                placeholder='Add description...'
+                onChange={(e) => updateField({ fields: { desc: e.target.value } })}
+                style={{
+                    backgroundColor: 'transparent',
+                    resize: 'none',
+                    fontSize: '1.6rem',
+                    color: tc.textSecondary,
+                }}
+            />
+            <FlexRowAlignCenter>
+                <CardPopupOptionsLabel card={card} />
+                <Due
+                    initialDueDate={card?.dueDate || null}
+                    onChange={({ dueDate }) => {
+                        updateField({ fields: { dueDate } })
+                    }}
+                />
+            </FlexRowAlignCenter>
+            <div style={{ marginBottom: '2rem' }} />
         </>
     )
 }
@@ -250,15 +227,11 @@ const CardPopupEditor = () => {
 const ExcalidrawPopupEditor = () => {
     const card = useCardPopupStore((s) => s.card)
     const updateField = useCardPopupStore((s) => s.updateField)
-    const isDrawingFullscreen = useCardPopupStore((s) => s.isDrawingFullscreen)
-    const toggleDrawingFullscreen = useCardPopupStore((s) => s.toggleDrawingFullscreen)
 
     return (
         <DrawingEditor
             data={(card as NonNullable<TCard>).content as TExcalidraw}
             onChange={(content) => updateField({ fields: { content } })}
-            fullscreen={isDrawingFullscreen}
-            onToggleFullscreen={toggleDrawingFullscreen}
         />
     )
 }
