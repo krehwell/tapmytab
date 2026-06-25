@@ -77,7 +77,7 @@ const App = () => {
     // track the scene version so we only notify the parent on real element mutations
     // keeps its dirty flag honest.
     const versionRef = useRef<number | null>(null)
-    const previewTimer = useRef<number | undefined>(undefined)
+    const previewTimer = useRef<NodeJS.Timeout | undefined>(undefined)
 
     // deno-lint-ignore no-explicit-any
     const excalidrawRef = useRef<any>(null)
@@ -119,7 +119,11 @@ const App = () => {
             renderTopRightUI={() => <FullscreenButton fullscreen={isFullscreen} />}
             excalidrawAPI={(api) => {
                 excalidrawRef.current = api
+
+                // you might be thinking this is dumb, but this is to fix stuttering looks when the excalidraw is opened
+                document.body.style.opacity = '0'
                 setTimeout(() => api.scrollToContent(undefined, { fitToContent: true }), 10)
+                setTimeout(() => document.body.style.opacity = '1', 35)
             }}
             initialData={{
                 // deno-lint-ignore no-explicit-any
