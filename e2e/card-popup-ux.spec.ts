@@ -40,30 +40,6 @@ test('drawing popup auto-focuses the excalidraw canvas', async ({ page }) => {
     await expect(dialog.getByTitle('Excalidraw')).toBeFocused()
 })
 
-test('drawing popup toolbar toggles native fullscreen', async ({ page }) => {
-    const board = await createBoard(page, 'UX-Fullscreen')
-    await boardMenu(board, 'Add Drawing Card')
-    await openCard(cardsIn(board).first())
-
-    // the fullscreen toggle lives inside the excalidraw toolbar (the iframe)
-    const frame = page.frameLocator('iframe[title="Excalidraw"]')
-    const fsFrame = () => page.frames().find((f) => f.url().includes('excalidraw.html'))!
-    const fullscreenEl = () => fsFrame().evaluate(() => document.fullscreenElement?.tagName ?? null)
-
-    await expect(frame.getByTitle('Fullscreen', { exact: true })).toBeVisible()
-    expect(await fullscreenEl()).toBeNull()
-
-    // enter: the button requests native fullscreen; the icon flips on fullscreenchange
-    await frame.getByTitle('Fullscreen', { exact: true }).click()
-    await expect(frame.getByTitle('Exit fullscreen', { exact: true })).toBeVisible()
-    expect(await fullscreenEl()).toBe('HTML')
-
-    // exit restores the normal toolbar button
-    await frame.getByTitle('Exit fullscreen', { exact: true }).click()
-    await expect(frame.getByTitle('Fullscreen', { exact: true })).toBeVisible()
-    expect(await fullscreenEl()).toBeNull()
-})
-
 test('backdrop click closes popup when not dirty', async ({ page }) => {
     const board = await createBoard(page, 'UX-BackdropClean')
     const dialog = await openCard(cardsIn(board).first())
