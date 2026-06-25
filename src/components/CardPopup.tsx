@@ -1,5 +1,4 @@
-import { useRef } from 'react'
-import { useEffectOnce, useKey } from 'react-use'
+import { useKey } from 'react-use'
 import { create } from 'zustand'
 import Dialog from '@mui/material/Dialog'
 import { FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
@@ -71,6 +70,17 @@ export const CardPopup = () => {
             open={isOpen}
             transitionDuration={0}
             disableEnforceFocus={isDrawing}
+            disableScrollLock
+            slotProps={{
+                transition: {
+                    onEntered: isDrawing ? undefined : (node: HTMLElement) => {
+                        const el = node.querySelector('input')
+                        if (!el) return
+                        el.focus()
+                        el.setSelectionRange(el.value.length, el.value.length)
+                    },
+                },
+            }}
             onClose={() => {
                 if (useCardPopupStore.getState().isDirty) return
                 useCardPopupStore.getState().closePopup()
@@ -105,17 +115,6 @@ const CardPopupHeader = () => {
     const sortableCheat = useCardPopupStore((s) => s.sortableCheat)
     const closePopup = useCardPopupStore((s) => s.closePopup)
     const updateField = useCardPopupStore((s) => s.updateField)
-    const titleRef = useRef<HTMLInputElement>(null)
-
-    useEffectOnce(() => {
-        setTimeout(() => {
-            const el = titleRef.current
-            if (!el || !card) return
-            if (isExcalidraw(card.content)) return
-            el.focus()
-            el.setSelectionRange(el.value.length, el.value.length)
-        }, 100)
-    })
 
     if (!card) return null
 
@@ -123,7 +122,6 @@ const CardPopupHeader = () => {
         <>
             <FlexRowAlignCenter style={{ marginBottom: '0.8rem' }}>
                 <CardTitleInput
-                    ref={titleRef}
                     value={card.title}
                     onChange={(e) => updateField({ fields: { title: e.target.value } })}
                     style={{ flex: 1, fontSize: '3.1rem', fontWeight: 'bold' }}

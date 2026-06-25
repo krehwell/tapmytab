@@ -1,17 +1,19 @@
-import { expect, Locator, test } from '@playwright/test'
+import { expect, Locator, Page, test } from '@playwright/test'
 import { cardsIn, createBoard, gotoApp, openCard } from './helpers.ts'
 
 test.beforeEach(async ({ page }) => await gotoApp(page))
 
-const openEditor = async (page, name: string): Promise<[Locator, Locator]> => {
+const openEditor = async (page: Page, name: string): Promise<[Locator, Locator]> => {
     const board = await createBoard(page, name)
     const dialog = await openCard(cardsIn(board).first())
+    await expect(dialog.getByPlaceholder('Add Title...')).toBeFocused()
     const editor = dialog.locator('.tiptap')
-    await expect(editor).toBeVisible()
+    await editor.click()
+    await expect(editor).toBeFocused()
     return [dialog, editor]
 }
 
-const typeAndSelectAll = async (page, editor: Locator, content: string) => {
+const typeAndSelectAll = async (page: Page, editor: Locator, content: string) => {
     await editor.click()
     await page.keyboard.insertText(content)
     await page.keyboard.press('ControlOrMeta+A')
@@ -30,7 +32,6 @@ test('insert a link', async ({ page }) => {
     await dialog.getByTitle('Link', { exact: true }).click()
     await dialog.getByPlaceholder('link text').fill('Youtube')
     await dialog.getByPlaceholder('url').fill('https://youtube.com')
-    await page.waitForTimeout(100)
     await dialog.getByPlaceholder('url').press('Enter')
 
     const link = editor.locator('a', { hasText: 'Youtube' })
@@ -127,7 +128,10 @@ test('undo and redo typing', async ({ page }) => {
 test('typed content persists after save and reopen', async ({ page }) => {
     const board = await createBoard(page, 'Persist')
     const dialog = await openCard(cardsIn(board).first())
-    await dialog.locator('.tiptap').click()
+    await expect(dialog.getByPlaceholder('Add Title...')).toBeFocused()
+    const editor = dialog.locator('.tiptap')
+    await editor.click()
+    await expect(editor).toBeFocused()
     await page.keyboard.insertText('remember this')
     await page.waitForTimeout(200) // editor onChange is debounced 100ms before it reaches the store
     await dialog.getByRole('button', { name: 'Save' }).click()
