@@ -54,3 +54,29 @@ test('backdrop click does not close popup when dirty', async ({ page }) => {
     await page.mouse.click(10, 10)
     await expect(dialog).toBeVisible()
 })
+
+test('drawing popup backdrop click closes when not dirty', async ({ page }) => {
+    const board = await createBoard(page, 'UX-DrawBackdropClean')
+    await boardMenu(board, 'Add Drawing Card')
+    const dialog = await openCard(cardsIn(board).first())
+    await page.mouse.click(10, 10)
+    await expect(dialog).not.toBeVisible()
+})
+
+test('drawing popup backdrop click does not close when dirty', async ({ page }) => {
+    const board = await createBoard(page, 'UX-DrawBackdropDirty')
+    await boardMenu(board, 'Add Drawing Card')
+    const dialog = await openCard(cardsIn(board).first())
+
+    // draw a rectangle on the canvas to dirty the card
+    const canvas = dialog.getByTitle('Excalidraw')
+    const box = (await canvas.boundingBox())!
+    await page.keyboard.press('r')
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
+    await page.mouse.down()
+    await page.mouse.move(box.x + box.width / 2 + 80, box.y + box.height / 2 + 80)
+    await page.mouse.up()
+
+    await page.mouse.click(10, 10)
+    await expect(dialog).toBeVisible()
+})
