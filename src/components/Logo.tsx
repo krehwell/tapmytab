@@ -1,16 +1,16 @@
 const STRETCH = 1.22 
 const W = 1809 * STRETCH
-const RATIO = W / 447
+const RATIO = W / 440
 
 export const Logo = ({ height = 22 }: { height?: number }) => (
     <svg
         height={height}
         width={height * RATIO}
-        viewBox={`0 0 ${W} 447`}
+        viewBox={`0 0 ${W} 440`}
         xmlns='http://www.w3.org/2000/svg'
         role='img'
         aria-label='tapmytab'
-        style={{marginBottom: "-0.25rem"}}
+        style={{ marginBottom: "-0.1rem", }}
     >
         <g transform={`translate(0,447) scale(${0.1 * STRETCH},-0.1)`}>
             {/* tap */}
