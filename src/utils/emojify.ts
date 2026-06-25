@@ -1,44 +1,78 @@
 const KEYWORD_EMOJI: [RegExp, string[]][] = [
-    [/\b(todo|to do|task)/i, ['📋', '✏️', '🗒️', '📌', '🗂️', '🫡']],
-    [/\b(doing|progress|wip|ongoing)/i, ['🚧', '⚙️', '🔄', '🏗️', '🛠️', '🐌']],
-    [/\b(done|complete|finish|shipped)/i, ['✅', '🎉', '🏁', '💯', '🙌', '🫵']],
-    [/\b(idea|brainstorm|think)/i, ['💡', '🧠', '🤔', '✨', '🌟', '🫧']],
-    [/\b(bug|fix|issue|error|debug)/i, ['🐛', '🔧', '🩹', '💢', '🚑', '🪤']],
-    [/\b(work|job|office|career)/i, ['💼', '🏢', '👔', '📊', '🖥️', '☕']],
-    [/\b(read|book|study|learn|note)/i, ['📚', '📖', '🎒', '🧑‍🎓', '📝', '🕯️']],
-    [/\b(buy|shop|grocer|cart|order)/i, ['🛒', '🛍️', '💳', '🏪', '📦', '🪙']],
-    [/\b(launch|ship|release|rocket|deploy)/i, ['🚀', '🛸', '📡', '🎯', '⚡', '🥁']],
-    [/\b(love|date|crush|wishlist)/i, ['❤️', '💕', '😍', '💌', '🌹', '🫀']],
-    [/\b(gym|workout|fitness|exercise|train)/i, ['💪', '🏋️', '🤸', '🥊', '🏅', '🩱']],
-    [/\b(run|jog|marathon|sport)/i, ['🏃', '👟', '🏅', '💨', '🗺️', '🫁']],
-    [/\b(food|eat|cook|recipe|lunch|dinner)/i, ['🍕', '🍳', '🥗', '👨‍🍳', '🍜', '🫕']],
-    [/\b(coffee|cafe|brew)/i, ['☕', '🫖', '🧋', '🍵', '🫗', '🌬️']],
-    [/\b(beer|drink|party|celebrat)/i, ['🍺', '🥂', '🎊', '🍾', '🎈', '🪩']],
-    [/\b(music|song|playlist|gig)/i, ['🎵', '🎸', '🎤', '🎧', '🎼', '🫨']],
-    [/\b(game|gaming|play|arcade)/i, ['🎮', '🕹️', '👾', '🎲', '🏆', '🫠']],
-    [/\b(movie|film|cinema|watch|show)/i, ['🎬', '🍿', '📽️', '🎥', '🎞️', '🛋️']],
-    [/\b(travel|trip|vacation|holiday|flight)/i, ['✈️', '🌍', '🧳', '🗺️', '🏖️', '🪂']],
-    [/\b(home|house|move|apartment)/i, ['🏠', '🛋️', '🔑', '📦', '🏡', '🪟']],
-    [/\b(money|budget|finance|save|invest|bank)/i, ['💰', '💵', '📈', '🏦', '🪙', '🐷']],
-    [/\b(health|doctor|medic|appointment)/i, ['🩺', '💊', '🏥', '🩻', '❤️‍🩹', '🧬']],
-    [/\b(sleep|rest|nap|bed)/i, ['😴', '🛏️', '🌙', '💤', '🧸', '🌛']],
-    [/\b(clean|chore|laundry|tidy)/i, ['🧹', '🧽', '🫧', '🪣', '✨', '🪠']],
-    [/\b(garden|plant|grow|flower)/i, ['🌱', '🌻', '🪴', '🌿', '🌸', '🪱']],
-    [/\b(pet|dog|puppy)/i, ['🐶', '🦴', '🐾', '🐕', '🥰', '🎾']],
-    [/\b(cat|kitten)/i, ['🐱', '😸', '🐈', '🐾', '🧶', '🪁']],
-    [/\b(code|coding|dev|program|hack)/i, ['💻', '⌨️', '🖥️', '🧑‍💻', '🔌', '🫙']],
-    [/\b(design|ui|ux|figma|sketch)/i, ['🎨', '✏️', '🖌️', '📐', '💅', '🪆']],
-    [/\b(write|writing|blog|article|draft)/i, ['✍️', '📝', '🖊️', '📄', '📰', '🪶']],
-    [/\b(meet|meeting|call|sync|standup)/i, ['📅', '🤝', '💬', '🗓️', '📞', '🪑']],
-    [/\b(email|inbox|message|mail)/i, ['📧', '📨', '💬', '📬', '✉️', '🕊️']],
-    [/\b(goal|plan|target|resolution)/i, ['🎯', '📍', '🗺️', '🏹', '💪', '🧭']],
-    [/\b(dream|someday|bucket|wish)/i, ['✨', '🌠', '🌈', '💭', '🔮', '🫐']],
-    [/\b(school|class|exam|homework|college)/i, ['🎓', '📚', '✏️', '🏫', '🧑‍🏫', '😰']],
-    [/\b(birthday|gift|present|party)/i, ['🎉', '🎂', '🎁', '🥳', '🎈', '🫶']],
-    [/\b(urgent|important|priority|asap|fire)/i, ['🔥', '⚠️', '🚨', '❗', '⚡', '🫣']],
-    [/\b(win|success|achiev|trophy)/i, ['🏆', '🥇', '🎊', '🙌', '💯', '🦁']],
-    [/\b(art|paint|draw|craft)/i, ['🖌️', '🎨', '✏️', '🖍️', '🖼️', '🫠', '🏳️']],
-    [/\b(photo|camera|picture|shoot)/i, ['📸', '📷', '🤳', '🎞️', '🖼️', '🕵️']],
+    // generic/default board names (exact match only)
+    [/^\s*(untitled|new card|card|new item|item|random|misc|other)\s*$/i, ['🗂️', '📌', '🗒️', '📄', '🪄', '✨']],
+    [/^\s*(note|notes|scratch|scratchpad|thought|thoughts)\s*$/i, ['📝', '✏️', '📓', '🗒️', '🖊️', '💭']],
+    [/^\s*(remember|reminder|reminders|remind|forget|keep|mind)\s*$/i, ['🔔', '⏰', '📌', '🧠', '👀', '🧷']],
+    [/^\s*(checklist|action)\s*$/i, ['📋', '☐', '✅', '🗂️', '📌', '✏️']],
+    [/^\s*(inbox|capture|dump|parking)\s*$/i, ['📥', '🗃️', '📬', '🧺', '🫙', '🧠']],
+    [/^\s*(ideas|maybe|future|wishlist)\s*$/i, ['💡', '🌱', '🔮', '💭', '🌠', '✨']],
+    [/^\s*(reference|resources|resource|links|bookmarks|saved|archive|reading)\s*$/i, [
+        '🔖',
+        '📚',
+        '🗃️',
+        '🧷',
+        '🔗',
+        '📂',
+    ]],
+    [/^\s*(planning|project|projects|next)\s*$/i, ['🗺️', '🎯', '🧭', '📍', '🏗️', '🚩']],
+    [/^\s*(shopping|list|groceries|errands)\s*$/i, ['🛒', '🛍️', '📦', '🏪', '🧾', '💳']],
+    // status
+    [/\b(todo|to do|tasks?|backlog|later)\b/i, ['📋', '📝', '📌', '🗂️', '✏️', '☐']],
+    [/\b(doing|progress|wip|ongoing|working)\b/i, ['🚧', '⚙️', '🔄', '🛠️', '🏗️', '⏳']],
+    [/\b(done|complete|completed|finish|finished|shipped)\b/i, ['✅', '🎉', '🏁', '🙌', '💯', '✨']],
+    [/\b(blocked|stuck|waiting|pending|hold)\b/i, ['🚫', '🧱', '⏸️', '⌛', '🚦', '🫠']],
+    [/\b(urgent|important|priority|asap|critical)\b/i, ['🚨', '🔥', '⚠️', '❗', '⚡', '🔴']],
+    [/\b(due|deadline|overdue|eta)\b/i, ['⏰', '📆', '🗓️', '⌛', '🔴', '❗']],
+    // thinking and planning
+    [/\b(idea|brainstorm|think|concept|inspiration)\b/i, ['💡', '🧠', '✨', '🌟', '🔮', '💭']],
+    [/\b(goal|plan|target|roadmap|milestone|resolution)\b/i, ['🎯', '🗺️', '🧭', '🏹', '📍', '🚩']],
+    [/\b(review|retro|reflect|feedback|evaluate)\b/i, ['🔍', '🪞', '💬', '📊', '🧾', '👀']],
+    [/\b(research|explore|investigate|compare|discover)\b/i, ['🔎', '🧪', '🔬', '📚', '🧭', '🗺️']],
+    [/\b(what|why|how|question|faq|unsure)\b/i, ['❓', '🤔', '🧐', '❔', '💬', '🤷']],
+    [/\b(step|steps|stage|phase|flow|process)\b/i, ['👣', '🪜', '➡️', '🔢', '🚶', '🧗']],
+    // work and learning
+    [/\b(work|job|office|career|client)\b/i, ['💼', '🏢', '👔', '🖥️', '📊', '☕']],
+    [/\b(meet|meeting|call|sync|standup|interview|schedule)\b/i, ['📅', '🤝', '📞', '💬', '🗓️', '🎙️']],
+    [/\b(email|message|mail|reply|dm)\b/i, ['📧', '📨', '✉️', '📬', '💌', '🕊️']],
+    [/\b(write|writing|blog|article|draft|copy)\b/i, ['✍️', '📝', '🖊️', '📄', '📰', '🪶']],
+    [/\b(read|book|study|learn|course)\b/i, ['📚', '📖', '🎒', '🧑‍🎓', '🕯️', '🔖']],
+    [/\b(school|class|exam|homework|college|assignment)\b/i, ['🎓', '🏫', '📚', '✏️', '🧑‍🏫', '📐']],
+    // tech and creative
+    [/\b(code|coding|dev|program|developer|software)\b/i, ['💻', '⌨️', '🧑‍💻', '🖥️', '🔌', '⚡']],
+    [/\b(bug|fix|issue|error|debug|broken)\b/i, ['🐛', '🔧', '🩹', '🚑', '💢', '🧯']],
+    [/\b(launch|ship|release|deploy|publish|rollout)\b/i, ['🚀', '📦', '🛰️', '🎯', '⚡', '📣']],
+    [/\b(flag|sentry|monitor|alert|log|logs|metric|metrics)\b/i, ['🚩', '📡', '🛰️', '🔭', '📊', '🚨']],
+    [/\b(design|ui|ux|figma|sketch|prototype)\b/i, ['🎨', '📐', '🖌️', '🧩', '📱', '🖼️']],
+    [/\b(art|paint|draw|craft|illustration)\b/i, ['🎨', '🖌️', '🖍️', '🧵', '🖼️', '🪡']],
+    [/\b(photo|camera|picture|shoot|video)\b/i, ['📸', '📷', '🎥', '🎞️', '🤳', '📺']],
+    // personal life
+    [/\b(home|house|move|apartment|room)\b/i, ['🏠', '🔑', '🛋️', '📦', '🏡', '🪟']],
+    [/\b(clean|chore|laundry|tidy|wash)\b/i, ['🧹', '🧽', '🫧', '🪣', '🧺', '🧼']],
+    [/\b(garden|plant|grow|flower|water)\b/i, ['🌱', '🪴', '🌿', '🌻', '🌸', '💧']],
+    [/\b(sleep|rest|nap|bed|relax)\b/i, ['😴', '🛏️', '🌙', '💤', '🧸', '☁️']],
+    [/\b(health|doctor|medic|appointment|therapy)\b/i, ['🩺', '💊', '🏥', '🩹', '❤️‍🩹', '🧬']],
+    [/\b(gym|workout|fitness|exercise|train)\b/i, ['💪', '🏋️', '🤸', '🥊', '🏃', '🏅']],
+    [/\b(run|jog|marathon|race|cardio|sports)\b/i, ['🏃', '👟', '💨', '🫁', '🛣️', '⏱️']],
+    // food, shopping, and money
+    [/\b(food|eat|cook|recipe|lunch|dinner|meal)\b/i, ['🍳', '🍜', '🥗', '🍕', '👨‍🍳', '🫕']],
+    [/\b(coffee|cafe|brew|tea)\b/i, ['☕', '🫖', '🍵', '🧋', '🥐', '🫘']],
+    [/\b(buy|shop|grocer|cart|order|purchase)\b/i, ['🛒', '🛍️', '📦', '💳', '🏪', '🧾']],
+    [/\b(money|budget|finance|save|invest|bank|invoice)\b/i, ['💰', '💵', '📈', '🏦', '🪙', '🐷']],
+    // fun and social
+    [/\b(love|date|crush|romance)\b/i, ['❤️', '💕', '💌', '🌹', '😍', '🫶']],
+    [/\b(birthday|gift|present)\b/i, ['🎂', '🎁', '🥳', '🎈', '🪅', '🎀']],
+    [/\b(beer|drink|party|night|hangout)\b/i, ['🍺', '🥂', '🍾', '🎊', '🪩', '🍸']],
+    [/\b(music|song|playlist|gig|concert)\b/i, ['🎵', '🎸', '🎤', '🎧', '🎼', '🎹']],
+    [/\b(game|gaming|arcade|stream)\b/i, ['🎮', '🕹️', '👾', '🎲', '🏆', '🧩']],
+    [/\b(weird|chaos|silly|fun|funny)\b/i, ['🤪', '🌀', '🃏', '🙃', '✨', '👽']],
+    [/\b(movie|film|cinema|watch|show|series)\b/i, ['🎬', '🍿', '📽️', '🎥', '🎞️', '📺']],
+    [/\b(travel|trip|vacation|holiday|flight|hotel)\b/i, ['✈️', '🧳', '🌍', '🗺️', '🏖️', '🚆']],
+    // pets
+    [/\b(pet|dog|puppy)\b/i, ['🐶', '🐾', '🦴', '🐕', '🎾', '🦮']],
+    [/\b(cat|kitten)\b/i, ['🐱', '🐈', '😸', '🐾', '🧶', '🐟']],
+    // achievement and aspirations
+    [/\b(win|success|achiev|trophy)\b/i, ['🏆', '🥇', '🎊', '🙌', '💯', '🦁']],
+    [/\b(dream|someday|bucket|wish)\b/i, ['🌠', '🌈', '💭', '✨', '🔮', '🪄']],
 ]
 
 const EMOJI_RANGES: [number, number][] = [
@@ -69,7 +103,7 @@ export const emojify = (title: string, position: 'start' | 'end' = 'start'): str
     if (end ? hasTrailingEmoji(title) : hasLeadingEmoji(title)) return title
     const trimmed = title.trim()
     const base = trimmed || PLACEHOLDER_TITLE
-    const match = trimmed ? KEYWORD_EMOJI.find(([re]) => re.test(title)) : undefined
+    const match = KEYWORD_EMOJI.find(([re]) => re.test(base))
     const emoji = match ? match[1][Math.floor(Math.random() * match[1].length)] : randomEmoji()
     return end ? `${base} ${emoji}` : `${emoji} ${base}`
 }

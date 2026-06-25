@@ -8,6 +8,15 @@ test('create a board: it appears with one default card', async ({ page }) => {
     await expect(cardsIn(board)).toHaveCount(1)
 })
 
+test('new board title gets an emoji prepended', async ({ page }) => {
+    // 'Groceries' hits a keyword (🛒…), 'Zxqv' has no match and falls back to a random emoji.
+    for (const name of ['Groceries', 'Zxqv']) {
+        const title = await createBoard(page, name).then((b) => b.getAttribute('data-board-name'))
+        expect(title).toMatch(/^\p{Extended_Pictographic}/u)
+        expect(title).toContain(name)
+    }
+})
+
 test('rename a board', async ({ page }) => {
     await createBoard(page, 'Temp')
     // data-board-name reflects the live value, so resolve the input while it's still "Temp",
@@ -25,7 +34,7 @@ test('add a card via the board menu', async ({ page }) => {
 })
 
 test('add an excalidraw card shows the draw placeholder', async ({ page }) => {
-    const board = await createBoard(page, 'Sketches')
+    const board = await createBoard(page, 'Doodles')
     await boardMenu(board, 'Add Drawing Card')
     await expect(board.getByText('click to draw')).toBeVisible()
 })
@@ -37,7 +46,7 @@ test('duplicate a board copies its cards', async ({ page }) => {
 
     await boardMenu(board, 'Duplicate Board')
     // a second board with the same name now exists, carrying the same card count
-    const copies = page.locator('[data-testid="board"][data-board-name="Dup"]')
+    const copies = boardByName(page, 'Dup')
     await expect(copies).toHaveCount(2)
     await expect(cardsIn(copies.nth(1))).toHaveCount(2)
 })

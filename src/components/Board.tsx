@@ -79,7 +79,7 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
 
                         if (isPlaceholder && newTitle) {
                             addNewBoard({
-                                name: newTitle,
+                                name: emojify(newTitle),
                                 idx: index + 1,
                                 id: genUid(8),
                             })

@@ -68,10 +68,11 @@ test('drawing popup backdrop click does not close when dirty', async ({ page }) 
     await boardMenu(board, 'Add Drawing Card')
     const dialog = await openCard(cardsIn(board).first())
 
-    // draw a rectangle on the canvas to dirty the card
     const canvas = dialog.getByTitle('Excalidraw')
+    const frame = page.frameLocator('iframe[title="Excalidraw"]')
+    await frame.getByTestId('toolbar-rectangle').click({ force: true })
+
     const box = (await canvas.boundingBox())!
-    await page.keyboard.press('r')
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
     await page.mouse.down()
     await page.mouse.move(box.x + box.width / 2 + 80, box.y + box.height / 2 + 80)

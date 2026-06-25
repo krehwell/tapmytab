@@ -4,7 +4,9 @@ import { expect, Locator, Page } from '@playwright/test'
 // containers; we scope by them because React controlled-input values aren't
 // matchable via CSS selectors.
 export const boards = (page: Page) => page.getByTestId('board')
-export const boardByName = (page: Page, name: string) => page.locator(`[data-testid="board"][data-board-name="${name}"]`)
+// new boards get an emoji prepended (see emojify), so match on the trailing typed name.
+export const boardByName = (page: Page, name: string) =>
+    page.locator(`[data-testid="board"][data-board-name$="${name}"]`)
 export const cardsIn = (board: Locator) => board.getByTestId('card')
 
 export const gotoApp = async (page: Page) => {
