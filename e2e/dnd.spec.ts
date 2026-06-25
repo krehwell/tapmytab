@@ -3,8 +3,6 @@ import { boardMenu, cardsIn, cardTitles, createBoard, dragCard, gotoApp } from '
 
 test.beforeEach(async ({ page }) => await gotoApp(page))
 
-// Build a board whose cards have the given titles. Each Add Card lands on top,
-// so the resulting DOM order is the reverse of `titles`.
 const buildCards = async (page: Page, name: string, titles: string[]): Promise<Locator> => {
     const board = await createBoard(page, name)
     await cardsIn(board).first().getByPlaceholder('Add Title...').fill(titles[0])

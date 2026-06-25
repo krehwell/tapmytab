@@ -15,7 +15,6 @@ export const gotoApp = async (page: Page) => {
     await expect(boards(page).first()).toBeVisible({ timeout: 20_000 })
 }
 
-// Create a board via the trailing placeholder input; returns its scoped locator.
 export const createBoard = async (page: Page, name: string): Promise<Locator> => {
     const input = page.getByTestId('board-placeholder').getByPlaceholder('Type a name...')
     await input.fill(name)
@@ -25,14 +24,11 @@ export const createBoard = async (page: Page, name: string): Promise<Locator> =>
     return board
 }
 
-// Click an item in a board's ⋮ menu (menu renders in a portal, so query the page).
 export const boardMenu = async (board: Locator, item: string) => {
     await board.getByTitle('Board options').click()
     await board.page().getByRole('menuitem', { name: item }).click()
 }
 
-// Open a card's popup. Click the header low/left to dodge the title input,
-// which stops propagation and would otherwise swallow the click.
 export const openCard = async (card: Locator): Promise<Locator> => {
     const header = card.getByTestId('card-header')
     const box = await header.boundingBox()

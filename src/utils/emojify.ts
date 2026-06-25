@@ -92,7 +92,7 @@ const randomEmoji = (): string => {
     }
 }
 
-const PLACEHOLDER_TITLE = 'Untitled'
+export const PLACEHOLDER_TITLE = 'Untitled'
 
 export const hasEmoji = (s: string) => /\p{Extended_Pictographic}/u.test(s)
 export const hasLeadingEmoji = (s: string) => /^\s*\p{Extended_Pictographic}/u.test(s)

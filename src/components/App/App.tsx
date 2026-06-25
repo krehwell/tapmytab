@@ -7,6 +7,7 @@ import { Flex } from '../Flex/index.tsx'
 import { Navbar } from '../Navbar.tsx'
 import { tc } from '../../utils/themeColors.ts'
 import { CardPopup } from '../CardPopup.tsx'
+import { SearchPopup } from '../SearchPopup.tsx'
 import { useBoardStore } from '../../stores/useBoardStore.ts'
 import { isInsideExtension, StorageService } from '../../utils/storage.ts'
 import { BOARD1, BOARD2, BOARD3, BOARD4, perfBoards } from '../../utils/templates.ts'
@@ -144,6 +145,7 @@ export const App = () => {
                 <Board index={boards.length} isPlaceholder />
             </Flex>
             <CardPopup />
+            <SearchPopup />
         </React.Fragment>
     )
 }

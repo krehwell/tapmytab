@@ -74,6 +74,7 @@ export const Card = ({
         <FlexColumn
             ref={setNodeRef}
             data-testid='card'
+            id={card.id}
             data-card-title={card.title}
             style={{
                 transform: CSS.Transform.toString(transform),

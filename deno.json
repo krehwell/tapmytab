@@ -1,5 +1,5 @@
 {
-    "version": "1.8.3",
+    "version": "1.8.4",
     "private": true,
     "tasks": {
         "dev": "vite",
@@ -43,6 +43,7 @@
         "@tiptap/react": "npm:@tiptap/react@3.27.1",
         "@tiptap/starter-kit": "npm:@tiptap/starter-kit@3.27.1",
         "clsx": "npm:clsx@2.1.1",
+        "fuse.js": "npm:fuse.js@7.0.0",
         "light-uid": "npm:light-uid@1.1.0",
         "@phosphor-icons/react": "npm:@phosphor-icons/react@2.1.7",
         "react": "npm:react@18.3.1",

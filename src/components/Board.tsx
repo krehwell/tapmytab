@@ -53,6 +53,7 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
     return (
         <FlexColumn
             data-testid={isPlaceholder ? 'board-placeholder' : 'board'}
+            id={board?.id}
             data-board-name={name}
             style={{
                 width: '30rem',

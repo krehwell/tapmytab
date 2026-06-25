@@ -1,7 +1,5 @@
 import { chromium, FullConfig } from '@playwright/test'
 
-// Warm the vite dev server once before the suite: the first page load triggers
-// dep-optimization + a reload, which would otherwise flake the parallel tests.
 const globalSetup = async (config: FullConfig) => {
     const baseURL = config.projects[0]?.use?.baseURL || 'http://localhost:5173'
     const browser = await chromium.launch()
