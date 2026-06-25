@@ -40,6 +40,43 @@ test('drawing popup auto-focuses the excalidraw canvas', async ({ page }) => {
     await expect(dialog.getByTitle('Excalidraw')).toBeFocused()
 })
 
+test('drawing popup toggles fullscreen and hides meta/actions', async ({ page }) => {
+    const board = await createBoard(page, 'UX-Fullscreen')
+    await boardMenu(board, 'Add Drawing Card')
+    const dialog = await openCard(cardsIn(board).first())
+
+    // normal drawing popup: description, Save, and the expand control are present
+    await expect(dialog.getByPlaceholder('Add description...')).toBeVisible()
+    await expect(dialog.getByRole('button', { name: 'Save' })).toBeVisible()
+    await expect(dialog.getByTitle('Fullscreen', { exact: true })).toBeVisible()
+
+    // enter fullscreen via the floating canvas button
+    await dialog.getByTitle('Fullscreen', { exact: true }).click()
+
+    // the paper now fills the viewport (normal drawing popup is capped at 90rem wide)
+    const vp = page.viewportSize()!
+    const box = await dialog.boundingBox()
+    expect(box!.width).toBeGreaterThanOrEqual(vp.width - 5)
+    expect(box!.height).toBeGreaterThanOrEqual(vp.height - 5)
+
+    // meta + actions + the options menu are hidden to maximize the canvas
+    await expect(dialog.getByTitle('Exit fullscreen', { exact: true })).toBeVisible()
+    await expect(dialog.getByPlaceholder('Add description...')).toHaveCount(0)
+    await expect(dialog.getByTitle('Card options')).toHaveCount(0)
+    await expect(dialog.getByRole('button', { name: 'Save' })).toHaveCount(0)
+    await expect(dialog.getByRole('button', { name: 'Cancel' })).toHaveCount(0)
+
+    // title + close stay
+    await expect(dialog.getByPlaceholder('Add Title...')).toBeVisible()
+    await expect(dialog.getByTitle('Close')).toBeVisible()
+
+    // exit fullscreen restores the normal popup
+    await dialog.getByTitle('Exit fullscreen', { exact: true }).click()
+    await expect(dialog.getByTitle('Fullscreen', { exact: true })).toBeVisible()
+    await expect(dialog.getByPlaceholder('Add description...')).toBeVisible()
+    await expect(dialog.getByRole('button', { name: 'Save' })).toBeVisible()
+})
+
 test('backdrop click closes popup when not dirty', async ({ page }) => {
     const board = await createBoard(page, 'UX-BackdropClean')
     const dialog = await openCard(cardsIn(board).first())
