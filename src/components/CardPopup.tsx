@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog'
 import { FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
 import { tc } from '../utils/themeColors.ts'
 import Box from '@mui/material/Box'
-import { isExcalidraw, TCard, TExcalidraw } from '../types.ts'
+import { isExcalidrawCard, TCard, TExcalidraw } from '../types.ts'
 import { Label } from './Label.tsx'
 import { HTMLEditor, useHTMLEditorInstance } from './HTMLEditor/index.ts'
 import { Button } from './Button.tsx'
@@ -54,7 +54,7 @@ const saveAndClose = () => {
 
 export const CardPopup = () => {
     const isOpen = useCardPopupStore((s) => s.isOpen)
-    const isDrawing = useCardPopupStore((s) => !!s.card && isExcalidraw(s.card.content))
+    const isDrawing = useCardPopupStore((s) => !!s.card && isExcalidrawCard(s.card))
 
     useKey(
         (e) => (e.metaKey || e.ctrlKey) && e.key === 'Enter',
@@ -215,7 +215,7 @@ const CardPopupEditor = () => {
     const card = useCardPopupStore((s) => s.card)
     if (!card) return null
 
-    if (isExcalidraw(card.content)) {
+    if (isExcalidrawCard(card)) {
         return <ExcalidrawPopupEditor />
     }
 

@@ -16,7 +16,8 @@ export type TCard = {
     dueDate?: null | string
 }
 
-export const isExcalidraw = (content: TCard['content']): content is TExcalidraw => typeof content !== 'string'
+export const isExcalidrawCard = (card: TCard): card is TCard & { content: TExcalidraw } =>
+    typeof card.content !== 'string'
 
 export type TBoard = {
     id: string

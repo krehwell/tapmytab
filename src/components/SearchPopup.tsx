@@ -8,7 +8,7 @@ import { MagnifyingGlass } from '@phosphor-icons/react'
 import { FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
 import { tc } from '../utils/themeColors.ts'
 import { useBoardStore } from '../stores/useBoardStore.ts'
-import { isExcalidraw, TBoard, TCard } from '../types.ts'
+import { isExcalidrawCard, TBoard, TCard } from '../types.ts'
 import { createSortableCheat } from '../utils/dndIdManager.ts'
 import { useCardPopupStore } from './CardPopup.tsx'
 import { htmlToText } from '../utils/htmlToText.ts'
@@ -204,7 +204,7 @@ export const SearchPopup = () => {
                 sortableCheat: createSortableCheat({ boardId: board.id, cardId: card.id, boardIdx, cardIdx }),
                 title: card.title || '',
                 desc: card.desc || '',
-                content: isExcalidraw(card.content) ? '' : htmlToText(card.content),
+                content: isExcalidrawCard(card) ? '' : htmlToText(card.content as string),
             }))
         )
         return new Fuse(records, {

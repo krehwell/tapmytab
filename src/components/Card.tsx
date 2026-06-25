@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { isExcalidraw, TCard, TExcalidraw } from '../types.ts'
+import { isExcalidrawCard, TCard, TExcalidraw } from '../types.ts'
 import { Flex, FlexColumn, FlexColumnJustifyCenter, FlexRowAlignCenter } from './Flex/index.tsx'
 import { HTMLEditor, useHTMLEditorInstance } from './HTMLEditor/index.ts'
 import { tc } from '../utils/themeColors.ts'
@@ -136,17 +136,17 @@ export const Card = ({
 
             {!(isDragging || disabled) && (
                 <FlexColumn
-                    onClick={isExcalidraw(card.content) ? () => openPopup({ card, sortableCheat }) : undefined}
+                    onClick={isExcalidrawCard(card) ? () => openPopup({ card, sortableCheat }) : undefined}
                     style={{
                         padding: '0 0.8rem 1.6rem',
                         backgroundColor: tc.surfaceBase,
                         borderRadius: '0 0 12px 12px',
-                        cursor: isExcalidraw(card.content) ? 'pointer' : undefined,
+                        cursor: isExcalidrawCard(card) ? 'pointer' : undefined,
                     }}
                 >
-                    {isExcalidraw(card.content)
+                    {isExcalidrawCard(card)
                         ? <CardDrawingEditor content={card.content} />
-                        : <CardHTMLEditor content={card.content} sortableCheat={sortableCheat} />}
+                        : <CardHTMLEditor content={card.content as string} sortableCheat={sortableCheat} />}
                 </FlexColumn>
             )}
         </FlexColumn>
