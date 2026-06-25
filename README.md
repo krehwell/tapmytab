@@ -60,6 +60,6 @@ deno task zip
 
 **Chrome Web Store**: upload `tapmytab-chrome.zip` at [chrome developer dashboard](https://chrome.google.com/webstore/devconsole) 
 
-**Firefox Add-ons (AMO)**: upload `tapmytab-firefox.zip` at [addons.mozilla.org/developers](https://addons.mozilla.org/developers/) 
+**Firefox Add-ons**: upload `tapmytab-firefox.zip` at [addons.mozilla.org/developers](https://addons.mozilla.org/developers/) 
 
 > Note: the Firefox build swaps in `manifest.firefox.json` after the Chrome build, so always produce the Firefox zip with `zip:firefox` (not by hand) to get the right manifest.
