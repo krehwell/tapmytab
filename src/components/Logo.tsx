@@ -10,7 +10,7 @@ export const Logo = ({ height = 22 }: { height?: number }) => (
         xmlns='http://www.w3.org/2000/svg'
         role='img'
         aria-label='tapmytab'
-        style={{marginBottom: "-0.2rem"}}
+        style={{marginBottom: "-0.25rem"}}
     >
         <g transform={`translate(0,447) scale(${0.1 * STRETCH},-0.1)`}>
             {/* tap */}
