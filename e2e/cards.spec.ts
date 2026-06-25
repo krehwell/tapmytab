@@ -40,6 +40,22 @@ test('emojify a card title from the popup menu', async ({ page }) => {
     expect(after?.length || 0).toBeGreaterThan((before || '').length)
 })
 
+test('inline edits on the board match the popup', async ({ page }) => {
+    const board = await createBoard(page, 'Sync')
+    const card = cardsIn(board).first()
+
+    // edit the card's title and content inline, straight on the board
+    await card.getByPlaceholder('Add Title...').fill('Groceries')
+    await card.locator('.tiptap').click()
+    await page.keyboard.insertText('buy oat milk')
+    await page.waitForTimeout(200) // content onChange is debounced 100ms before it reaches the store
+
+    // open the popup; it reads the same card, so both should match
+    const dialog = await openCard(card)
+    await expect(dialog.getByPlaceholder('Add Title...')).toHaveValue('Groceries')
+    await expect(dialog.locator('.tiptap')).toContainText('buy oat milk')
+})
+
 test('cancel does not persist edits', async ({ page }) => {
     const board = await createBoard(page, 'Cancel')
     const dialog = await openCard(cardsIn(board).first())

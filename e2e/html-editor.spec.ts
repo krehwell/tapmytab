@@ -11,13 +11,16 @@ const openEditor = async (page, name: string): Promise<[Locator, Locator]> => {
     return [dialog, editor]
 }
 
+const typeAndSelectAll = async (page, editor: Locator, content: string) => {
+    await editor.click()
+    await page.keyboard.insertText(content)
+    await page.keyboard.press('ControlOrMeta+A')
+}
+
 test('bold the selected text', async ({ page }) => {
     const [dialog, editor] = await openEditor(page, 'Bold')
-    await editor.click()
-    await page.keyboard.insertText('make me bold')
-    await page.keyboard.press('ControlOrMeta+A')
     await dialog.getByTitle('Bold', { exact: true }).click()
-
+    await page.keyboard.insertText('make me bold')
     await expect(editor.locator('strong')).toHaveText('make me bold')
 })
 
@@ -27,6 +30,7 @@ test('insert a link', async ({ page }) => {
     await dialog.getByTitle('Link', { exact: true }).click()
     await dialog.getByPlaceholder('link text').fill('Youtube')
     await dialog.getByPlaceholder('url').fill('https://youtube.com')
+    await page.waitForTimeout(100)
     await dialog.getByPlaceholder('url').press('Enter')
 
     const link = editor.locator('a', { hasText: 'Youtube' })
@@ -41,6 +45,83 @@ test('make a bullet list', async ({ page }) => {
     await page.getByRole('menuitem').first().click() // Bullet List (icon-only options)
 
     await expect(editor.locator('ul li')).toContainText('first item')
+})
+
+test('italic the selected text', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'Italic')
+    await typeAndSelectAll(page, editor, 'make me italic')
+    await dialog.getByTitle('Italic', { exact: true }).click()
+
+    await expect(editor.locator('em')).toHaveText('make me italic')
+})
+
+test('inline code the selected text', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'Code')
+    await typeAndSelectAll(page, editor, 'const x = 1')
+    await dialog.getByTitle('Code', { exact: true }).click()
+
+    await expect(editor.locator('code')).toHaveText('const x = 1')
+})
+
+test('code block the selected text', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'CodeBlock')
+    await typeAndSelectAll(page, editor, 'sum = a + b')
+    await dialog.getByTitle('Code Block', { exact: true }).click()
+
+    await expect(editor.locator('pre code')).toHaveText('sum = a + b')
+})
+
+test('turn a line into a heading', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'Heading')
+    await editor.click()
+    await page.keyboard.insertText('big title')
+    await dialog.getByTitle('Headings', { exact: true }).click()
+    await page.getByRole('menuitem').nth(1).click() // Paragraph, H1, H2, H3, H4
+
+    await expect(editor.locator('h1')).toHaveText('big title')
+})
+
+test('center align a paragraph', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'Align')
+    await editor.click()
+    await page.keyboard.insertText('center me')
+    await dialog.getByTitle('Text Alignment', { exact: true }).click()
+    await page.getByRole('menuitem').nth(1).click() // Left, center, Right
+
+    await expect(editor.locator('p', { hasText: 'center me' })).toHaveCSS('text-align', 'center')
+})
+
+test('make an ordered list', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'Ordered')
+    await editor.click()
+    await page.keyboard.insertText('step one')
+    await dialog.getByTitle('Lists', { exact: true }).click()
+    await page.getByRole('menuitem').nth(1).click() // Bullet, Ordered, Task
+
+    await expect(editor.locator('ol li')).toContainText('step one')
+})
+
+test('make a task list', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'Tasks')
+    await editor.click()
+    await page.keyboard.insertText('todo item')
+    await dialog.getByTitle('Lists', { exact: true }).click()
+    await page.getByRole('menuitem').nth(2).click() // Bullet, Ordered, Task
+
+    await expect(editor.locator('ul[data-type="taskList"] li')).toContainText('todo item')
+})
+
+test('undo and redo typing', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'History')
+    await editor.click()
+    await page.keyboard.insertText('typed text')
+    await expect(editor).toContainText('typed text')
+
+    await dialog.getByTitle('Undo', { exact: true }).click()
+    await expect(editor).not.toContainText('typed text')
+
+    await dialog.getByTitle('Redo', { exact: true }).click()
+    await expect(editor).toContainText('typed text')
 })
 
 test('typed content persists after save and reopen', async ({ page }) => {
