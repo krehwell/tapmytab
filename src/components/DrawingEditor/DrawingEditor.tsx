@@ -1,5 +1,8 @@
 import { memo, useEffect, useRef } from 'react'
+import { ArrowsInSimple, ArrowsOutSimple } from '@phosphor-icons/react'
 import { TExcalidraw } from '../../types.ts'
+import { Button } from '../Button.tsx'
+import { tc } from '../../utils/themeColors.ts'
 
 const SRC = '/pages/excalidraw.html'
 
@@ -7,7 +10,14 @@ const SRC = '/pages/excalidraw.html'
 // zoom/scale won't help.  so we render it in iframe instead haha :D.  
 // how this communicates with I frame is by "../../../pages/excalidraw.tsx"  browser postMessage.
 export const DrawingEditor = memo(
-    ({ data, onChange }: { data: TExcalidraw; onChange: (next: TExcalidraw) => void }) => {
+    (
+        { data, onChange, fullscreen, onToggleFullscreen }: {
+            data: TExcalidraw
+            onChange: (next: TExcalidraw) => void
+            fullscreen?: boolean
+            onToggleFullscreen?: () => void
+        },
+    ) => {
         const onChangeRef = useRef(onChange)
         onChangeRef.current = onChange
 
@@ -37,20 +47,46 @@ export const DrawingEditor = memo(
         }, [])
 
         return (
-            <iframe
-                ref={iframeRef}
-                src={SRC}
-                title='Excalidraw'
+            <div
                 style={{
+                    position: 'relative',
                     width: '100%',
-                    height: '60rem',
-                    border: 'none',
-                    borderRadius: '0.8rem',
-                    display: 'block',
-                    backgroundColor: '#161718',
+                    ...(fullscreen ? { flex: 1, minHeight: 0 } : { height: '60rem' }),
                 }}
-            />
+            >
+                <iframe
+                    ref={iframeRef}
+                    src={SRC}
+                    title='Excalidraw'
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        border: 'none',
+                        borderRadius: fullscreen ? 0 : '0.8rem',
+                        display: 'block',
+                        backgroundColor: '#161718',
+                    }}
+                />
+                {onToggleFullscreen && (
+                    <Button
+                        radius='3.2rem'
+                        title={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+                        onClick={onToggleFullscreen}
+                        tabIndex={-1}
+                        sx={{
+                            position: 'absolute',
+                            top: '0.8rem',
+                            right: '0.8rem',
+                            zIndex: 2,
+                            backgroundColor: tc.surfaceRaised,
+                            boxShadow: tc.shadowPopover,
+                        }}
+                    >
+                        {fullscreen ? <ArrowsInSimple size={18} /> : <ArrowsOutSimple size={18} />}
+                    </Button>
+                )}
+            </div>
         )
     },
-    () => true,
+    (prev, next) => prev.fullscreen === next.fullscreen,
 )
