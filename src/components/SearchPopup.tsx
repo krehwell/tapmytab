@@ -104,7 +104,6 @@ const SearchResultItem = (
             style={{
                 gap: '0.3rem',
                 padding: '1.2rem 1.6rem',
-                cursor: 'pointer',
                 backgroundColor: isActive ? tc.overlayHover : 'transparent',
             }}
         >

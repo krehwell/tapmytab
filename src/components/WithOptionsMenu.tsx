@@ -68,7 +68,6 @@ export const WithOptionsMenu = (
                     '& .MuiList-padding': { paddingTop: 0, paddingBottom: 0 },
                     listStyleType: 'none',
                     listStyle: 'none',
-                    marginLeft: '-0.6rem',
                     marginTop: anchorEl?.tagName === 'BUTTON' ? 0 : '0.8rem',
                     ...menuProps?.sx,
                 }}

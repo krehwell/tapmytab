@@ -89,12 +89,6 @@ textarea {
 }
 
 /********** CUSTOM SCROLLBAR *********/
-html,
-body {
-    scrollbar-gutter: stable both-edges;
-}
-
-/* Optional: customize the appearance of all scrollbars */
 
 /* Firefox only scroll appearance */
 @-moz-document url-prefix() {
@@ -117,6 +111,16 @@ body {
 
 *:hover::-webkit-scrollbar-thumb {
     background-color: var(--overlay-scroll);
+}
+
+html,
+body {
+    scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
 }
 
 /********** FONT: Rumiko Clear **********/
