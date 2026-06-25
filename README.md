@@ -47,6 +47,8 @@ deno task dev
 2. If you have load unpacked the `dist/` into your `chrome://extensions/` now you can open a new tab and override the
    tab with the dev extension. Any changes will trigger the hot-reload
 
+or simply run `localhost:5173` if you're lazy (_cards won't persist though_)
+
 ### 🚢 Build & Publish
 
 Bump the version first on: `deno.json`, `manifest.json`, and `manifest.firefox.json` then
