@@ -31,17 +31,12 @@ const ICON = {
     exit: 'M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3',
 }
 
-const toggleNativeFullscreen = () => {
-    if (document.fullscreenElement) document.exitFullscreen()
-    else document.documentElement.requestFullscreen()
-}
-
-const FullscreenButton = ({ fullscreen }: { fullscreen: boolean }) => (
+const FullscreenButton = ({ fullscreen, onToggle }: { fullscreen: boolean; onToggle: () => void }) => (
     <button
         type='button'
         className='ToolIcon_type_button ToolIcon_size_medium'
         title={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-        onClick={toggleNativeFullscreen}
+        onClick={onToggle}
         style={{
             width: 36,
             height: 36,
@@ -93,22 +88,28 @@ const App = () => {
 
         const onContextMenu = (e: Event) => e.preventDefault() // (excalidraw shows its own right click menu)
 
-        const onFullscreen = () => {
-            setIsFullscreen(!!document.fullscreenElement)
-            setTimeout(() => excalidrawRef.current?.scrollToContent(undefined), 10)
-        }
+        // parent resizes the iframe on fullscreen toggle; refit the scene once it has resized.
+        const onResize = () => setTimeout(() => excalidrawRef.current?.scrollToContent(undefined), 10)
 
         globalThis.addEventListener('message', onMessage)
         globalThis.addEventListener('contextmenu', onContextMenu)
-        document.addEventListener('fullscreenchange', onFullscreen)
+        globalThis.addEventListener('resize', onResize)
         post({ type: 'excalidraw:ready' })
 
         return () => {
             globalThis.removeEventListener('message', onMessage)
             globalThis.removeEventListener('contextmenu', onContextMenu)
-            document.removeEventListener('fullscreenchange', onFullscreen)
+            globalThis.removeEventListener('resize', onResize)
         }
     }, [])
+
+    // fullscreen is CSS-driven by the parent (so Esc can't exit it like the native API).
+    const toggleFullscreen = () => {
+        setIsFullscreen((f) => {
+            post({ type: 'excalidraw:fullscreen', value: !f })
+            return !f
+        })
+    }
 
     if (!scene) return null
 
@@ -116,7 +117,7 @@ const App = () => {
         <Excalidraw
             theme='dark'
             autoFocus
-            renderTopRightUI={() => <FullscreenButton fullscreen={isFullscreen} />}
+            renderTopRightUI={() => <FullscreenButton fullscreen={isFullscreen} onToggle={toggleFullscreen} />}
             excalidrawAPI={(api) => {
                 excalidrawRef.current = api
 
