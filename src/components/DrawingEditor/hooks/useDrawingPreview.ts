@@ -31,7 +31,7 @@ export const useDrawingPreview = (content: TExcalidraw): RefObject<HTMLDivElemen
             .then(({ exportToSvg }) =>
                 exportToSvg({
                     // deno-lint-ignore no-explicit-any
-                    elements: content.elements as any,
+                    elements: (content.elements as any[]).filter((el) => !el?.isDeleted),
                     // deno-lint-ignore no-explicit-any
                     files: content.files as any,
                     appState: { exportBackground: false, exportWithDarkMode: true },

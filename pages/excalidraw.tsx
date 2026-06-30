@@ -138,11 +138,13 @@ const App = () => {
                 if (version === versionRef.current) return
 
                 versionRef.current = version
-                post({ type: 'excalidraw:change', data: { elements: [...elements], files: { ...files } } })
+
+                const live = elements.filter((el) => !el.isDeleted)
+                post({ type: 'excalidraw:change', data: { elements: live, files: { ...files } } })
 
                 // regenerate the thumbnail after the user pauses (export is expensive 😠)
                 clearTimeout(previewTimer.current)
-                previewTimer.current = setTimeout(() => postPreview(elements, files), 500)
+                previewTimer.current = setTimeout(() => postPreview(live, files), 500)
             }}
         />
     )
