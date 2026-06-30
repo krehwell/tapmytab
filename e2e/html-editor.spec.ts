@@ -47,7 +47,6 @@ test('editing a link name keeps it a link', async ({ page }) => {
     await dialog.getByPlaceholder('url').press('Enter')
     await expect(editor.locator('a', { hasText: 'Youtube' })).toBeVisible()
 
-    // reopen the menu, rename the link, confirm
     await editor.locator('a', { hasText: 'Youtube' }).click()
     await dialog.getByTitle('Edit Link').click()
     await dialog.getByPlaceholder('link text').fill('YT')
