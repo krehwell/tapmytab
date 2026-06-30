@@ -38,6 +38,27 @@ test('insert a link', async ({ page }) => {
     await expect(link).toHaveAttribute('href', 'https://youtube.com')
 })
 
+test('editing a link name keeps it a link', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'EditLink')
+    await editor.click()
+    await dialog.getByTitle('Link', { exact: true }).click()
+    await dialog.getByPlaceholder('link text').fill('Youtube')
+    await dialog.getByPlaceholder('url').fill('https://youtube.com')
+    await dialog.getByPlaceholder('url').press('Enter')
+    await expect(editor.locator('a', { hasText: 'Youtube' })).toBeVisible()
+
+    // reopen the menu, rename the link, confirm
+    await editor.locator('a', { hasText: 'Youtube' }).click()
+    await dialog.getByTitle('Edit Link').click()
+    await dialog.getByPlaceholder('link text').fill('YT')
+    await dialog.getByPlaceholder('link text').press('Enter')
+
+    // the renamed text must still be an <a> with the original href
+    const link = editor.locator('a', { hasText: 'YT' })
+    await expect(link).toHaveText('YT')
+    await expect(link).toHaveAttribute('href', 'https://youtube.com')
+})
+
 test('make a bullet list', async ({ page }) => {
     const [dialog, editor] = await openEditor(page, 'List')
     await editor.click()

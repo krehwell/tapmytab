@@ -31,10 +31,10 @@ export const LinkMenu = memo(({ editor }: { editor: TiptapEditor }) => {
                 .chain()
                 .focus()
                 .extendMarkRange('link')
-                .setLink({ href: url })
-                .command(({ tr }) => {
-                    tr.insertText(text)
-                    return true
+                .insertContent({
+                    type: 'text',
+                    text: text || url,
+                    marks: [{ type: 'link', attrs: { href: url } }],
                 })
                 .run()
             setIsEditLink(false)
