@@ -170,7 +170,8 @@ const BoardNameInput = ({
                 flex: 1,
                 backgroundColor: 'transparent',
                 resize: 'none',
-                textOverflow: 'ellipsis',
+                wordWrap: 'break-word',
+                textWrap: 'wrap',
                 outline: 'none',
                 ...style,
             }}
