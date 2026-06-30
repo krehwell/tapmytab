@@ -19,10 +19,14 @@ const KEYWORD_EMOJI: [RegExp, string[]][] = [
     // status
     [/\b(todo|to do|tasks?|backlog|later)\b/i, ['📋', '📝', '📌', '🗂️', '✏️', '☐']],
     [/\b(doing|progress|wip|ongoing|working)\b/i, ['🚧', '⚙️', '🔄', '🛠️', '🏗️', '⏳']],
+    [/\b(start|begin|kickoff|init|setup)\b/i, ['🟢', '▶️', '🎬', '🚦', '🆕', '🔛']],
     [/\b(done|complete|completed|finish|finished|shipped)\b/i, ['✅', '🎉', '🏁', '🙌', '💯', '✨']],
     [/\b(blocked|stuck|waiting|pending|hold)\b/i, ['🚫', '🧱', '⏸️', '⌛', '🚦', '🫠']],
     [/\b(urgent|important|priority|asap|critical)\b/i, ['🚨', '🔥', '⚠️', '❗', '⚡', '🔴']],
     [/\b(due|deadline|overdue|eta)\b/i, ['⏰', '📆', '🗓️', '⌛', '🔴', '❗']],
+    [/\b(next|continue|resume|proceed|onward)\b/i, ['⏭️', '▶️', '➡️', '🔜', '🏃', '🚀']],
+    [/\b(routine|habit|repeat|daily|recurring)\b/i, ['🔁', '🔄', '♻️', '📅', '⏰', '✅']],
+    [/\b(copy|paste|clipboard|clip)\b/i, ['📋', '📎', '✂️', '🗒️', '🪪', '🖇️']],
     // thinking and planning
     [/\b(idea|brainstorm|think|concept|inspiration)\b/i, ['💡', '🧠', '✨', '🌟', '🔮', '💭']],
     [/\b(goal|plan|target|roadmap|milestone|resolution)\b/i, ['🎯', '🗺️', '🧭', '🏹', '📍', '🚩']],
@@ -42,6 +46,7 @@ const KEYWORD_EMOJI: [RegExp, string[]][] = [
     [/\b(bug|fix|issue|error|debug|broken)\b/i, ['🐛', '🔧', '🩹', '🚑', '💢', '🧯']],
     [/\b(launch|ship|release|deploy|publish|rollout)\b/i, ['🚀', '📦', '🛰️', '🎯', '⚡', '📣']],
     [/\b(flag|sentry|monitor|alert|log|logs|metric|metrics)\b/i, ['🚩', '📡', '🛰️', '🔭', '📊', '🚨']],
+    [/\b(chart|graph|analytics|stats|dashboard|data)\b/i, ['📊', '📈', '📉', '🧮', '📐', '🗃️']],
     [/\b(design|ui|ux|figma|sketch|prototype)\b/i, ['🎨', '📐', '🖌️', '🧩', '📱', '🖼️']],
     [/\b(art|paint|draw|craft|illustration)\b/i, ['🎨', '🖌️', '🖍️', '🧵', '🖼️', '🪡']],
     [/\b(photo|camera|picture|shoot|video)\b/i, ['📸', '📷', '🎥', '🎞️', '🤳', '📺']],
@@ -51,6 +56,9 @@ const KEYWORD_EMOJI: [RegExp, string[]][] = [
     [/\b(garden|plant|grow|flower|water)\b/i, ['🌱', '🪴', '🌿', '🌻', '🌸', '💧']],
     [/\b(sleep|rest|nap|bed|relax)\b/i, ['😴', '🛏️', '🌙', '💤', '🧸', '☁️']],
     [/\b(health|doctor|medic|appointment|therapy)\b/i, ['🩺', '💊', '🏥', '🩹', '❤️‍🩹', '🧬']],
+    [/\b(pet|dog|cat|animal|vet)\b/i, ['🐶', '🐱', '🐾', '🐕', '🐈', '🦴']],
+    [/\b(car|drive|commute|fuel|traffic)\b/i, ['🚗', '🚙', '🛣️', '⛽', '🅿️', '🔑']],
+    [/\b(weather|rain|snow|forecast|storm)\b/i, ['🌦️', '🌧️', '❄️', '⛈️', '🌈', '☀️']],
     [/\b(gym|workout|fitness|exercise|train)\b/i, ['💪', '🏋️', '🤸', '🥊', '🏃', '🏅']],
     [/\b(run|jog|marathon|race|cardio|sports)\b/i, ['🏃', '👟', '💨', '🫁', '🛣️', '⏱️']],
     // food, shopping, and money
@@ -67,9 +75,6 @@ const KEYWORD_EMOJI: [RegExp, string[]][] = [
     [/\b(weird|chaos|silly|fun|funny)\b/i, ['🤪', '🌀', '🃏', '🙃', '✨', '👽']],
     [/\b(movie|film|cinema|watch|show|series)\b/i, ['🎬', '🍿', '📽️', '🎥', '🎞️', '📺']],
     [/\b(travel|trip|vacation|holiday|flight|hotel)\b/i, ['✈️', '🧳', '🌍', '🗺️', '🏖️', '🚆']],
-    // pets
-    [/\b(pet|dog|puppy)\b/i, ['🐶', '🐾', '🦴', '🐕', '🎾', '🦮']],
-    [/\b(cat|kitten)\b/i, ['🐱', '🐈', '😸', '🐾', '🧶', '🐟']],
     // achievement and aspirations
     [/\b(win|success|achiev|trophy)\b/i, ['🏆', '🥇', '🎊', '🙌', '💯', '🦁']],
     [/\b(dream|someday|bucket|wish)\b/i, ['🌠', '🌈', '💭', '✨', '🔮', '🪄']],
