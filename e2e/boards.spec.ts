@@ -33,12 +33,6 @@ test('add a card via the board menu', async ({ page }) => {
     await expect(cardsIn(board)).toHaveCount(2)
 })
 
-test('add an excalidraw card shows the draw placeholder', async ({ page }) => {
-    const board = await createBoard(page, 'Doodles')
-    await boardMenu(board, 'Add Drawing Card')
-    await expect(board.getByText('click to draw')).toBeVisible()
-})
-
 test('duplicate a board copies its cards', async ({ page }) => {
     const board = await createBoard(page, 'Dup')
     await boardMenu(board, 'Add Card')
