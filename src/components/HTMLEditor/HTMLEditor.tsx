@@ -26,7 +26,7 @@ export const HTMLEditor = ({
         <>
             <Box
                 component={EditorContent}
-                sx={{ '& .tiptap *': { fontFamily } }}
+                sx={{ '& .tiptap': { fontFamily } }}
                 ref={ref}
                 editor={editor}
                 style={{
