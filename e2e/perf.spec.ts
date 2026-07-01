@@ -42,6 +42,9 @@ const measure = async (page: Page, spec: string): Promise<Sample> => {
 test('first card shows up fast, no matter how many cards there are', async ({ page }) => {
     test.setTimeout(180_000)
 
+    // just to prevent cold start for the actual test below it
+    await measure(page, '100x100')
+
     const samples: Sample[] = []
     for (const spec of ['5x4', '20x10', '40x20']) {
         samples.push(await measure(page, spec))

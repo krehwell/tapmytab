@@ -129,7 +129,7 @@ export const Card = ({
                     {card.desc}
                 </p>
                 <FlexRowAlignCenter>
-                    {card.label && card.label !== TLabel.No && <Label label={card.label} />}
+                    <Label label={card.label} />
                     {card?.dueDate && <Due initialDueDate={card.dueDate} key={card.dueDate} />}
                 </FlexRowAlignCenter>
             </FlexColumn>
