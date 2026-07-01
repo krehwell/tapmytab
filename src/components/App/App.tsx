@@ -60,7 +60,7 @@ export const App = () => {
     // back-and-forth drags cascade into "Maximum update depth exceeded".
     const isMovingRef = useRef(false)
 
-    const { data: visibleBoards } = useProgressiveMount(boards, { initial: 7, step: 6 })
+    const { data: visibleBoards } = useProgressiveMount(boards, { initial: 6, step: 4 })
 
     const handleCardSwitchBoard = useCallback(
         (event: DragOverEvent) => {

@@ -108,7 +108,7 @@ const SortableCardList = (
     const { setNodeRef } = useDroppable({ id: board.id, disabled: false })
     const cards = board.cards
 
-    const { data: visibleCards } = useProgressiveMount(cards, { initial: 5, step: 8 })
+    const { data: visibleCards } = useProgressiveMount(cards, { initial: 4, step: 3 })
 
     return (
         <SortableContext
