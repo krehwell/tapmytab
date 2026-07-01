@@ -55,26 +55,46 @@ test('backdrop click does not close popup when dirty', async ({ page }) => {
     await expect(dialog).toBeVisible()
 })
 
-test('fullscreen drawing: Exit when clean, Save (no close) when dirty', async ({ page }) => {
-    const board = await createBoard(page, 'UX-DrawFullscreenSave')
-    await boardMenu(board, 'Add Drawing Card')
-    const dialog = await openCard(cardsIn(board).first())
-
-    const frame = page.frameLocator('iframe[title="Excalidraw"]')
-    await frame.getByTitle('Fullscreen').click()
-
-    // no edits yet: Exit shows, Save hidden
-    await expect(frame.getByTitle('Exit', { exact: true })).toBeVisible()
-    await expect(frame.getByTitle('Save')).toHaveCount(0)
-
-    // draw a rectangle -> dirty -> Save shows
-    const canvas = dialog.getByTitle('Excalidraw')
+const drawRectangle = async (
+    page: import('@playwright/test').Page,
+    frame: import('@playwright/test').FrameLocator,
+    canvas: import('@playwright/test').Locator,
+) => {
     await frame.getByTestId('toolbar-rectangle').click({ force: true })
     const box = (await canvas.boundingBox())!
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
     await page.mouse.down()
     await page.mouse.move(box.x + box.width / 2 + 80, box.y + box.height / 2 + 80)
     await page.mouse.up()
+}
+
+test('fullscreen drawing shows Exit (no changes) that closes the popup', async ({ page }) => {
+    const board = await createBoard(page, 'UX-DrawFullscreenExit')
+    await boardMenu(board, 'Add Drawing Card')
+    const dialog = await openCard(cardsIn(board).first())
+
+    const frame = page.frameLocator('iframe[title="Excalidraw"]')
+    await frame.getByTitle('Fullscreen').click()
+
+    // nothing drawn: Exit shows, Save hidden
+    await expect(frame.getByTitle('Exit', { exact: true })).toBeVisible()
+    await expect(frame.getByTitle('Save')).toHaveCount(0)
+
+    await frame.getByTitle('Exit', { exact: true }).click({ force: true })
+    await expect(dialog).not.toBeVisible()
+})
+
+test('fullscreen drawing shows Save (dirty) that persists without closing', async ({ page }) => {
+    const board = await createBoard(page, 'UX-DrawFullscreenSave')
+    await boardMenu(board, 'Add Drawing Card')
+    const dialog = await openCard(cardsIn(board).first())
+
+    const frame = page.frameLocator('iframe[title="Excalidraw"]')
+    const canvas = dialog.getByTitle('Excalidraw')
+
+    // draw before fullscreen (excalidraw's baseline onChange has fired by now) -> dirty
+    await drawRectangle(page, frame, canvas)
+    await frame.getByTitle('Fullscreen').click()
 
     const save = frame.getByTitle('Save')
     await expect(save).toBeVisible()
@@ -84,10 +104,6 @@ test('fullscreen drawing: Exit when clean, Save (no close) when dirty', async ({
     // save must NOT close the popup, and clears dirty -> back to Exit
     await expect(dialog).toBeVisible()
     await expect(frame.getByTitle('Exit', { exact: true })).toBeVisible()
-
-    // Exit closes the popup
-    await frame.getByTitle('Exit', { exact: true }).click({ force: true })
-    await expect(dialog).not.toBeVisible()
 })
 
 test('drawing popup backdrop click closes when not dirty', async ({ page }) => {

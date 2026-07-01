@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import { TExcalidraw } from '../../types.ts'
+import { useRefMyFunc } from '../../hooks/useRefMyFunc.ts'
 
 const SRC = '/pages/excalidraw.html'
 
@@ -13,12 +14,9 @@ export const DrawingEditor = memo(
         onSave?: () => void
         onExit?: () => void
     }) => {
-        const onChangeRef = useRef(onChange)
-        onChangeRef.current = onChange
-        const onSaveRef = useRef(onSave)
-        onSaveRef.current = onSave
-        const onExitRef = useRef(onExit)
-        onExitRef.current = onExit
+        const onChangeRef = useRefMyFunc(onChange)
+        const onSaveRef = useRefMyFunc(onSave)
+        const onExitRef = useRefMyFunc(onExit)
 
         const sceneRef = useRef<TExcalidraw>(data)
         const iframeRef = useRef<HTMLIFrameElement>(null)
