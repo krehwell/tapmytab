@@ -7,9 +7,18 @@ const SRC = '/pages/excalidraw.html'
 // zoom/scale won't help.  so we render it in iframe instead haha :D.
 // how this communicates with I frame is by "../../../pages/excalidraw.tsx"  browser postMessage.
 export const DrawingEditor = memo(
-    ({ data, onChange }: { data: TExcalidraw; onChange: (next: TExcalidraw) => void }) => {
+    ({ data, onChange, onSave, onExit }: {
+        data: TExcalidraw
+        onChange: (next: TExcalidraw) => void
+        onSave?: () => void
+        onExit?: () => void
+    }) => {
         const onChangeRef = useRef(onChange)
         onChangeRef.current = onChange
+        const onSaveRef = useRef(onSave)
+        onSaveRef.current = onSave
+        const onExitRef = useRef(onExit)
+        onExitRef.current = onExit
 
         const sceneRef = useRef<TExcalidraw>(data)
         const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -21,6 +30,10 @@ export const DrawingEditor = memo(
 
                 if (e.data?.type === 'excalidraw:fullscreen') {
                     setIsFullscreen(!!e.data.value)
+                } else if (e.data?.type === 'excalidraw:save') {
+                    onSaveRef.current?.()
+                } else if (e.data?.type === 'excalidraw:exit') {
+                    onExitRef.current?.()
                 } else if (e.data?.type === 'excalidraw:ready') {
                     iframeRef.current?.contentWindow?.postMessage(
                         { type: 'excalidraw:init', data: sceneRef.current },

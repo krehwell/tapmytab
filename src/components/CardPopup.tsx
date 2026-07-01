@@ -1,6 +1,8 @@
+import { useCallback } from 'react'
 import { useKey } from 'react-use'
 import { create } from 'zustand'
 import Dialog from '@mui/material/Dialog'
+import { PaperProps } from '@mui/material/Paper'
 import { FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
 import { tc } from '../utils/themeColors.ts'
 import Box from '@mui/material/Box'
@@ -46,10 +48,15 @@ export const useCardPopupStore = create<{
     openPopup: ({ card, sortableCheat }) => set({ isOpen: true, card, sortableCheat, isDirty: false }),
 }))
 
-const saveAndClose = () => {
-    const { card, sortableCheat, closePopup } = useCardPopupStore.getState()
+const save = () => {
+    const { card, sortableCheat } = useCardPopupStore.getState()
     if (card && sortableCheat) updateCard({ sortableCheat, fields: card })
-    closePopup()
+    useCardPopupStore.setState({ isDirty: false })
+}
+
+const saveAndClose = () => {
+    save()
+    useCardPopupStore.getState().closePopup()
 }
 
 export const CardPopup = () => {
@@ -63,6 +70,28 @@ export const CardPopup = () => {
             e.preventDefault()
             saveAndClose()
         },
+    )
+
+    // stable identity: an inline PaperComponent gets a new type every render, which makes MUI
+    // remount the whole dialog subtree (and reload the drawing iframe) on any parent re-render.
+    const PaperComponent = useCallback(
+        ({ children, style, ...props }: PaperProps) => (
+            <Box
+                component={FlexColumn}
+                style={{
+                    backgroundColor: tc.surfaceBase,
+                    borderRadius: '1.2rem',
+                    padding: '1.6rem',
+                    width: isDrawing ? '90vw' : '62.4rem',
+                    maxWidth: isDrawing ? '90rem' : undefined,
+                    ...style,
+                }}
+                {...props}
+            >
+                {children}
+            </Box>
+        ),
+        [isDrawing],
     )
 
     return (
@@ -85,22 +114,7 @@ export const CardPopup = () => {
                 if (useCardPopupStore.getState().isDirty) return
                 useCardPopupStore.getState().closePopup()
             }}
-            PaperComponent={({ children, style, ...props }) => (
-                <Box
-                    component={FlexColumn}
-                    style={{
-                        backgroundColor: tc.surfaceBase,
-                        borderRadius: '1.2rem',
-                        padding: '1.6rem',
-                        width: isDrawing ? '90vw' : '62.4rem',
-                        maxWidth: isDrawing ? '90rem' : undefined,
-                        ...style,
-                    }}
-                    {...props}
-                >
-                    {children}
-                </Box>
-            )}
+            PaperComponent={PaperComponent}
         >
             <CardPopupHeader />
             <CardPopupEditor key={String(isOpen)} />
@@ -230,6 +244,8 @@ const ExcalidrawPopupEditor = () => {
         <DrawingEditor
             data={(card as NonNullable<TCard>).content as TExcalidraw}
             onChange={(content) => updateField({ fields: { content } })}
+            onSave={save}
+            onExit={useCardPopupStore.getState().closePopup}
         />
     )
 }

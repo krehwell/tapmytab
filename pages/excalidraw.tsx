@@ -29,48 +29,59 @@ const postPreview = async (elements: readonly unknown[], files: Record<string, u
 const ICON = {
     enter: 'M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3',
     exit: 'M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3',
+    save: 'M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8',
+    close: 'M18 6 6 18M6 6l12 12',
 }
 
-const FullscreenButton = ({ fullscreen, onToggle }: { fullscreen: boolean; onToggle: () => void }) => (
+const ToolButton = (
+    { title, icon, label, onClick }: { title: string; icon?: string; label?: string; onClick: () => void },
+) => (
     <button
         type='button'
         className='ToolIcon_type_button ToolIcon_size_medium'
-        title={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-        onClick={onToggle}
+        title={title}
+        onClick={onClick}
         style={{
-            width: 36,
+            width: label ? 'auto' : 36,
             height: 36,
-            display: 'grid',
-            placeItems: 'center',
+            padding: label ? '0 12px' : 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 6,
             border: 'none',
             borderRadius: 'var(--border-radius-lg, 8px)',
             background: 'var(--island-bg-color)',
             color: 'var(--text-primary-color)',
-            cursor: 'pointer',
+            fontFamily: 'Excalifont',
+            fontSize: 16,
         }}
     >
-        <svg
-            width='16'
-            height='16'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-        >
-            <path d={fullscreen ? ICON.exit : ICON.enter} />
-        </svg>
+        {icon && (
+            <svg
+                width='16'
+                height='16'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+            >
+                <path d={icon} />
+            </svg>
+        )}
+        {label}
     </button>
 )
 
 const App = () => {
     const [scene, setScene] = useState<Scene | null>(null)
     const [isFullscreen, setIsFullscreen] = useState(false)
+    const [isDirty, setIsDirty] = useState(false)
 
     // excalidraw's onChange fires for non-edits too (load, selection, scroll).
     // track the scene version so we only notify the parent on real element mutations
-    // keeps its dirty flag honest.
     const versionRef = useRef<number | null>(null)
     const previewTimer = useRef<NodeJS.Timeout | undefined>(undefined)
 
@@ -80,9 +91,6 @@ const App = () => {
     useEffect(() => {
         const onMessage = (e: MessageEvent) => {
             if (e.data?.type !== 'excalidraw:init') return
-
-            // deno-lint-ignore no-explicit-any
-            versionRef.current = getSceneVersion(e.data.data.elements as any)
             setScene(e.data.data)
         }
 
@@ -117,7 +125,35 @@ const App = () => {
         <Excalidraw
             theme='dark'
             autoFocus
-            renderTopRightUI={() => <FullscreenButton fullscreen={isFullscreen} onToggle={toggleFullscreen} />}
+            renderTopRightUI={() => (
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    {isFullscreen && (isDirty
+                        ? (
+                            <ToolButton
+                                title='Save'
+                                icon={ICON.save}
+                                label='Save'
+                                onClick={() => {
+                                    post({ type: 'excalidraw:save' })
+                                    setIsDirty(false)
+                                }}
+                            />
+                        )
+                        : (
+                            <ToolButton
+                                title='Exit'
+                                icon={ICON.close}
+                                label='Exit'
+                                onClick={() => post({ type: 'excalidraw:exit' })}
+                            />
+                        ))}
+                    <ToolButton
+                        title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+                        icon={isFullscreen ? ICON.exit : ICON.enter}
+                        onClick={toggleFullscreen}
+                    />
+                </div>
+            )}
             excalidrawAPI={(api) => {
                 excalidrawRef.current = api
 
@@ -135,9 +171,15 @@ const App = () => {
             }}
             onChange={(elements, _appState, files) => {
                 const version = getSceneVersion(elements)
+
+                if (versionRef.current === null) {
+                    versionRef.current = version
+                    return
+                }
                 if (version === versionRef.current) return
 
                 versionRef.current = version
+                setIsDirty(true)
 
                 const live = elements.filter((el) => !el.isDeleted)
                 post({ type: 'excalidraw:change', data: { elements: live, files: { ...files } } })
