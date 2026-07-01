@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { isExcalidrawCard, TCard, TExcalidraw, TLabel } from '../types.ts'
@@ -176,23 +176,54 @@ const CardDrawingEditor = ({ content }: { content: TExcalidraw }) => {
     )
 }
 
+const editorStyle: React.CSSProperties = {
+    overflow: 'hidden auto',
+    backgroundColor: tc.surfaceRaised,
+    borderRadius: '0.8rem',
+    minHeight: '15.8rem',
+    maxHeight: '40rem',
+}
+
 const CardHTMLEditor = ({ content, sortableCheat }: { content: string; sortableCheat: string }) => {
+    const [isActive, setIsActive] = useState(false)
+
+    // for performance wise, we display static view until user hover it haha.  like why not
+    if (!isActive) {
+        return <CardHTMLPreview content={content} onMouseEnter={() => setIsActive(true)} />
+    }
+    return <CardHTMLEditorLive content={content} sortableCheat={sortableCheat} />
+}
+
+// mounting tiptap is expensive, this way we would boost the perf
+const CardHTMLPreview = ({ content, onMouseEnter }: { content: string; onMouseEnter?: () => void }) => {
+    const hasAccent = /[À-ž]/.test(content)
+    return (
+        <div
+            onMouseEnter={onMouseEnter}
+            style={{
+                ...editorStyle,
+                cursor: 'text',
+                fontSize: '1.3rem',
+                padding: '1.6rem 0.8rem',
+                wordBreak: 'break-word',
+            }}
+        >
+            <div
+                className='tiptap ProseMirror'
+                style={{ fontFamily: hasAccent ? 'Poppins' : 'Rumiko Clear' }}
+                dangerouslySetInnerHTML={{ __html: content }}
+            />
+        </div>
+    )
+}
+
+const CardHTMLEditorLive = ({ content, sortableCheat }: { content: string; sortableCheat: string }) => {
     const { editor } = useHTMLEditorInstance({
         content,
         shouldRerenderOnTransaction: true,
         onChange: ({ content }) => updateCard({ sortableCheat, fields: { content } }),
     })
 
-    return (
-        <HTMLEditor
-            editor={editor}
-            style={{
-                overflow: 'hidden auto',
-                backgroundColor: tc.surfaceRaised,
-                borderRadius: '0.8rem',
-                minHeight: '15.8rem',
-                maxHeight: '40rem',
-            }}
-        />
-    )
+    if (!editor) return <CardHTMLPreview content={content} />
+    return <HTMLEditor editor={editor} style={editorStyle} />
 }

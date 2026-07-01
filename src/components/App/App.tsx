@@ -32,7 +32,7 @@ const populateInitialBoards = async () => {
                 isInitialized: true,
             })
         } else {
-            let boards = (await StorageService.loadBoards()) || [BOARD1, BOARD2, BOARD3, BOARD4]
+            let boards = await StorageService.loadBoards() || []
             if (await isVersionOutdated()) boards = withIntroCard(boards)
             useBoardStore.setState({ boards, isInitialized: true })
         }

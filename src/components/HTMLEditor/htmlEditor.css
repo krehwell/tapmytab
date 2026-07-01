@@ -7,6 +7,9 @@
     outline: none;
     line-height: 1.45;
     min-height: 100px;
+    white-space: pre-wrap;
+    white-space: break-spaces;
+    word-wrap: break-word;
 }
 
 .tiptap:focus {
@@ -20,6 +23,13 @@
 /* Paragraphs */
 .tiptap p {
     margin: 0.8rem 0;
+}
+
+/* Empty <p> collapses in raw HTML; tiptap fills it with a trailing <br>, so the
+   editor's empty paragraphs aren't :empty. Give the static preview's empties a
+   line box to match. */
+.tiptap p:empty::after {
+    content: "\00a0";
 }
 
 /* Headings:  sized to sit between body (1.3rem) and the card title (2rem) */

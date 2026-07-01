@@ -46,7 +46,10 @@ test('inline edits on the board match the popup', async ({ page }) => {
 
     // edit the card's title and content inline, straight on the board
     await card.getByPlaceholder('Add Title...').fill('Groceries')
-    await card.locator('.tiptap').click()
+    // the inline editor is a static preview until hover mounts the live tiptap
+    await card.locator('.tiptap').hover()
+    const editor = card.locator('.tiptap[contenteditable="true"]')
+    await editor.click()
     await page.keyboard.insertText('buy oat milk')
     await page.waitForTimeout(200) // content onChange is debounced 100ms before it reaches the store
 
