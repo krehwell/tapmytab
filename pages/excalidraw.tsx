@@ -34,27 +34,26 @@ const ICON = {
 }
 
 const ToolButton = (
-    { title, icon, label, onClick }: { title: string; icon?: string; label?: string; onClick: () => void },
+    { title, icon, label, onClick, background }: {
+        title: string
+        icon?: string
+        label?: string
+        onClick: () => void
+        background?: string
+    },
 ) => (
-    <button
-        type='button'
-        className='ToolIcon_type_button ToolIcon_size_medium'
+    <div
         title={title}
+        aria-label={title}
+        className='dropdown-menu-button main-menu-trigger'
         onClick={onClick}
         style={{
-            width: label ? 'auto' : 36,
-            height: 36,
-            padding: label ? '0 12px' : 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            cursor: 'pointer',
             gap: 6,
-            border: 'none',
-            borderRadius: 'var(--border-radius-lg, 8px)',
-            background: 'var(--island-bg-color)',
-            color: 'var(--text-primary-color)',
             fontFamily: 'Excalifont',
-            fontSize: 16,
+            fontSize: 14,
+            background,
+            ...(label ? { width: 'auto', padding: '0 12px' } : null),
         }}
     >
         {icon && (
@@ -72,7 +71,7 @@ const ToolButton = (
             </svg>
         )}
         {label}
-    </button>
+    </div>
 )
 
 const App = () => {
@@ -133,6 +132,7 @@ const App = () => {
                                 title='Save'
                                 icon={ICON.save}
                                 label='Save'
+                                background='var(--color-surface-primary-container)'
                                 onClick={() => {
                                     post({ type: 'excalidraw:save' })
                                     setIsDirty(false)
