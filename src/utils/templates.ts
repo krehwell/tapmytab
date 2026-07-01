@@ -211,14 +211,14 @@ const FLOW_DRAWING: TExcalidraw = {
 }
 
 export const CARD1 = card('card1', 'Start here', WELCOME, 'A 30-second tour', TLabel.Green)
-export const CARD2 = card('card2', 'Errands 🛒', ERRANDS, 'Little things to knock out', TLabel.Yellow)
+export const CARD2 = card('card2', 'Errands 🛒', ERRANDS, 'Little things to knock out', TLabel.No)
 export const CARD3 = card('card3', 'Daily habits 💪', HABITS, 'Keep the streak alive', TLabel.Red)
-export const CARD4 = card('card4', 'Learning 📚', LEARNING, 'Level up a little each day', TLabel.Blue)
+export const CARD4 = card('card4', 'Learning 📚', LEARNING, 'Level up a little each day', TLabel.No)
 export const CARD5 = {
     ...card('card5', 'Japan itinerary 🗾', JP_ITINERARY, 'Where to go', TLabel.Blue),
     dueDate: '2027-04-01',
 }
-export const CARD6 = card('card6', 'Packing 🎒', JP_PACKING, "Don't forget", TLabel.Yellow)
+export const CARD6 = card('card6', 'Packing 🎒', JP_PACKING, "Don't forget", TLabel.No)
 export const CARD7 = card('card7', 'Must-eat list 🍣', JP_EATS, 'Hungry yet?', TLabel.Red)
 
 // excalidraw card: content is the scene object instead of html

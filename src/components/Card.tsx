@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { isExcalidrawCard, TCard, TExcalidraw } from '../types.ts'
+import { isExcalidrawCard, TCard, TExcalidraw, TLabel } from '../types.ts'
 import { Flex, FlexColumn, FlexColumnJustifyCenter, FlexRowAlignCenter } from './Flex/index.tsx'
 import { HTMLEditor, useHTMLEditorInstance } from './HTMLEditor/index.ts'
 import { tc } from '../utils/themeColors.ts'
@@ -129,7 +129,7 @@ export const Card = ({
                     {card.desc}
                 </p>
                 <FlexRowAlignCenter>
-                    {card.label && <Label label={card.label} />}
+                    {card.label && card.label !== TLabel.No && <Label label={card.label} />}
                     {card?.dueDate && <Due initialDueDate={card.dueDate} key={card.dueDate} />}
                 </FlexRowAlignCenter>
             </FlexColumn>

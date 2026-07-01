@@ -23,19 +23,3 @@ export const getColorFromLabel = ({ label }: { label: TLabel }) => {
             return 'transparent'
     }
 }
-
-export const cycleNextLabel = ({ label }: { label?: TLabel }) => {
-    switch (label) {
-        case TLabel.Red:
-            return TLabel.Green
-        case TLabel.Green:
-            return TLabel.Blue
-        case TLabel.Blue:
-            return TLabel.Yellow
-        case TLabel.Yellow:
-            return TLabel.No
-        case TLabel.No:
-        default:
-            return TLabel.Red
-    }
-}
