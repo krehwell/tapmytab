@@ -177,6 +177,16 @@
     border: none;
     border-top: 2px solid var(--surface-base);
     margin: 1.6rem 0;
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.tiptap hr:hover {
+    border-top-color: var(--surface-strong);
+}
+
+.tiptap.ProseMirror-focused hr.ProseMirror-selectednode {
+    border-top-color: var(--selection);
 }
 
 /* Inline marks */

@@ -50,6 +50,7 @@ const HABITS = `
 <li>🏃 30-min walk</li>
 <li>📖 Read 10 pages</li>
 </ul>
+<hr>
 <p><strong>🔥 5-day streak</strong></p>
 `
 

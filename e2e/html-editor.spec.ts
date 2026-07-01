@@ -58,6 +58,25 @@ test('editing a link name keeps it a link', async ({ page }) => {
     await expect(link).toHaveAttribute('href', 'https://youtube.com')
 })
 
+test('add, select, and delete a horizontal rule', async ({ page }) => {
+    const [dialog, editor] = await openEditor(page, 'Rule')
+    await editor.click()
+
+    // add
+    await dialog.getByTitle('Horizontal Rule', { exact: true }).click()
+    await expect(editor.locator('hr')).toHaveCount(1)
+
+    // click to select it (node selection), then delete
+    await editor.locator('hr').click()
+    await expect(editor.locator('hr.ProseMirror-selectednode')).toBeVisible()
+    await page.keyboard.press('Backspace')
+    await expect(editor.locator('hr')).toHaveCount(0)
+
+    // add again
+    await dialog.getByTitle('Horizontal Rule', { exact: true }).click()
+    await expect(editor.locator('hr')).toHaveCount(1)
+})
+
 test('make a bullet list', async ({ page }) => {
     const [dialog, editor] = await openEditor(page, 'List')
     await editor.click()

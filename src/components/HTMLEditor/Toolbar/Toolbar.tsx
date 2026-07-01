@@ -6,6 +6,7 @@ import {
     BracketsCurly,
     Code,
     Image as ImageIcon,
+    Minus,
     TextBolder,
     TextItalic,
 } from '@phosphor-icons/react'
@@ -85,6 +86,11 @@ export const Toolbar = ({ editor }: { editor: TiptapEditor }) => {
                 onClick={() => {
                     editor.chain().focus().toggleCodeBlock().run()
                 }}
+            />
+            <ToolbarBtn
+                title='Horizontal Rule'
+                Icon={Minus}
+                onClick={() => editor.chain().focus().setHorizontalRule().run()}
             />
             <ToolbarBtn
                 title='Image'
