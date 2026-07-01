@@ -27,8 +27,8 @@ Effortless Kanban, drag-and-drop magic right from your browser tab! 🎨✨
 -  🔒 Fully local and private:  your data stays on your device. No cloud account, tracking, or internet connection required.
 -  🪶 Tiny and lightweight:  ~2 MB, no unnecessary bloat.
 -  ♾️ No artificial limits:  create as many boards and cards as you need, stored locally.
--  🌟 open source:  if you think it's a feature?
--  🔎 Searchable tasks:  Find all tasks easily with fuzzy search tool built-in
+-  🌟 Open Source:  if you think it's a feature?
+-  🔎 Searchable tasks:  find all tasks easily with fuzzy search tool built-in
 -  🦊 Works across browsers:  available on Chrome & Firefox
 
 ## 📦 Installation
