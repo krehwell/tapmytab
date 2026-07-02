@@ -110,12 +110,20 @@ const App = () => {
         }
     }, [])
 
-    // fullscreen is CSS-driven by the parent (so Esc can't exit it like the native API).
+    // you might be thinking this is dumb, but this is to fix stuttering looks when the excalidraw is opened/fullscreen-toggled
+    const withFakeTransition = (cb: () => void, timeoutMs: number) => {
+        document.body.style.opacity = '0'
+        setTimeout(cb, 10)
+        setTimeout(() => document.body.style.opacity = '1', timeoutMs)
+    }
+
     const toggleFullscreen = () => {
-        setIsFullscreen((f) => {
-            post({ type: 'excalidraw:fullscreen', value: !f })
-            return !f
-        })
+        withFakeTransition(() => {
+            setIsFullscreen((f) => {
+                post({ type: 'excalidraw:fullscreen', value: !f })
+                return !f
+            })
+        }, 50)
     }
 
     if (!scene) return null
@@ -156,11 +164,7 @@ const App = () => {
             )}
             excalidrawAPI={(api) => {
                 excalidrawRef.current = api
-
-                // you might be thinking this is dumb, but this is to fix stuttering looks when the excalidraw is opened
-                document.body.style.opacity = '0'
-                setTimeout(() => api.scrollToContent(undefined, { fitToContent: true }), 10)
-                setTimeout(() => document.body.style.opacity = '1', 35)
+                withFakeTransition(() => api.scrollToContent(undefined, { fitToContent: true }), 20)
             }}
             initialData={{
                 // deno-lint-ignore no-explicit-any
