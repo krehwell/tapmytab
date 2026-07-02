@@ -42,15 +42,19 @@ const measure = async (page: Page, spec: string): Promise<Sample> => {
 test('first card shows up fast, no matter how many cards there are', async ({ page }) => {
     test.setTimeout(180_000)
 
-    // just to prevent cold start for the actual test below it
-    await measure(page, '100x100')
-
     const samples: Sample[] = []
-    for (const spec of ['5x4', '20x10', '40x20']) {
+    for (const spec of ['2x2', '3x3', '5x4', '20x10', '40x20']) {
         samples.push(await measure(page, spec))
     }
 
-    console.table(samples)
+    const round = (n: number | null) => (n === null ? null : Math.round(n))
+    console.table(samples.map((s) => ({
+        'dataset (boards×cards)': s.spec,
+        'cards rendered': s.cards,
+        'first card visible (ms)': s.firstCardMs,
+        'browser first paint (ms)': round(s.fcpMs),
+        'page load event (ms)': round(s.loadMs),
+    })))
 
     const biggest = samples[samples.length - 1]
     expect(biggest.firstCardMs).toBeLessThan(30_000)
