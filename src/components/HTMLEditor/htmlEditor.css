@@ -233,3 +233,7 @@
 .tiptap ::selection {
     background: var(--selection);
 }
+
+.ProseMirror-gapcursor:after {
+    border-color: var(--text-primary) !important;
+}
