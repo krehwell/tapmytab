@@ -21,6 +21,7 @@ Effortless Kanban, drag-and-drop magic right from your browser tab! 🎨✨
 -  🎯 Drag, drop, and reorder freely:  move cards across columns and boards with zero friction.
 -  🎨 Sketch ideas visually:  draw diagrams, flows, and rough concepts when text is not enough.
 -  📝 Write your way:  full Markdown and rich-text support for clean notes, detailed cards, and better formatting.
+-  🔎 Searchable tasks:  find all tasks easily with fuzzy search tool built-in
 -  🏷️ Stay organized:  use custom tags, filters, and due dates to find what matters and keep deadlines visible.
 -  🔄 Sync across tabs:  changes made in one tab appear everywhere else instantly.
 -  💾 Keep your data portable:  export or import boards whenever you want to back up, move, or archive them.
@@ -28,7 +29,6 @@ Effortless Kanban, drag-and-drop magic right from your browser tab! 🎨✨
 -  🪶 Tiny and lightweight:  ~2 MB, no unnecessary bloat.
 -  ♾️ No artificial limits:  create as many boards and cards as you need, stored locally.
 -  🌟 Open Source:  if you think it's a feature?
--  🔎 Searchable tasks:  find all tasks easily with fuzzy search tool built-in
 -  🦊 Works across browsers:  available on Chrome & Firefox
 
 ## 📦 Installation
