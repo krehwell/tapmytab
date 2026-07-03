@@ -1,5 +1,5 @@
 {
-    "version": "1.8.14",
+    "version": "1.8.16",
     "private": true,
     "tasks": {
         "dev": "vite",
@@ -11,7 +11,8 @@
         "zip:firefox": "deno task build:firefox && rm -f tapmytab-firefox.zip && cd dist && zip -r ../tapmytab-firefox.zip . -x '.vite/*' && cd ..",
         "zip": "deno task zip:chrome && deno task zip:firefox",
         "test": "npx playwright test",
-        "test:ui": "npx playwright test --ui"
+        "test:ui": "npx playwright test --ui",
+        "bump": "deno run --allow-read --allow-write scripts/bump.ts"
     },
     "nodeModulesDir": "auto",
     "compilerOptions": {
