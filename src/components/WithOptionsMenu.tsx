@@ -10,6 +10,7 @@ export type WithMenuOption =
         node?: React.ReactNode
         hide?: boolean
         disabled?: boolean
+        keepOpen?: boolean
         onClick?: (e: React.MouseEvent) => void
     }
 
@@ -116,7 +117,7 @@ export const WithOptionsMenu = (
                             key={String(option.label) + i}
                             onClick={(e) => {
                                 option?.onClick?.(e)
-                                handleClose()
+                                if (!option.keepOpen) handleClose()
                             }}
                         >
                             {option?.node || option?.label}

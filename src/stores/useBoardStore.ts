@@ -12,6 +12,7 @@ type BoardStore = {
     changeBoardName: (props: { idx: number; name: string }) => void
     deleteBoard: (props: { idx: number }) => void
     duplicateBoard: (props: { idx: number }) => void
+    moveBoard: (props: { idx: number; dir: -1 | 1 }) => void
     swapCardPos: (props: {
         boardIdx: number
         currIdx: number
@@ -70,6 +71,11 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
         const boards = [...get().boards]
         boards.splice(idx, 1)
         set({ boards })
+    },
+    moveBoard: ({ idx, dir }) => {
+        const newIdx = idx + dir
+        if (newIdx < 0 || newIdx >= get().boards.length) return
+        set({ boards: arrayMove(get().boards, idx, newIdx) })
     },
     swapCardPos: ({ boardIdx, currIdx, newIdx }) => {
         const boards = [...get().boards]

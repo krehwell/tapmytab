@@ -7,7 +7,7 @@ import { TBoard } from '../types.ts'
 import { Flex, FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
 import { Button } from './Button.tsx'
 import { tc } from '../utils/themeColors.ts'
-import { Copy, DotsThree, PencilSimpleLine, Plus, Smiley, Trash } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowRight, Copy, DotsThree, PencilSimpleLine, Plus, Smiley, Trash } from '@phosphor-icons/react'
 import TextareaAutosize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
 import { WithMenuOption, WithOptionsMenu } from './WithOptionsMenu.tsx'
 import { createSortableCheat } from '../utils/dndIdManager.ts'
@@ -186,6 +186,8 @@ const BoardOptions = (
     const addNewCard = useBoardStore((s) => s.addNewCard)
     const deleteBoard = useBoardStore((s) => s.deleteBoard)
     const duplicateBoard = useBoardStore((s) => s.duplicateBoard)
+    const moveBoard = useBoardStore((s) => s.moveBoard)
+    const boardCount = useBoardStore((s) => s.boards.length)
 
     const options: WithMenuOption[] = [
         {
@@ -213,6 +215,28 @@ const BoardOptions = (
             node: (
                 <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
                     <Smiley size={12} /> Emojify
+                </FlexRowAlignCenter>
+            ),
+        },
+        {
+            label: 'Move Left',
+            hide: index === 0,
+            keepOpen: true,
+            onClick: () => moveBoard({ idx: index, dir: -1 }),
+            node: (
+                <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
+                    <ArrowLeft size={12} /> Move Left
+                </FlexRowAlignCenter>
+            ),
+        },
+        {
+            label: 'Move Right',
+            hide: index === boardCount - 1,
+            keepOpen: true,
+            onClick: () => moveBoard({ idx: index, dir: 1 }),
+            node: (
+                <FlexRowAlignCenter style={{ gap: '0.8rem', color: 'inherit' }}>
+                    <ArrowRight size={12} /> Move Right
                 </FlexRowAlignCenter>
             ),
         },
