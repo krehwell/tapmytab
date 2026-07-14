@@ -200,10 +200,10 @@
             font-size: 8px;
             background: transparent;
             box-shadow:
-                2em 2em 0 #ffaead, 4em 2em 0 #caffbf, 6em 2em 0 #9bf6ff,
+                2em 1em 0 -0.25em #ffaead, 4em 1em 0 -0.25em #caffbf, 6em 1em 0 -0.25em #9bf6ff,
                 2em 0 var(--cloud), 3em 0 var(--cloud), 4em 0 var(--cloud), 5em 0 var(--cloud),
                 1em 1em 0 var(--cloud), 2em 1em 0 var(--cloud), 3em 1em 0 var(--cloud), 4em 1em 0 var(--cloud), 5em 1em 0 var(--cloud), 6em 1em 0 var(--cloud),
-                0 2em 0 var(--cloud), 1em 2em 0 var(--cloud), 3em 2em 0 var(--cloud), 5em 2em 0 var(--cloud), 7em 2em 0 var(--cloud);
+                0 2em 0 var(--cloud), 1em 2em 0 var(--cloud), 2em 2em 0 var(--cloud), 3em 2em 0 var(--cloud), 4em 2em 0 var(--cloud), 5em 2em 0 var(--cloud), 6em 2em 0 var(--cloud), 7em 2em 0 var(--cloud);
         }
         .sparkle {
             position: absolute;
@@ -250,31 +250,8 @@
             white-space: nowrap;
             overflow: hidden;
         }
-        .demo-body { position: relative; height: min(68vh, 620px); background: #2c3034; }
-        .demo-body iframe { width: 100%; height: 100%; border: 0; display: block; }
-        .demo-cover {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 22px;
-            background: #24272a url('./img/demo-cover.png') top center / cover no-repeat;
-            cursor: pointer;
-            border: 0;
-            width: 100%;
-            padding: 0;
-        }
-        .demo-cover::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(20, 22, 25, 0.3);
-        }
-        .demo-cover > * { position: relative; z-index: 1; }
-        .demo-cover .keycap { font-size: 22px; padding: 14px 26px 18px; }
-        .demo-cover .note { color: #eaecef; font-size: 20px; text-shadow: 1px 1px 0 #000; }
+        .demo-body { background: #2c3034; }
+        .demo-body img { display: block; width: 100%; height: auto; }
         .demo-hint { text-align: center; margin-top: 22px; }
 
         .ground {
@@ -455,15 +432,10 @@
                         <span class="url">⌂ newtab / tapmytab</span>
                     </div>
                     <div class="demo-body">
-                        <!-- data-src: URL where the app build (dist/) is hosted, must be at that host's root -->
-                        <iframe id="appFrame" data-src="" title="tapmytab live demo" loading="lazy"></iframe>
-                        <button class="demo-cover" id="demoCover">
-                            <span class="keycap green">▶ try it right here</span>
-                            <span class="note">this is the actual extension, not a video</span>
-                        </button>
+                        <img src="./img/demo-cover.png" alt="the tapmytab default board: TODO, Doing, Trip to Japan and Sketches columns with starter cards" />
                     </div>
                 </div>
-                <p class="note demo-hint">↑ go on, drag a card around. make a mess. it's yours.</p>
+                <p class="note demo-hint">↑ every new tab opens straight into this. no setup, no account.</p>
             </div>
         </div>
         <div class="stamp" style="bottom: -6px; left: 9%; transform: rotate(-4deg)">
@@ -507,7 +479,7 @@
                 </p>
             </div>
             <div class="feature-viz panel">
-                <img src="./img/drag.png" alt="the tapmytab board: TODO, Doing and Trip to Japan columns full of cards" loading="lazy" />
+                <img src="./img/drag.png" alt="dragging a card mid-air from the making board into shipped, drop slot showing" loading="lazy" />
                 <span class="note viz-note">actual screenshot, actual pixels ↑</span>
             </div>
         </div>
@@ -534,7 +506,7 @@
                 </p>
             </div>
             <div class="feature-viz panel slim">
-                <img src="./img/markdown.png" alt="a tapmytab card with rich text: headings, lists, links and a tip quote" loading="lazy" />
+                <img src="./img/markdown.png" alt="a ramen recipe card showing headings, bold and italic text, numbered steps, a checklist and a quote with inline code" loading="lazy" />
             </div>
         </div>
 
@@ -630,17 +602,6 @@
             toggle.textContent = dark ? '🌙' : '☀️'
         })
 
-        const cover = document.getElementById('demoCover')
-        const frame = document.getElementById('appFrame')
-        cover.addEventListener('click', () => {
-            if (!frame.dataset.src) {
-                cover.querySelector('.keycap').textContent = 'demo coming soon 🦕'
-                cover.querySelector('.note').textContent = 'set data-src on the iframe to the hosted app URL'
-                return
-            }
-            frame.src = frame.dataset.src
-            cover.remove()
-        })
     </script>
 </body>
 </html>
