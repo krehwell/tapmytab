@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tapmytab, effortless kanban in your new tab</title>
+    <meta name="description" content="tapmytab turns every new browser tab into a kanban board. notes, sketches, drag-and-drop cards. local, tiny, free." />
+    <link rel="icon" type="image/png" sizes="32x32" href="./tab-icon-32x32.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet" />
+    <style>
+        @font-face {
+            font-family: 'Rumiko Clear';
+            src: url('./fonts/RumikoClearDemo-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Rumiko Clear';
+            src: url('./fonts/RumikoClearDemo-Bold.otf') format('opentype');
+            font-weight: 700;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Excalifont';
+            src: url('./fonts/Excalifont-Regular.woff2') format('woff2');
+            font-display: swap;
+        }
+
+        :root {
+            --bg: #f5f0e4;
+            --surface: #fffaf0;
+            --surface-2: #f0e9d8;
+            --text: #33322c;
+            --text-soft: #6d6959;
+            --line: #33322c;
+            --cloud: #e9e2cf;
+
+            --red: #ffaead;
+            --green: #caffbf;
+            --blue: #9bf6ff;
+            --orange: #fed7a5;
+            --red-deep: #d9534e;
+            --green-deep: #4f9e4f;
+            --blue-deep: #2c62af;
+            --orange-deep: #c97f28;
+
+            --chip-ink: #33322c;
+            --checker: rgba(51, 50, 44, 0.04);
+        }
+        [data-theme='dark'] {
+            --bg: #24272a;
+            --surface: #2c3034;
+            --surface-2: #34393e;
+            --text: #f8f9fa;
+            --text-soft: #9ca3af;
+            --line: #15171a;
+            --cloud: #383e44;
+            --blue-deep: #99c8ff;
+            --green-deep: #9de08f;
+            --red-deep: #ff8a87;
+            --orange-deep: #fed7a5;
+            --checker: rgba(255, 255, 255, 0.025);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            font-family: 'Rumiko Clear', 'Comic Sans MS', system-ui, sans-serif;
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            background-image:
+                repeating-linear-gradient(0deg, var(--checker) 0 2px, transparent 2px 24px),
+                repeating-linear-gradient(90deg, var(--checker) 0 2px, transparent 2px 24px);
+            transition: background-color 0.2s, color 0.2s;
+            overflow-x: hidden;
+        }
+        h1, h2, h3 {
+            font-family: 'Pixelify Sans', monospace;
+            line-height: 1.15;
+            margin: 0;
+            font-weight: 700;
+            font-variant-ligatures: none;
+        }
+        p { margin: 0; }
+        a { color: var(--blue-deep); }
+        img.px { image-rendering: pixelated; }
+
+        .wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+
+        /* ===== pixel building blocks ===== */
+        .keycap {
+            display: inline-block;
+            border: 3px solid var(--line);
+            background: var(--surface);
+            box-shadow: 5px 5px 0 var(--line), inset 0 -6px 0 rgba(0, 0, 0, 0.12);
+            padding: 10px 18px 14px;
+            color: var(--chip-ink);
+            text-decoration: none;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.06s, box-shadow 0.06s;
+            user-select: none;
+        }
+        .keycap:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--line), inset 0 -6px 0 rgba(0, 0, 0, 0.12); }
+        .keycap:active { transform: translate(5px, 5px); box-shadow: 0 0 0 var(--line), inset 0 -3px 0 rgba(0, 0, 0, 0.12); }
+        .keycap.red { background: var(--red); }
+        .keycap.green { background: var(--green); }
+        .keycap.blue { background: var(--blue); }
+        .keycap.orange { background: var(--orange); }
+
+        .panel {
+            border: 3px solid var(--line);
+            background: var(--surface);
+            box-shadow: 7px 7px 0 var(--line);
+        }
+
+        .note {
+            font-family: 'Excalifont', cursive;
+            color: var(--text-soft);
+            font-size: 18px;
+        }
+
+        /* ===== nav ===== */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg);
+            border-bottom: 3px solid var(--line);
+        }
+        nav .wrap {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            margin-right: auto;
+        }
+        .brand svg { height: 22px; width: auto; display: block; }
+        nav a.navlink {
+            color: var(--text);
+            text-decoration: none;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 17px;
+        }
+        nav a.navlink:hover { color: var(--green-deep); }
+        #themeToggle {
+            font-size: 15px;
+            padding: 5px 10px 8px;
+            box-shadow: 3px 3px 0 var(--line), inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+        }
+        #themeToggle:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0 var(--line), inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+        }
+        #themeToggle:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0 0 0 var(--line), inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+        }
+
+        /* ===== hero ===== */
+        header { position: relative; padding: 64px 0 0; }
+        .hero-copy { text-align: center; position: relative; z-index: 2; }
+        .hero-copy h1 {
+            font-size: clamp(34px, 6vw, 62px);
+            max-width: 17ch;
+            margin: 0 auto;
+        }
+        .hero-copy h1 .hl-green { color: var(--green-deep); }
+        .hero-copy h1 .hl-red { color: var(--red-deep); }
+        .hero-copy .sub {
+            margin: 18px auto 0;
+            max-width: 52ch;
+            font-size: 19px;
+            color: var(--text-soft);
+        }
+        .store-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .pxcloud {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            font-size: 8px;
+            background: transparent;
+            box-shadow:
+                2em 2em 0 #ffaead, 4em 2em 0 #caffbf, 6em 2em 0 #9bf6ff,
+                2em 0 var(--cloud), 3em 0 var(--cloud), 4em 0 var(--cloud), 5em 0 var(--cloud),
+                1em 1em 0 var(--cloud), 2em 1em 0 var(--cloud), 3em 1em 0 var(--cloud), 4em 1em 0 var(--cloud), 5em 1em 0 var(--cloud), 6em 1em 0 var(--cloud),
+                0 2em 0 var(--cloud), 1em 2em 0 var(--cloud), 3em 2em 0 var(--cloud), 5em 2em 0 var(--cloud), 7em 2em 0 var(--cloud);
+        }
+        .sparkle {
+            position: absolute;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 22px;
+            pointer-events: none;
+        }
+
+        /* ===== demo ===== */
+        .demo-zone { position: relative; margin-top: 56px; }
+        .demo-dino {
+            position: absolute;
+            top: -108px;
+            right: 4%;
+            width: 130px;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .browser {
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+        .browser-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-bottom: 3px solid var(--line);
+            background: var(--surface-2);
+        }
+        .browser-bar .dot { width: 12px; height: 12px; border: 2px solid var(--line); }
+        .dot.d1 { background: var(--red); }
+        .dot.d2 { background: var(--orange); }
+        .dot.d3 { background: var(--green); }
+        .browser-bar .url {
+            flex: 1;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 15px;
+            color: var(--text-soft);
+            background: var(--surface);
+            border: 2px solid var(--line);
+            padding: 3px 12px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .demo-body { position: relative; height: min(68vh, 620px); background: #2c3034; }
+        .demo-body iframe { width: 100%; height: 100%; border: 0; display: block; }
+        .demo-cover {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+            background: #24272a url('./img/demo-cover.png') top center / cover no-repeat;
+            cursor: pointer;
+            border: 0;
+            width: 100%;
+            padding: 0;
+        }
+        .demo-cover::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(20, 22, 25, 0.3);
+        }
+        .demo-cover > * { position: relative; z-index: 1; }
+        .demo-cover .keycap { font-size: 22px; padding: 14px 26px 18px; }
+        .demo-cover .note { color: #eaecef; font-size: 20px; text-shadow: 1px 1px 0 #000; }
+        .demo-hint { text-align: center; margin-top: 22px; }
+
+        .ground {
+            display: flex;
+            justify-content: center;
+            margin-top: -6px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .ground svg { flex: 0 0 auto; }
+
+        /* ===== features ===== */
+        section.features { padding-top: 90px; padding-bottom: 30px; }
+        .section-title {
+            text-align: center;
+            font-size: clamp(28px, 4.5vw, 42px);
+            margin-bottom: 8px;
+        }
+        .section-sub { text-align: center; color: var(--text-soft); margin-bottom: 60px; }
+
+        .feature {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 56px;
+            align-items: center;
+            padding: 44px 0;
+        }
+        .feature:nth-child(even) .feature-viz { order: -1; }
+        .feature h3 { font-size: clamp(24px, 3vw, 32px); margin-bottom: 14px; }
+        .feature h3 .tag {
+            display: inline-block;
+            font-size: 14px;
+            padding: 2px 10px 4px;
+            border: 2px solid var(--line);
+            box-shadow: 3px 3px 0 var(--line);
+            vertical-align: middle;
+            margin-left: 10px;
+            color: var(--chip-ink);
+        }
+        .feature p { color: var(--text-soft); max-width: 44ch; }
+        .feature-viz { position: relative; }
+        .feature-viz img { display: block; width: 100%; height: auto; max-height: 440px; object-fit: cover; object-position: top; }
+        .feature-viz.slim { width: min(270px, 100%); justify-self: center; }
+        .feature-viz.slim img { max-height: none; }
+        .viz-note { position: absolute; bottom: -36px; right: 10px; transform: rotate(-2deg); }
+
+        .stamp {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transform: rotate(3deg);
+            width: 130px;
+            text-align: center;
+        }
+        .stamp img {
+            width: 52px;
+            height: 52px;
+            border: 2px solid var(--line);
+            box-shadow: 3px 3px 0 var(--line);
+        }
+        .stamp .note { font-size: 15px; line-height: 1.3; }
+        @media (max-width: 1100px) {
+            .stamp { display: none; }
+        }
+
+        /* ===== badges ===== */
+        section.badges { padding-top: 60px; padding-bottom: 80px; }
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 26px;
+            margin-top: 46px;
+        }
+        .badge {
+            padding: 20px;
+            text-align: left;
+        }
+        .badge .big {
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 24px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .badge p { color: var(--text-soft); font-size: 15px; }
+
+        /* ===== cta + footer ===== */
+        section.cta { text-align: center; padding: 40px 1.2rem 90px; position: relative; }
+        section.cta h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 26px; }
+        footer {
+            border-top: 3px solid var(--line);
+            padding: 26px 0 34px;
+            text-align: center;
+            color: var(--text-soft);
+            font-size: 15px;
+        }
+        footer a { color: var(--text); }
+
+        @media (max-width: 760px) {
+            .wrap { padding-left: 1.2rem; padding-right: 1.2rem; }
+            .feature { grid-template-columns: 1fr; gap: 30px; padding: 34px 0; }
+            .feature:nth-child(even) .feature-viz { order: 0; }
+            .demo-dino { width: 92px; top: -76px; }
+            nav a.navlink.hide-sm { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="grass-tile" viewBox="0 0 64 56">
+            <g shape-rendering="crispEdges">
+                <polygon points="32,0 64,16 32,32 0,16" fill="#7bb661" />
+                <polygon points="0,16 32,32 32,56 0,40" fill="#5d4a36" />
+                <polygon points="64,16 32,32 32,56 64,40" fill="#4a3b2b" />
+                <rect x="30" y="10" width="4" height="4" fill="#a5d68a" />
+                <rect x="18" y="16" width="4" height="4" fill="#fffaf0" />
+                <rect x="44" y="18" width="4" height="4" fill="#a5d68a" />
+                <rect x="10" y="34" width="4" height="6" fill="#3d3122" />
+                <rect x="50" y="36" width="4" height="6" fill="#3d3122" />
+            </g>
+        </symbol>
+    </svg>
+
+    <nav>
+        <div class="wrap">
+            <a class="brand" href="#top">
+                <svg viewBox="0 0 2206.98 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="tapmytab">
+                    <g transform="translate(0,447) scale(0.122,-0.1)">
+                        <path fill="var(--text)" d="M447 4432 l-28 -37 6 -235 6 -235 3 -115 4 -115 -14 -27 -15 -28 -178 0 -179 0 -12 -15 -12 -15 -14 0 -14 0 0 -348 0 -348 31 -18 31 -18 158 7 157 7 21 -11 21 -11 5 -43 6 -42 3 -639 4 -640 -11 -28 -10 -28 22 -23 23 -22 118 3 118 4 16 -26 17 -25 0 -140 0 -140 30 -21 31 -22 31 11 31 11 374 0 373 0 18 -11 18 -11 34 19 35 20 2 154 2 154 6 203 7 204 -23 25 -24 24 -216 -2 -216 -2 -11 7 -12 7 0 503 0 502 12 12 12 12 207 0 207 0 22 18 22 18 4 254 4 255 1 20 1 20 -7 75 -8 75 -10 13 -9 12 -229 0 -228 0 -7 12 -8 13 -3 380 -4 380 -5 23 -4 22 -358 0 -357 -1 -28 -37z" />
+                        <path fill="var(--text)" d="M2179 3623 l-14 -16 4 -159 3 -159 -17 -20 -18 -19 -103 0 -103 0 -25 -10 -26 -10 2 -912 3 -913 115 -3 115 -3 28 -27 28 -27 -5 -105 -5 -105 -6 -26 -7 -25 17 -14 17 -14 472 3 471 3 7 4 8 5 0 143 0 143 23 21 23 22 88 0 88 0 30 -21 30 -22 -3 -143 -4 -144 17 -17 17 -17 113 13 113 13 195 -3 195 -4 23 13 22 13 0 1068 0 1068 -18 16 -19 17 -129 0 -130 0 -12 12 -12 12 0 166 0 167 -18 16 -19 17 -780 0 -781 0 -13 -17z m1270 -747 l11 -14 -2 -233 -3 -234 -110 -7 -110 -7 -327 -5 -327 -5 -30 15 -31 15 -2 215 -1 214 -1 17 -1 17 25 13 25 13 436 0 437 0 11 -14z" />
+                        <path fill="var(--text)" d="M4307 3633 l-7 -6 0 -1779 0 -1778 26 -10 25 -10 322 0 323 0 22 16 22 15 0 468 0 469 15 12 15 12 202 4 203 4 258 4 258 4 14 12 15 12 0 143 0 144 32 15 31 16 107 0 107 0 16 18 17 19 0 21 0 21 -11 6 -10 7 2 867 2 868 -7 11 -7 12 -134 0 -134 0 -7 12 -7 11 2 165 2 164 -17 19 -17 19 -837 0 -837 0 -6 -7z m1345 -760 l18 -16 0 -212 0 -212 -24 -22 -24 -22 -302 0 -303 0 -9 9 -8 8 2 235 3 234 35 6 35 6 279 2 279 1 19 -17z" />
+                        <path fill="var(--text)" d="M6517 3622 l-17 -19 0 -1261 0 -1262 44 -21 45 -21 20 11 20 11 265 0 265 0 6 -10 6 -10 17 0 18 0 34 29 34 28 -11 26 -12 26 -1 852 -1 852 17 18 17 19 92 0 93 0 16 -25 16 -24 0 -885 0 -885 10 -6 10 -6 341 -1 340 -1 21 21 22 21 -12 26 -12 25 12 44 12 44 -12 40 -12 39 0 776 0 776 13 8 12 8 105 1 105 1 13 -10 12 -9 0 -894 0 -893 31 -22 32 -22 44 11 43 12 293 0 293 0 12 12 12 12 0 1071 0 1071 -12 12 -12 12 -116 0 -117 0 -16 18 -17 19 0 164 0 165 -12 12 -12 12 -1196 0 -1197 0 -16 -18z" />
+                        <path fill="var(--text)" d="M9457 3622 l-17 -19 0 -1095 0 -1095 18 -16 19 -17 16 0 16 0 6 10 6 10 93 0 93 0 21 -23 22 -23 0 -152 0 -151 12 -7 12 -8 419 3 419 3 19 -18 19 -17 0 -64 0 -63 13 -21 12 -20 -33 -30 -32 -29 -420 0 -420 0 -16 -25 -16 -24 -3 -347 -3 -347 11 -18 12 -19 660 0 660 1 16 22 15 22 -6 130 -6 130 14 23 14 22 159 0 160 0 5 15 6 15 -13 17 -14 16 -1 1386 -1 1386 7 205 7 205 -20 23 -20 22 -352 0 -352 0 -20 -22 -21 -23 -4 -285 -3 -285 4 -565 4 -565 -7 -23 -7 -22 -22 -12 -22 -12 -164 -2 -165 -3 -13 11 -13 10 0 883 0 882 -18 16 -19 17 -365 0 -365 0 -16 -18z" />
+                        <path fill="var(--text)" d="M12055 4453 l-7 -18 2 -379 1 -378 -17 -19 -17 -19 -182 0 -182 0 -18 -20 -18 -19 7 -243 6 -243 6 -112 7 -113 12 -10 11 -10 85 10 84 10 77 0 76 0 31 -26 30 -25 1 -710 0 -711 5 -8 5 -8 123 2 124 1 16 -14 17 -13 0 -140 0 -139 16 -30 15 -30 132 6 132 6 340 6 340 5 13 10 12 10 0 368 0 368 -15 12 -15 12 -27 -7 -28 -7 -177 -2 -177 -2 -21 16 -21 16 0 504 0 503 8 8 8 7 218 6 219 5 14 12 14 11 0 353 0 353 -13 11 -14 11 -239 2 -239 3 -5 385 -5 386 -21 27 -22 27 -360 0 -360 0 -7 -17z" />
+                        <path fill="var(--text)" d="M16025 4438 l-5 -33 2 -1661 3 -1662 19 -21 19 -21 18 0 18 0 6 10 7 11 813 -1 814 -1 20 11 21 11 0 149 0 150 24 15 24 16 96 -7 96 -7 35 24 35 24 0 21 0 22 -15 6 -15 5 0 46 0 46 15 5 15 6 0 817 0 816 -31 18 -31 17 -119 0 -120 0 -20 10 -19 11 0 158 0 158 -18 16 -19 17 -444 0 -445 0 -12 12 -12 12 0 387 0 387 -6 16 -6 16 -379 0 -378 0 -6 -32z m1061 -1541 l160 0 77 7 77 8 11 -25 12 -26 -7 -26 -7 -26 -15 -6 -15 -5 -19 17 -20 18 -264 -1 -264 0 -20 -13 -20 -13 -16 13 -16 13 0 15 0 14 17 25 16 25 76 -7 76 -8 161 1z" />
+                        <path fill="var(--text)" d="M13867 3622 l-17 -19 0 -160 0 -160 -18 -16 -18 -16 -139 -3 -139 -3 3 -735 3 -735 8 -10 8 -10 0 -90 0 -90 -8 -10 -7 -10 -7 -59 -7 -59 17 -18 17 -19 127 0 127 0 16 -18 17 -19 0 -140 0 -141 16 -13 16 -13 471 2 472 3 10 10 10 10 -4 133 -3 134 17 26 17 26 93 0 93 0 31 -26 31 -26 0 -133 0 -133 16 -13 16 -13 311 3 312 2 23 15 22 15 -1 42 -2 42 3 1020 2 1019 -22 18 -22 18 -123 0 -123 0 -13 16 -13 15 3 156 3 155 -23 24 -22 24 -792 0 -792 0 -16 -18z m1270 -748 l12 -16 -6 -227 -6 -226 -6 -7 -6 -7 -430 -1 -430 -2 -17 1 -17 1 -17 31 -16 31 11 62 11 63 0 146 0 146 22 15 22 16 431 -5 430 -6 12 -15z" />
+                        <path fill="var(--text-soft)" d="M16746 2835 l-16 -16 0 -474 0 -474 16 -15 15 -16 324 0 324 0 15 16 16 15 0 474 0 474 -16 16 -16 16 -22 -8 -21 -8 -283 2 -282 2 -19 6 -19 6 -16 -16z" />
+                        <path fill="var(--text-soft)" d="M3409 2396 l-4 -4 -305 -7 -305 -7 -100 -2 -100 -2 -22 7 -22 8 -16 -15 -15 -15 0 -249 0 -249 16 -15 15 -16 439 0 439 0 15 16 16 15 0 254 0 254 -16 15 -15 16 -8 0 -8 0 -4 -4z" />
+                        <path fill="var(--text-soft)" d="M5317 2390 l-298 -5 -9 -15 -10 -15 0 -247 0 -247 15 -15 16 -15 299 -1 300 0 20 20 20 20 0 249 0 250 -16 15 -15 16 -12 -2 -12 -2 -298 -6z" />
+                        <path fill="var(--text-soft)" d="M14667 2390 l-428 -5 -9 -15 -10 -15 0 -247 0 -247 16 -15 15 -16 429 0 429 0 14 14 14 14 5 89 5 88 -2 173 -2 174 -14 9 -14 9 -10 -2 -10 -3 -428 -5z" />
+                    </g>
+                </svg>
+            </a>
+            <a class="navlink hide-sm" href="#demo">demo</a>
+            <a class="navlink hide-sm" href="#features">features</a>
+            <a class="navlink" href="https://github.com/krehwell/tapmytab">github</a>
+            <button class="keycap" id="themeToggle" aria-label="toggle dark mode">🌙</button>
+        </div>
+    </nav>
+
+    <header id="top">
+        <div class="pxcloud" style="top: 60px; left: 6%"></div>
+        <div class="pxcloud" style="top: 150px; right: 8%; font-size: 6px"></div>
+        <div class="pxcloud" style="top: 320px; left: 12%; font-size: 5px"></div>
+        <span class="sparkle" style="top: 100px; right: 22%; color: var(--orange-deep)">✦</span>
+        <span class="sparkle" style="top: 240px; left: 18%; color: var(--blue-deep)">+</span>
+        <span class="sparkle" style="top: 40px; left: 40%; color: var(--red-deep)">+</span>
+
+        <div class="wrap">
+            <div class="hero-copy">
+                <h1>your new tab, but it's a <span class="hl-green">kanban board</span></h1>
+                <p class="sub">
+                    open a tab, jot the thing down, drag it to done. notes, sketches, boards, all living
+                    on your device. no account, no cloud, and the whole thing is like 2&nbsp;MB.
+                </p>
+                <div class="store-buttons">
+                    <a class="keycap green" href="https://chromewebstore.google.com/detail/tapmytab/djfcjmnpjgalklhjilkfngplignmfkim">🌍 add to chrome</a>
+                    <a class="keycap orange" href="https://addons.mozilla.org/en-US/firefox/addon/tapmytab/">🦊 get for firefox</a>
+                </div>
+            </div>
+
+            <div class="demo-zone" id="demo">
+                <div class="browser panel">
+                    <div class="browser-bar">
+                        <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+                        <span class="url">⌂ newtab / tapmytab</span>
+                    </div>
+                    <div class="demo-body">
+                        <iframe id="appFrame" data-src="https://tapmytab-demo.krehwell.cloud/" title="tapmytab live demo" loading="lazy"></iframe>
+                        <button class="demo-cover" id="demoCover">
+                            <span class="keycap green">▶ try it right here</span>
+                            <span class="note">this is the actual extension, not a video</span>
+                        </button>
+                    </div>
+                </div>
+                <p class="note demo-hint">↑ go on, drag a card around. make a mess. it's yours.</p>
+            </div>
+        </div>
+        <div class="stamp" style="bottom: -6px; left: 9%; transform: rotate(-4deg)">
+            <img src="./img/i-star.jpg" alt="" />
+            <span class="note">a kanban board in every new tab</span>
+        </div>
+        <div class="stamp" style="bottom: -6px; right: 9%; transform: rotate(3deg)">
+            <img src="./img/i-lock.jpg" alt="" />
+            <span class="note">private, offline, on-device</span>
+        </div>
+        <div class="ground" aria-hidden="true">
+            <svg width="64" height="56"><use href="#grass-tile" /></svg>
+            <svg width="64" height="56"><use href="#grass-tile" /></svg>
+            <svg width="64" height="56"><use href="#grass-tile" /></svg>
+            <svg width="64" height="56"><use href="#grass-tile" /></svg>
+            <svg width="64" height="56"><use href="#grass-tile" /></svg>
+            <svg width="64" height="56"><use href="#grass-tile" /></svg>
+            <svg width="64" height="56"><use href="#grass-tile" /></svg>
+        </div>
+    </header>
+
+    <section class="features wrap" id="features" style="position: relative">
+        <div class="stamp" style="top: 74px; right: 3%">
+            <img src="./img/i-bulb.jpg" alt="" />
+            <span class="note">quick notes, ideas &amp; sketches</span>
+        </div>
+        <div class="stamp" style="top: 64px; left: 3%; transform: rotate(-5deg)">
+            <img src="./img/i-fire.jpg" alt="" />
+            <span class="note">lightweight &amp; blazing fast</span>
+        </div>
+        <h2 class="section-title">what's in the box</h2>
+        <p class="section-sub note">(spoiler: quite a lot, for 2 megabytes)</p>
+
+        <div class="feature">
+            <div>
+                <h3>drag. drop. done. <span class="tag" style="background: var(--green)">kanban</span></h3>
+                <p>
+                    boards, columns, cards, as many as you want. shuffle cards across columns, hop them
+                    between boards, honestly just drag everything everywhere. your other tabs keep up
+                    instantly, no refresh needed.
+                </p>
+            </div>
+            <div class="feature-viz panel">
+                <img src="./img/drag.png" alt="the tapmytab board: TODO, Doing and Trip to Japan columns full of cards" loading="lazy" />
+                <span class="note viz-note">actual screenshot, actual pixels ↑</span>
+            </div>
+        </div>
+
+        <div class="feature">
+            <div>
+                <h3>too messy for words? draw it <span class="tag" style="background: var(--blue)">sketch</span></h3>
+                <p>
+                    every card has an excalidraw canvas built in. sometimes the idea is a picture, not a
+                    sentence. scribble it down before it escapes, text is optional.
+                </p>
+            </div>
+            <div class="feature-viz panel">
+                <img src="./img/scratch.png" alt="the excalidraw canvas inside a tapmytab card, sketching a flow from idea to production" loading="lazy" />
+            </div>
+        </div>
+
+        <div class="feature">
+            <div>
+                <h3>write your way <span class="tag" style="background: var(--orange)">markdown</span></h3>
+                <p>
+                    full markdown and rich text on every card. checklists, headings, links, images,
+                    highlights. paste your brain in whatever shape it shows up.
+                </p>
+            </div>
+            <div class="feature-viz panel slim">
+                <img src="./img/markdown.png" alt="a tapmytab card with rich text: headings, lists, links and a tip quote" loading="lazy" />
+            </div>
+        </div>
+
+        <div class="feature">
+            <div>
+                <h3>find it before you forget why <span class="tag" style="background: var(--red)">search</span></h3>
+                <p>
+                    fuzzy search across every board and card, typos welcome. tag cards with your own labels,
+                    filter what matters, slap a due date on it so the deadline stays loud.
+                </p>
+            </div>
+            <div class="feature-viz panel">
+                <img src="./img/search.png" alt="the fuzzy search popup finding the Japan itinerary card" loading="lazy" />
+            </div>
+        </div>
+    </section>
+
+    <section class="badges wrap" style="position: relative">
+        <div class="stamp" style="top: 26px; right: 5%; transform: rotate(5deg)">
+            <img src="./img/i-gem.jpg" alt="" />
+            <span class="note">free &amp; open source</span>
+        </div>
+        <div class="stamp" style="top: 26px; left: 5%; transform: rotate(-3deg)">
+            <img src="./img/i-check.jpg" alt="" />
+            <span class="note">to-do, doing, done</span>
+        </div>
+        <h2 class="section-title">the boring parts, done right</h2>
+        <div class="badge-grid">
+            <div class="badge panel">
+                <span class="big">🔒 100% local</span>
+                <p>your boards never leave your device. no account, no cloud, no tracking, no internet needed.</p>
+            </div>
+            <div class="badge panel">
+                <span class="big">🪶 ~2 MB</span>
+                <p>smaller than one photo of your lunch. no bloat, opens instantly.</p>
+            </div>
+            <div class="badge panel">
+                <span class="big">♾️ no limits</span>
+                <p>unlimited boards, unlimited cards. we're not counting, and we couldn't even if we wanted to.</p>
+            </div>
+            <div class="badge panel">
+                <span class="big">💾 yours to keep</span>
+                <p>export and import boards as plain files. back up, move machines, archive, your call.</p>
+            </div>
+            <div class="badge panel">
+                <span class="big">🔄 every tab agrees</span>
+                <p>edit in one tab, watch it update in the next. no refresh button abuse required.</p>
+            </div>
+            <div class="badge panel">
+                <span class="big">🌟 open source</span>
+                <p>think something's missing? that's a feature request, or better, a pull request. <a href="https://github.com/krehwell/tapmytab">come say hi</a>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <span class="sparkle" style="top: 30px; left: 30%; color: var(--green-deep)">✦</span>
+        <span class="sparkle" style="top: 80px; right: 28%; color: var(--red-deep)">+</span>
+        <div class="stamp" style="top: 40px; left: 6%; transform: rotate(-4deg)">
+            <img src="./img/i-add.jpg" alt="" />
+            <span class="note">unlimited boards &amp; cards</span>
+        </div>
+        <div class="stamp" style="top: 40px; right: 6%; transform: rotate(4deg)">
+            <img src="./img/i-clock.jpg" alt="" />
+            <span class="note">due dates you won't miss</span>
+        </div>
+        <h2>your next new tab could be useful</h2>
+        <div class="store-buttons">
+            <a class="keycap green" href="https://chromewebstore.google.com/detail/tapmytab/djfcjmnpjgalklhjilkfngplignmfkim">🌍 add to chrome</a>
+            <a class="keycap orange" href="https://addons.mozilla.org/en-US/firefox/addon/tapmytab/">🦊 get for firefox</a>
+        </div>
+        <p class="note" style="margin-top: 20px">free. no signup. the dino insists.</p>
+    </section>
+
+    <footer>
+        <p>
+            made by <a href="https://krehwell.com">krehwell</a> 👾 ·
+            designed by <a href="https://www.linkedin.com/in/hafizh-izzan-zaldi/">Hafizh Izzan Zaldi</a> 🖌 ·
+            <a href="https://github.com/krehwell/tapmytab">source on github</a> · built with deno 🦕
+        </p>
+    </footer>
+
+    <script>
+        const root = document.documentElement
+        const toggle = document.getElementById('themeToggle')
+        const saved = localStorage.getItem('tmt-theme')
+        if (saved === 'dark') root.dataset.theme = 'dark'
+        toggle.textContent = root.dataset.theme === 'dark' ? '☀️' : '🌙'
+        toggle.addEventListener('click', () => {
+            const dark = root.dataset.theme === 'dark'
+            root.dataset.theme = dark ? '' : 'dark'
+            localStorage.setItem('tmt-theme', dark ? 'light' : 'dark')
+            toggle.textContent = dark ? '🌙' : '☀️'
+        })
+
+        const cover = document.getElementById('demoCover')
+        const frame = document.getElementById('appFrame')
+        cover.addEventListener('click', () => {
+            if (!frame.dataset.src) {
+                cover.querySelector('.keycap').textContent = 'demo coming soon 🦕'
+                cover.querySelector('.note').textContent = 'set data-src on the iframe to the hosted app URL'
+                return
+            }
+            frame.src = frame.dataset.src
+            cover.remove()
+        })
+    </script>
+</body>
+</html>
