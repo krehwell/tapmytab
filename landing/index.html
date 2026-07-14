@@ -251,7 +251,7 @@
             overflow: hidden;
         }
         .demo-body { background: #2c3034; }
-        .demo-body img { display: block; width: 100%; height: auto; }
+        .demo-body video { display: block; width: 100%; height: auto; }
         .demo-hint { text-align: center; margin-top: 22px; }
 
         .ground {
@@ -432,10 +432,12 @@
                         <span class="url">⌂ newtab / tapmytab</span>
                     </div>
                     <div class="demo-body">
-                        <img src="./img/demo-cover.png" alt="the tapmytab default board: TODO, Doing, Trip to Japan and Sketches columns with starter cards" />
+                        <video autoplay muted loop playsinline poster="./img/demo-cover.png" aria-label="demo: dragging cards between boards, adding a card, fuzzy search and the drawing editor">
+                            <source src="./img/demo.mp4" type="video/mp4" />
+                        </video>
                     </div>
                 </div>
-                <p class="note demo-hint">↑ every new tab opens straight into this. no setup, no account.</p>
+                <p class="note demo-hint">↑ drag cards around, jot things down, find them later. that's the whole pitch.</p>
             </div>
         </div>
         <div class="stamp" style="bottom: -6px; left: 9%; transform: rotate(-4deg)">
