@@ -272,8 +272,9 @@
         @keyframes blink { to { visibility: hidden; } }
         .try-hint {
             position: absolute;
-            top: -20px;
-            left: 24px;
+            top: -10px;
+            right: 50%;
+            translate: 50%;
             z-index: 4;
             font-family: 'Pixelify Sans', monospace;
             font-size: 17px;
@@ -282,15 +283,17 @@
             border: 2px solid var(--line);
             box-shadow: 3px 3px 0 var(--line);
             padding: 4px 12px;
-            transform: rotate(-3deg);
+            transform: rotate(3deg);
             animation: bob 1.4s ease-in-out infinite;
             transition: opacity 0.4s;
             pointer-events: none;
         }
-        @keyframes bob { 50% { transform: rotate(-3deg) translateY(7px); } }
+        @keyframes bob { 50% { transform: rotate(3deg) translateY(7px); } }
         .demo-body { background: #2c3034; aspect-ratio: 16 / 10; overflow: hidden; }
         /* the app is a desktop new-tab page: render it at 1280x800 and scale down to fit */
         .demo-body iframe { display: block; width: 1280px; height: 800px; border: 0; transform-origin: 0 0; }
+        .demo-body video { display: block; width: 100%; height: auto; }
+        @media (max-width: 760px) { .demo-body { aspect-ratio: auto; } }
         .demo-hint { text-align: center; margin-top: 22px; }
 
         .ground {
@@ -473,7 +476,10 @@
                         <span class="live-badge">live · try me</span>
                     </div>
                     <div class="demo-body">
-                        <iframe id="liveDemo" src="./app/index.html" title="tapmytab live demo: a real kanban board, drag the cards around"></iframe>
+                        <iframe id="liveDemo" title="tapmytab live demo: a real kanban board, drag the cards around"></iframe>
+                        <video id="demoVideo" muted loop playsinline preload="none" poster="./img/demo-cover.png" aria-label="demo: dragging cards between boards, adding a card, fuzzy search and the drawing editor">
+                            <source src="./img/demo.mp4" type="video/mp4" />
+                        </video>
                     </div>
                 </div>
                 <p class="note demo-hint">↑ that's the actual app, live. drag cards around, jot things down. that's the whole pitch.</p>
@@ -651,13 +657,25 @@
             toggle.textContent = dark ? '🌙' : '☀️'
         })
 
+        // mobile gets the demo video; desktop gets the live app (neither loads the other)
         const demo = document.getElementById('liveDemo')
-        new ResizeObserver(([e]) => {
-            demo.style.transform = `scale(${e.contentRect.width / 1280})`
-        }).observe(demo.parentElement)
-
+        const video = document.getElementById('demoVideo')
         const hint = document.getElementById('tryHint')
-        setTimeout(() => { hint.style.opacity = '0' }, 5000)
+        if (matchMedia('(max-width: 760px)').matches) {
+            demo.remove()
+            hint.remove()
+            document.querySelector('.live-badge').remove()
+            video.play()
+            document.querySelector('.demo-hint').textContent =
+                '↑ drag cards around, jot things down, find them later. that\'s the whole pitch.'
+        } else {
+            video.remove()
+            demo.src = './app/index.html'
+            new ResizeObserver(([e]) => {
+                demo.style.transform = `scale(${e.contentRect.width / 1280})`
+            }).observe(demo.parentElement)
+            setTimeout(() => { hint.style.opacity = '0' }, 15_000)
+        }
 
     </script>
 </body>
