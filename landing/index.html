@@ -250,8 +250,47 @@
             white-space: nowrap;
             overflow: hidden;
         }
-        .demo-body { background: #2c3034; }
-        .demo-body video { display: block; width: 100%; height: auto; }
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 14px;
+            background: var(--green);
+            color: #1c2b1c;
+            border: 2px solid var(--line);
+            padding: 2px 10px;
+            white-space: nowrap;
+        }
+        .live-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--red-deep);
+            animation: blink 1s steps(2, start) infinite;
+        }
+        @keyframes blink { to { visibility: hidden; } }
+        .try-hint {
+            position: absolute;
+            top: -20px;
+            left: 24px;
+            z-index: 4;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 17px;
+            background: var(--orange);
+            color: #3a2410;
+            border: 2px solid var(--line);
+            box-shadow: 3px 3px 0 var(--line);
+            padding: 4px 12px;
+            transform: rotate(-3deg);
+            animation: bob 1.4s ease-in-out infinite;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        @keyframes bob { 50% { transform: rotate(-3deg) translateY(7px); } }
+        .demo-body { background: #2c3034; aspect-ratio: 16 / 10; overflow: hidden; }
+        /* the app is a desktop new-tab page: render it at 1280x800 and scale down to fit */
+        .demo-body iframe { display: block; width: 1280px; height: 800px; border: 0; transform-origin: 0 0; }
         .demo-hint { text-align: center; margin-top: 22px; }
 
         .ground {
@@ -426,18 +465,18 @@
             </div>
 
             <div class="demo-zone" id="demo">
+                <div class="try-hint" id="tryHint">👇 go on, drag a card</div>
                 <div class="browser panel">
                     <div class="browser-bar">
                         <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
                         <span class="url">⌂ newtab / tapmytab</span>
+                        <span class="live-badge">live · try me</span>
                     </div>
                     <div class="demo-body">
-                        <video autoplay muted loop playsinline poster="./img/demo-cover.png" aria-label="demo: dragging cards between boards, adding a card, fuzzy search and the drawing editor">
-                            <source src="./img/demo.mp4" type="video/mp4" />
-                        </video>
+                        <iframe id="liveDemo" src="./app/index.html" title="tapmytab live demo: a real kanban board, drag the cards around"></iframe>
                     </div>
                 </div>
-                <p class="note demo-hint">↑ drag cards around, jot things down, find them later. that's the whole pitch.</p>
+                <p class="note demo-hint">↑ that's the actual app, live. drag cards around, jot things down. that's the whole pitch.</p>
             </div>
         </div>
         <div class="stamp" style="bottom: -6px; left: 9%; transform: rotate(-4deg)">
@@ -611,6 +650,14 @@
             localStorage.setItem('tmt-theme', dark ? 'light' : 'dark')
             toggle.textContent = dark ? '🌙' : '☀️'
         })
+
+        const demo = document.getElementById('liveDemo')
+        new ResizeObserver(([e]) => {
+            demo.style.transform = `scale(${e.contentRect.width / 1280})`
+        }).observe(demo.parentElement)
+
+        const hint = document.getElementById('tryHint')
+        setTimeout(() => { hint.style.opacity = '0' }, 5000)
 
     </script>
 </body>

@@ -1,9 +1,10 @@
 {
-    "version": "1.8.17",
+    "version": "1.8.18",
     "private": true,
     "tasks": {
         "dev": "vite",
         "build": "rm -rf dist/ && vite build",
+        "build:web": "vite build --mode web",
         "preview": "vite preview",
         "build:chrome": "deno task build",
         "build:firefox": "deno task build && cp manifest.firefox.json dist/manifest.json",
@@ -12,7 +13,8 @@
         "zip": "deno task zip:chrome && deno task zip:firefox",
         "test": "npx playwright test",
         "test:ui": "npx playwright test --ui",
-        "bump": "deno run --allow-read --allow-write scripts/bump.ts"
+        "bump": "deno run --allow-read --allow-write scripts/bump.ts",
+        "deploy:landing": "netlify deploy --dir landing --prod --no-build"
     },
     "nodeModulesDir": "auto",
     "compilerOptions": {

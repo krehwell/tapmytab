@@ -2,7 +2,7 @@ import { memo, useEffect, useRef, useState } from 'react'
 import { TExcalidraw } from '../../types.ts'
 import { useRefMyFunc } from '../../hooks/useRefMyFunc.ts'
 
-const SRC = '/pages/excalidraw.html'
+const SRC = import.meta.env.BASE_URL + 'pages/excalidraw.html'
 
 // excalidraw can't be sized inside the app: rem is relative to the app's 62.5% root.
 // zoom/scale won't help.  so we render it in iframe instead haha :D.
