@@ -141,6 +141,9 @@ export const LinkMenu = memo(({ editor }: { editor: TiptapEditor }) => {
             shouldShow={shouldShow}
             updateDelay={0}
             options={bubbleOptions}
+            // out of the editor's clipping/stacking context, otherwise cards on top of it win
+            appendTo={() => document.body}
+            style={{ zIndex: 'var(--z-menu)' }}
         >
             <FlexRowAlignCenter
                 style={{

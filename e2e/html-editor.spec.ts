@@ -48,9 +48,10 @@ test('editing a link name keeps it a link', async ({ page }) => {
     await expect(editor.locator('a', { hasText: 'Youtube' })).toBeVisible()
 
     await editor.locator('a', { hasText: 'Youtube' }).click()
-    await dialog.getByTitle('Edit Link').click()
-    await dialog.getByPlaceholder('link text').fill('YT')
-    await dialog.getByPlaceholder('link text').press('Enter')
+    // the link bubble menu is appended to <body>, so it lives outside the dialog
+    await page.getByTitle('Edit Link').click()
+    await page.getByPlaceholder('link text').last().fill('YT')
+    await page.getByPlaceholder('link text').last().press('Enter')
 
     // the renamed text must still be an <a> with the original href
     const link = editor.locator('a', { hasText: 'YT' })

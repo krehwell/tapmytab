@@ -19,6 +19,9 @@ export const ImageMenu = memo(({ editor }: { editor: TiptapEditor }) => {
             shouldShow={({ editor }: { editor: TiptapEditor }) => editor.isActive('image')}
             updateDelay={0}
             options={{ offset: 8 }}
+            // out of the editor's clipping/stacking context, otherwise cards on top of it win
+            appendTo={() => document.body}
+            style={{ zIndex: 'var(--z-menu)' }}
         >
             <FlexRowAlignCenter
                 style={{

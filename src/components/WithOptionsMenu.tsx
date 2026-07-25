@@ -70,6 +70,7 @@ export const WithOptionsMenu = (
                     listStyleType: 'none',
                     listStyle: 'none',
                     marginTop: anchorEl?.tagName === 'BUTTON' ? 0 : '0.8rem',
+                    zIndex: 'var(--z-menu)',
                     ...menuProps?.sx,
                 }}
                 slotProps={{
@@ -111,7 +112,6 @@ export const WithOptionsMenu = (
                                 paddingInline: '1.2rem',
                                 fontSize: '1rem',
                                 margin: 0,
-                                zIndex: 9999,
                                 gap: '0.8rem',
                             }}
                             key={String(option.label) + i}

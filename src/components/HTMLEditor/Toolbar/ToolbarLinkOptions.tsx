@@ -45,6 +45,7 @@ export const ToolbarLinkOptions = ({ editor }: { editor: TiptapEditor }) => {
                     <FlexRowAlignCenter
                         style={{
                             position: 'absolute',
+                            zIndex: 'var(--z-menu)',
                             top: '100%',
                             left: '50%',
                             width: 'fit-content',

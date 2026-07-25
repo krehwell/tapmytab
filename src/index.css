@@ -51,6 +51,10 @@
     --scrollbar-thumb: rgba(234, 236, 239, 0.15);
     --selection: rgba(202, 255, 191, 0.6);
     --shadow-popover: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+    /* ===== Layers ===== */
+    /* menus/popovers sit above MUI dialogs (1300) so they never hide behind cards or card images */
+    --z-menu: 1500;
 }
 
 html {
