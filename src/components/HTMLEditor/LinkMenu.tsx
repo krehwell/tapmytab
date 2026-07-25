@@ -50,6 +50,7 @@ export const LinkMenu = memo(({ editor }: { editor: TiptapEditor }) => {
         () => ({
             offset: 1,
             flip: false,
+            shift: false,
             onHide: () => {
                 setIsEditLink(false)
                 setText('')

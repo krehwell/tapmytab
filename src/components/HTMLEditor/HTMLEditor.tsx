@@ -1,10 +1,35 @@
 import './htmlEditor.css'
 
 import { Editor as TiptapEditor, EditorContent } from '@tiptap/react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { LinkMenu } from './LinkMenu.tsx'
 import { ImageMenu } from './ImageMenu.tsx'
 import Box from '@mui/material/Box'
+
+const useBubbleMenuScrollSync = (editor: TiptapEditor | null) => {
+    useEffect(() => {
+        if (!editor) return
+        let raf = 0
+        const onScroll = () => {
+            if (raf) return
+            raf = requestAnimationFrame(() => {
+                raf = 0
+                if (editor.isDestroyed) return
+                if (!editor.isActive('link') && !editor.isActive('image')) return
+                editor.view.dispatch(
+                    editor.state.tr
+                        .setMeta('textMenu', 'updatePosition')
+                        .setMeta('imageMenu', 'updatePosition'),
+                )
+            })
+        }
+        document.addEventListener('scroll', onScroll, true)
+        return () => {
+            document.removeEventListener('scroll', onScroll, true)
+            cancelAnimationFrame(raf)
+        }
+    }, [editor])
+}
 
 const hasAccent = ({ text }: { text: string }) => {
     const isAccent = /[À-ž]/.test(text)
@@ -16,6 +41,7 @@ export const HTMLEditor = ({
     style,
 }: { editor: TiptapEditor | null; style: React.CSSProperties }) => {
     const ref = useRef<HTMLDivElement>(null)
+    useBubbleMenuScrollSync(editor)
 
     if (!editor) return null
 
