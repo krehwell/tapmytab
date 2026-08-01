@@ -27,7 +27,10 @@ export const deleteCard = ({ sortableCheat }: { sortableCheat: string }) => {
         const { boardIdx, cardIdx } = parseSortableCheat(sortableCheat)
 
         const boards = [...s.boards]
-        boards[boardIdx].cards.splice(cardIdx, 1)
+        boards[boardIdx] = {
+            ...boards[boardIdx],
+            cards: boards[boardIdx].cards.filter((_, i) => i !== cardIdx),
+        }
 
         return { boards }
     })

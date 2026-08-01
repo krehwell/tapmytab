@@ -37,8 +37,7 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
             label: TLabel.No,
         }
         const boards = [...get().boards]
-        const board = boards[idx]
-        board.cards.unshift(newCard)
+        boards[idx] = { ...boards[idx], cards: [newCard, ...boards[idx].cards] }
         set({ boards })
     },
     addNewBoard: ({ id, name, idx }) => {

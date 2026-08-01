@@ -212,7 +212,9 @@ const CardHTMLPreview = ({ content, onMouseEnter }: { content: string; onMouseEn
                 className='tiptap ProseMirror'
                 style={{ fontFamily: hasAccent ? 'Poppins' : 'Rumiko Clear' }}
                 dangerouslySetInnerHTML={{
-                    __html: content.replaceAll('<img ', '<img loading="lazy" decoding="async" '),
+                    __html: content
+                        // faster image loader
+                        .replaceAll('<img ', '<img loading="lazy" decoding="async" '),
                 }}
             />
         </div>
