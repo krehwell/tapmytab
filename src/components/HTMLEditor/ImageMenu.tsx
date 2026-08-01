@@ -1,10 +1,12 @@
 import { memo } from 'react'
 import { Editor as TiptapEditor, useEditorState } from '@tiptap/react'
+import type { EditorView } from '@tiptap/pm/view'
 import { BubbleMenu } from '@tiptap/react/menus'
 import { tc } from '../../utils/themeColors.ts'
 import { Button } from '../Button.tsx'
 import { FlexRowAlignCenter } from '../Flex/index.tsx'
 import { IMAGE_SIZES } from './extensions/image.ts'
+import { getBubbleMenuRoot } from './HTMLEditor.tsx'
 
 export const ImageMenu = memo(({ editor }: { editor: TiptapEditor }) => {
     const activeWidth = useEditorState({
@@ -16,10 +18,11 @@ export const ImageMenu = memo(({ editor }: { editor: TiptapEditor }) => {
         <BubbleMenu
             editor={editor}
             pluginKey='imageMenu'
-            shouldShow={({ editor }: { editor: TiptapEditor }) => editor.isActive('image')}
+            shouldShow={({ editor, view, element }: { editor: TiptapEditor; view: EditorView; element: HTMLElement }) =>
+                (view.hasFocus() || element.contains(document.activeElement)) && editor.isActive('image')}
             updateDelay={0}
             options={{ offset: 8, shift: false }}
-            appendTo={() => document.body}
+            appendTo={getBubbleMenuRoot}
             style={{ zIndex: 'var(--z-menu)' }}
         >
             <FlexRowAlignCenter

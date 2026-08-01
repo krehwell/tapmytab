@@ -6,6 +6,16 @@ import { LinkMenu } from './LinkMenu.tsx'
 import { ImageMenu } from './ImageMenu.tsx'
 import Box from '@mui/material/Box'
 
+// to make sure all menus open only at one container at a time
+let root: HTMLElement | null = null
+export const getBubbleMenuRoot = () => {
+    if (!root) {
+        root = document.createElement('div')
+        document.body.appendChild(root)
+    }
+    return root
+}
+
 const useBubbleMenuScrollSync = (editor: TiptapEditor | null) => {
     useEffect(() => {
         if (!editor) return

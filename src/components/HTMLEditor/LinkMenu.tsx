@@ -1,17 +1,21 @@
 import { memo, useCallback, useMemo, useState } from 'react'
 import { Editor as TiptapEditor } from '@tiptap/react'
+import type { EditorView } from '@tiptap/pm/view'
 import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react/menus'
 import { ArrowUpRight, KeyReturn, Pencil, Trash, XCircle } from '@phosphor-icons/react'
 import { tc } from '../../utils/themeColors.ts'
 import { Button } from '../Button.tsx'
 import { FlexColumn, FlexRowAlignCenter } from '../Flex/index.tsx'
+import { getBubbleMenuRoot } from './HTMLEditor.tsx'
 
 export const LinkMenu = memo(({ editor }: { editor: TiptapEditor }) => {
     const [url, setUrl] = useState('')
     const [text, setText] = useState('')
     const [isEditLink, setIsEditLink] = useState(false)
 
-    const shouldShow = useCallback(() => {
+    const shouldShow = useCallback(({ view, element }: { view: EditorView; element: HTMLElement }) => {
+        const hasFocus = view.hasFocus() || element.contains(document.activeElement)
+        if (!hasFocus) return false
         const isActive = editor.isActive('link')
         if (isActive) {
             const { href: link } = editor.getAttributes('link')
@@ -143,7 +147,7 @@ export const LinkMenu = memo(({ editor }: { editor: TiptapEditor }) => {
             updateDelay={0}
             options={bubbleOptions}
             // out of the editor's clipping/stacking context, otherwise cards on top of it win
-            appendTo={() => document.body}
+            appendTo={getBubbleMenuRoot}
             style={{ zIndex: 'var(--z-menu)' }}
         >
             <FlexRowAlignCenter
