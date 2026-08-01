@@ -1,7 +1,7 @@
 import { forwardRef, useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { isExcalidrawCard, TCard, TExcalidraw, TLabel } from '../types.ts'
+import { isExcalidrawCard, TCard, TExcalidraw } from '../types.ts'
 import { Flex, FlexColumn, FlexColumnJustifyCenter, FlexRowAlignCenter } from './Flex/index.tsx'
 import { HTMLEditor, useHTMLEditorInstance } from './HTMLEditor/index.ts'
 import { tc } from '../utils/themeColors.ts'
@@ -211,7 +211,9 @@ const CardHTMLPreview = ({ content, onMouseEnter }: { content: string; onMouseEn
             <div
                 className='tiptap ProseMirror'
                 style={{ fontFamily: hasAccent ? 'Poppins' : 'Rumiko Clear' }}
-                dangerouslySetInnerHTML={{ __html: content }}
+                dangerouslySetInnerHTML={{
+                    __html: content.replaceAll('<img ', '<img loading="lazy" decoding="async" '),
+                }}
             />
         </div>
     )

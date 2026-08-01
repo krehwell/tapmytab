@@ -20,9 +20,7 @@
     "compilerOptions": {
         "jsx": "react-jsx",
         "jsxImportSource": "react",
-        "lib": [
-            "dom"
-        ]
+        "lib": [ "dom", "es2021" ]
     },
     "imports": {
         "@excalidraw/excalidraw": "npm:@excalidraw/excalidraw@^0.18.1",

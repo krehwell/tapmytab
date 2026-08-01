@@ -1,4 +1,5 @@
 import React, { useCallback, useRef } from 'react'
+import debounce from 'lodash/debounce'
 import { useProgressiveMount } from '../../hooks/useProgressiveMount.ts'
 import { DragEndEvent, DragOverEvent } from '@dnd-kit/core'
 import { Board } from '../Board.tsx'
@@ -14,13 +15,16 @@ import { BOARD1, BOARD2, BOARD3, BOARD4, perfBoards } from '../../utils/template
 import { FirstTimeService } from '../../utils/firstTimeChecker.ts'
 import { isVersionOutdated, markVersionSeen, withIntroCard } from '../../utils/version.ts'
 
+const debouncedSave = debounce(StorageService.saveBoards, 500)
+globalThis.addEventListener?.('pagehide', () => debouncedSave.flush())
+
 useBoardStore.subscribe((store) => {
     if (!store.isInitialized) return
     if (!isInsideExtension()) {
         console.log('dev: try to save...!')
         return
     }
-    StorageService.saveBoards(store.boards)
+    debouncedSave(store.boards)
 })
 
 const populateInitialBoards = async () => {
