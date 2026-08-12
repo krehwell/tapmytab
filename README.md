@@ -6,7 +6,7 @@
 
 Effortless Kanban, drag-and-drop magic right from your browser tab! 🎨✨
 
-[krehwell](https://krehwell.com) 👾 · [Hafizh Izzan Zaldi](https://www.linkedin.com/in/hafizh-izzan-zaldi/) 👩🏻‍🎨🖌 · [**Download**](https://chromewebstore.google.com/detail/tapmytab/djfcjmnpjgalklhjilkfngplignmfkim?authuser=0&hl=en) 🚀
+[krehwell](https://github.com/krehwell/) 👾 · [Hafizh Izzan Zaldi](https://www.linkedin.com/in/hafizh-izzan-zaldi/) 👩🏻‍🎨🖌 · [**Download**](https://chromewebstore.google.com/detail/tapmytab/djfcjmnpjgalklhjilkfngplignmfkim?authuser=0&hl=en) 🚀
 
 </div>
 
