@@ -1,5 +1,5 @@
-import { expect, Page, test } from '@playwright/test'
-import { boardByName, boardMenu, boards, createBoard, gotoApp } from './helpers.ts'
+import { expect, Locator, Page, test } from '@playwright/test'
+import { boardByName, boardMenu, boards, cardsIn, createBoard, gotoApp } from './helpers.ts'
 
 test.beforeEach(async ({ page }) => await gotoApp(page))
 
@@ -49,4 +49,34 @@ test('the menu stays open after moving so you can move again', async ({ page }) 
     await expect(moveLeft).toBeVisible()
     await moveLeft.click()
     expect(await indexOf(page, 'Alpha')).toBeLessThan(await indexOf(page, 'Beta'))
+})
+
+// The board title shrinks its font as the name grows, inside a fixed-height header,
+// so long names fit without pushing the card list around.
+
+const fontSize = (title: Locator) => title.evaluate((el) => parseFloat(getComputedStyle(el).fontSize))
+
+test('long board names get a smaller font than short ones', async ({ page }) => {
+    const title = boards(page).first().getByPlaceholder('Type a name...')
+    expect(await fontSize(title)).toBe(31) // "📋 TODO" stays full size
+
+    await title.click()
+    await title.press('ControlOrMeta+a')
+    await title.pressSequentially('A Very Long Board Name Indeed')
+    expect(await fontSize(title)).toBeLessThan(31)
+})
+
+test('typing a long title does not shift the card list', async ({ page }) => {
+    const board = boards(page).first()
+    const title = board.getByPlaceholder('Type a name...')
+    const cardTop = async () => (await cardsIn(board).first().boundingBox())!.y
+
+    const base = await cardTop()
+    await title.click()
+    await title.press('ControlOrMeta+a')
+    // grow the name across the shrink threshold and into two wrapped rows
+    for (const chunk of ['Short', ' And Now Much', ' Longer Title Here Really Long']) {
+        await title.pressSequentially(chunk, { delay: 5 })
+        expect(await cardTop()).toBe(base)
+    }
 })

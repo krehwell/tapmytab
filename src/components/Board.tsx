@@ -64,7 +64,14 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
                 ...style,
             }}
         >
-            <Flex style={{ justifyContent: 'space-between', marginBottom: '2.4rem' }}>
+            <FlexRowAlignCenter
+                style={{
+                    justifyContent: 'space-between',
+                    height: '4.2rem',
+                    flexShrink: 0,
+                    marginBottom: '2.4rem',
+                }}
+            >
                 <BoardNameInput
                     value={name}
                     disabled={false}
@@ -94,7 +101,7 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
                     }}
                 />
                 {!isPlaceholder && <BoardOptions index={index} name={name} onEmojify={emojifyName} />}
-            </Flex>
+            </FlexRowAlignCenter>
 
             {/* CARD LIST */}
             {board && <SortableCardList board={board} index={index} />}
@@ -159,12 +166,14 @@ const BoardNameInput = ({
 }: TextareaAutosizeProps & {
     disabled?: boolean
 }) => {
+    const len = String(props.value ?? '').length
+    const fontSize = Math.max(16, Math.min(31, Math.floor(430 / Math.max(len, 1))))
     return (
         <TextareaAutosize
             maxRows={2}
             placeholder='Type a name...'
             style={{
-                fontSize: 31,
+                fontSize,
                 fontWeight: '700',
                 opacity: disabled ? 0.4 : 1,
                 flex: 1,
@@ -267,7 +276,7 @@ const BoardOptions = (
                     <Button
                         radius='2.8rem'
                         title='Board options'
-                        style={{ backgroundColor: tc.surfaceBase, marginTop: '0.7rem' }}
+                        style={{ backgroundColor: tc.surfaceBase }}
                         onClick={openMenu}
                     >
                         <DotsThree
