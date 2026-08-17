@@ -59,6 +59,9 @@ export const App = () => {
     const swapCardPos = useBoardStore((s) => s.swapCardPos)
     const swapCardSwitchBoard = useBoardStore((s) => s.swapCardSwitchBoard)
 
+    const scrollRef = useRef<HTMLElement>(null)
+    const dragScrollStart = useRef<{ x: number; scrollLeft: number } | null>(null)
+
     // moving a card in onDragOver re-lays out the board, which makes dnd-kit
     // re-measure and synchronously re-fire onDragOver. Without a guard, rapid
     // back-and-forth drags cascade into "Maximum update depth exceeded".
@@ -131,6 +134,26 @@ export const App = () => {
         <React.Fragment>
             <Navbar />
             <Flex
+                ref={scrollRef}
+                data-testid='board-canvas'
+                onPointerDown={(e: React.PointerEvent<HTMLElement>) => {
+                    const hit = (e.target as HTMLElement)
+                        .closest(
+                            '[data-testid="card"], input, textarea, [contenteditable], button, a, [role="menu"], [role="menuitem"]',
+                        )
+                    if (hit) return
+                    e.preventDefault()
+                    dragScrollStart.current = { x: e.clientX, scrollLeft: e.currentTarget.scrollLeft }
+                    e.currentTarget.setPointerCapture(e.pointerId)
+                }}
+                onPointerMove={(e: React.PointerEvent<HTMLElement>) => {
+                    if (!dragScrollStart.current || !scrollRef.current) return
+                    scrollRef.current.scrollLeft = dragScrollStart.current.scrollLeft -
+                        (e.clientX - dragScrollStart.current.x)
+                }}
+                onPointerUp={() => {
+                    dragScrollStart.current = null
+                }}
                 style={{
                     height: 'calc(100vh - var(--navbar-height))',
                     padding: '0 3.2rem',
