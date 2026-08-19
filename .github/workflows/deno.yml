@@ -19,5 +19,9 @@ jobs:
           deno-version: v2.x
       - run: deno install
       - run: deno task build
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('deno.lock') }}
       - run: npx playwright install --with-deps chromium
       - run: deno task test
