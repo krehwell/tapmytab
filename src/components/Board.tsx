@@ -4,7 +4,7 @@ import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { Card } from './Card.tsx'
 import { TBoard } from '../types.ts'
-import { Flex, FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
+import { FlexColumn, FlexRowAlignCenter } from './Flex/index.tsx'
 import { Button } from './Button.tsx'
 import { tc } from '../utils/themeColors.ts'
 import { ArrowLeft, ArrowRight, Copy, DotsThree, PencilSimpleLine, Plus, Smiley, Trash } from '@phosphor-icons/react'
@@ -53,6 +53,7 @@ export const Board = ({ board, index, style, isPlaceholder }: BoardProps) => {
     return (
         <FlexColumn
             data-testid={isPlaceholder ? 'board-placeholder' : 'board'}
+            data-scroll-bg=''
             id={board?.id}
             data-board-name={name}
             style={{
@@ -125,6 +126,7 @@ const SortableCardList = (
         >
             <FlexColumn
                 ref={setNodeRef}
+                data-scroll-bg=''
                 style={{
                     gap: '1.2rem',
                     maxHeight: '100%',

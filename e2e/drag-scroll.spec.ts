@@ -35,6 +35,38 @@ const drag = async (page: Page, from: { x: number; y: number }, dx: number) => {
     await page.mouse.up()
 }
 
+// regression: the bg handler once pointer-captured the menu's portaled backdrop
+// (portal events bubble through the React tree), eating the click that closes it
+test('an open board menu still closes on outside click', async ({ page }) => {
+    await gotoWideBoard(page)
+
+    await page.getByTestId('board').first().getByTitle('Board options').click()
+    const menuItem = page.getByRole('menuitem', { name: 'Add Card' })
+    await expect(menuItem).toBeVisible()
+
+    // anywhere outside the menu lands on its backdrop, which must still close it
+    const vp = page.viewportSize()!
+    await page.mouse.click(vp.width / 2, vp.height - 20)
+    await expect(menuItem).not.toBeVisible()
+})
+
+test('a wiggly bg drag over card text selects nothing', async ({ page }) => {
+    await gotoWideBoard(page)
+
+    const from = await bgPoint(page)
+    await page.mouse.move(from.x, from.y)
+    await page.mouse.down()
+    // sweep up/down across card text while scrolling left
+    for (let i = 1; i <= 10; i++) {
+        await page.mouse.move(from.x - i * 30, from.y + (i % 2 ? -150 : 150), { steps: 4 })
+    }
+    await page.mouse.up()
+
+    expect(await page.evaluate(() => String(globalThis.getSelection()))).toBe('')
+    // userSelect is restored after the drag so normal selection still works
+    expect(await canvas(page).evaluate((el) => el.style.userSelect)).toBe('')
+})
+
 test('dragging the background left scrolls the boards right', async ({ page }) => {
     await gotoWideBoard(page)
     expect(await scrollLeft(page)).toBe(0)

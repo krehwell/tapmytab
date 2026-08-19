@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react'
 import debounce from 'lodash/debounce'
 import { useProgressiveMount } from '../../hooks/useProgressiveMount.ts'
+import { useDragScroll } from '../../hooks/useDragScroll.ts'
 import { DragEndEvent, DragOverEvent } from '@dnd-kit/core'
 import { Board } from '../Board.tsx'
 import { CanvasDndContext } from '../CanvasDndContext.tsx'
@@ -59,8 +60,7 @@ export const App = () => {
     const swapCardPos = useBoardStore((s) => s.swapCardPos)
     const swapCardSwitchBoard = useBoardStore((s) => s.swapCardSwitchBoard)
 
-    const scrollRef = useRef<HTMLElement>(null)
-    const dragScrollStart = useRef<{ x: number; scrollLeft: number } | null>(null)
+    const dragScroll = useDragScroll()
 
     // moving a card in onDragOver re-lays out the board, which makes dnd-kit
     // re-measure and synchronously re-fire onDragOver. Without a guard, rapid
@@ -134,26 +134,8 @@ export const App = () => {
         <React.Fragment>
             <Navbar />
             <Flex
-                ref={scrollRef}
+                {...dragScroll}
                 data-testid='board-canvas'
-                onPointerDown={(e: React.PointerEvent<HTMLElement>) => {
-                    const hit = (e.target as HTMLElement)
-                        .closest(
-                            '[data-testid="card"], input, textarea, [contenteditable], button, a, [role="menu"], [role="menuitem"]',
-                        )
-                    if (hit) return
-                    e.preventDefault()
-                    dragScrollStart.current = { x: e.clientX, scrollLeft: e.currentTarget.scrollLeft }
-                    e.currentTarget.setPointerCapture(e.pointerId)
-                }}
-                onPointerMove={(e: React.PointerEvent<HTMLElement>) => {
-                    if (!dragScrollStart.current || !scrollRef.current) return
-                    scrollRef.current.scrollLeft = dragScrollStart.current.scrollLeft -
-                        (e.clientX - dragScrollStart.current.x)
-                }}
-                onPointerUp={() => {
-                    dragScrollStart.current = null
-                }}
                 style={{
                     height: 'calc(100vh - var(--navbar-height))',
                     padding: '0 3.2rem',
