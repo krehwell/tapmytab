@@ -1,0 +1,22 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: deno install
+      - run: deno task zip
+      - run: gh release create ${{ github.ref_name }} tapmytab-chrome.zip tapmytab-firefox.zip --title ${{ github.ref_name }} --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
