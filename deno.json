@@ -13,7 +13,7 @@
         "zip": "deno task zip:chrome && deno task zip:firefox",
         "test": "npx playwright test",
         "test:ui": "npx playwright test --ui",
-        "bump": "deno run --allow-read --allow-write scripts/bump.ts",
+        "bump": "deno run --allow-read --allow-write --allow-run=git scripts/bump.ts",
         "deploy:landing": "netlify deploy --dir landing --prod --no-build"
     },
     "nodeModulesDir": "auto",
