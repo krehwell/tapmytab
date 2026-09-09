@@ -83,7 +83,7 @@ export const CardPopup = () => {
                     borderRadius: '1.2rem',
                     padding: '1.6rem',
                     width: isDrawing ? '90vw' : '62.4rem',
-                    maxWidth: isDrawing ? '90rem' : undefined,
+                    maxWidth: isDrawing ? '120rem' : undefined,
                     ...style,
                 }}
                 {...props}
