@@ -39,7 +39,7 @@ const extensions = [
 
 const debouncedOnUpdate = debounce(
     ({ editor, onChange }) => onChange({ content: editor?.getHTML() }),
-    100,
+    30,
 )
 
 export const useHTMLEditorInstance = ({
